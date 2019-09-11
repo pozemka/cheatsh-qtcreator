@@ -30,6 +30,7 @@ private slots:
 private:
     void triggerAction();
     void createOptionsPage();
+    void createOutputPane();
 
     CheatOutputPlane* cheat_out_plane_;
     OptionsPage* options_page_;

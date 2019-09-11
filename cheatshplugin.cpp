@@ -124,37 +124,13 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
 //        cheat_out_plane_->find(selected_text);
 //    });
 
-    //С локатором не получается. Надо написать в рассылку может.
-//    Core::Context locatorContext(Core::Constants::LOCATE);
-//    auto locator = Core::LocatorManager::createLocatorInputWidget(nullptr);
-//    locator->show();
-
-//    auto locator_action = new Utils::ParameterAction("empty text", "parameter text", Utils::ParameterAction::EnabledWithParameter, this);
-//    auto locator_command = Core::ActionManager::registerAction(locator_action, Constants::LOCATOR_ACTION_ID, Core::Context(Core::Constants::C_GLOBAL)/*textContext*/);
-//    locator_command->setAttribute(Core::Command::CA_UpdateText);
-//    locator_command->setDefaultKeySequence(QKeySequence(tr("Ctrl+Alt+Meta+D")));
-
-//    Core::ActionContainer *localCheatMenu = Core::ActionManager::createMenu("Cheat.action.menu");
-//    localCheatMenu->menu()->setTitle("Cheat action menu");
-
-//    const QString prefix = "test";
-//    auto command_locator = new Core::CommandLocator("Cheat.Sh", prefix, prefix, this);
-//    //command_locator->appendCommand(cheatShCommand);
-//    command_locator->appendCommand(locator_command);
-//    command_locator->setEnabled(true);
-//    localCheatMenu->addAction(locator_command);
-
-//    connect(locator_action, &Utils::ParameterAction::triggered, [](){
-//        qDebug("Hello Locator!");
-//    });
-    //Хмм.. стоит добавить что-то и не триггерится. Может надо использовать фильтр ILocatorFilter?! Ну ка
-
     CheatFilter* cheat_filter = new CheatFilter();
 
     // good code below
 
     settings_.load(Core::ICore::settings());
     createOptionsPage();
+    createOutputPane();
 
     connect(Core::ICore::instance(), &Core::ICore::saveSettingsRequested,
             this, [this](){ settings_.save(Core::ICore::settings()); });
@@ -200,6 +176,15 @@ void CheatShPlugin::createOptionsPage()
     options_page_ = new OptionsPage(settings_, this);
     connect(options_page_, &OptionsPage::settingsChanged,
             this, &CheatShPlugin::changeSettings);
+}
+
+void CheatShPlugin::createOutputPane()
+{
+    cheat_out_plane_ = new CheatOutputPlane(&settings_);
+
+//    ExtensionSystem::PluginManager::addObject(cheat_out_plane_); //Похоже не нужно
+
+    //TODO: connections
 }
 
 } // namespace Internal

@@ -63,3 +63,6 @@ include($$IDE_SOURCE_TREE/src/qtcreatorplugin.pri)
 
 FORMS += \
     optionsdialog.ui
+
+RESOURCES += \
+    cheatsh.qrc

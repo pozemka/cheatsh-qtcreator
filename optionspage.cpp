@@ -15,8 +15,8 @@ OptionsPage::OptionsPage(const Settings& settings, QObject* parent) :
     setCategory("Cheat.sh");
     setDisplayCategory(tr("Cheat.sh"));  //displayed on the left
     //TODO: icon
-//    setCategoryIcon(Utils::Icon({{":/todoplugin/images/settingscategory_todo.png",
-    //                    Utils::Theme::PanelTextColorDark}}, Utils::Icon::Tint));
+    setCategoryIcon(Utils::Icon({{":/cheatshplugin/settings_category.png",
+                        Utils::Theme::PanelTextColorDark}}, Utils::Icon::Tint));
 }
 
 void OptionsPage::setSettings(const Settings& settings)

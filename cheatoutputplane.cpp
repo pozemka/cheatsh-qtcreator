@@ -5,7 +5,12 @@
 #include <QNetworkReply>
 #include <QString>
 
-CheatOutputPlane::CheatOutputPlane()
+namespace CheatSh {
+namespace Internal {
+
+CheatOutputPlane::CheatOutputPlane(const Settings* settings) :
+    settings_(settings)
+
 {
     network_manager_ = new QNetworkAccessManager(this);
       connect(network_manager_, &QNetworkAccessManager::finished,
@@ -113,3 +118,6 @@ void CheatOutputPlane::goToPrev()
 {
 
 }
+
+}   // namespace Internal
+}   // namespace CheatSh
