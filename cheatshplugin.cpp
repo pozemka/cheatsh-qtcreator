@@ -151,7 +151,13 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
 
     CheatFilter* cheat_filter = new CheatFilter();
 
+    // good code below
+
+    settings_.load(Core::ICore::settings());
     createOptionsPage();
+
+    connect(Core::ICore::instance(), &Core::ICore::saveSettingsRequested,
+            this, [this](){ settings_.save(Core::ICore::settings()); });
 
     return true;
 }
@@ -171,6 +177,17 @@ ExtensionSystem::IPlugin::ShutdownFlag CheatShPlugin::aboutToShutdown()
     return SynchronousShutdown;
 }
 
+void CheatShPlugin::changeSettings(const Settings& settings)
+{
+    settings.save(Core::ICore::settings());
+    settings_ = settings;
+
+    //TODO: apply settings
+//    m_todoItemsProvider->settingsChanged(m_settings);
+//    m_todoOutputPane->setScanningScope(m_settings.scanningScope);
+//    m_optionsPage->setSettings(m_settings);
+}
+
 void CheatShPlugin::triggerAction()
 {
     QMessageBox::information(Core::ICore::mainWindow(),
@@ -181,7 +198,8 @@ void CheatShPlugin::triggerAction()
 void CheatShPlugin::createOptionsPage()
 {
     options_page_ = new OptionsPage(settings_, this);
-    //TODO: connect(m_optionsPage, &OptionsPage::settingsChanged, this, &TodoPlugin::settingsChanged);
+    connect(options_page_, &OptionsPage::settingsChanged,
+            this, &CheatShPlugin::changeSettings);
 }
 
 } // namespace Internal

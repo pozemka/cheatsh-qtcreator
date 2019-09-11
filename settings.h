@@ -1,14 +1,26 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include <QString>
+#include <QUrl>
+
+class QSettings;
+
 namespace CheatSh {
 namespace Internal {
 
 class Settings
 {
 public:
-    Settings();
+    QString context;
+    QUrl url;
+
+    void save(QSettings *settings) const;
+    void load(QSettings *settings);
 };
+
+bool operator ==(Settings &s1, Settings &s2);
+bool operator !=(Settings &s1, Settings &s2);
 
 }   // namespace Internal
 }   // namespace CheatSh

@@ -24,6 +24,9 @@ public:
     void extensionsInitialized();
     ShutdownFlag aboutToShutdown();
 
+private slots:
+    void changeSettings(const Settings &settings);
+
 private:
     void triggerAction();
     void createOptionsPage();

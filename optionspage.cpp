@@ -35,12 +35,16 @@ QWidget* OptionsPage::widget()
 
 void OptionsPage::apply()
 {
-
+    Settings new_settings = widget_->settings();
+    if(new_settings != settings_) {
+        settings_ = new_settings;
+        emit settingsChanged(settings_);
+    }
 }
 
 void OptionsPage::finish()
 {
-
+    delete widget_;
 }
 
 }   // namespace CheatSh

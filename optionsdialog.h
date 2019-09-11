@@ -26,6 +26,14 @@ private:
     Ui::OptionsDialog *ui;
 };
 
+template<typename T>
+const T& secondIfFirstIsEmpty(const T& t, const T& def_val)
+{
+    if(t.isEmpty())
+        return def_val;
+    return t;
+}
+
 }   // namespace Internal
 }   // namespace CheatSh
 
