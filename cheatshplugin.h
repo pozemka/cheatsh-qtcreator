@@ -2,11 +2,14 @@
 
 #include "cheatsh_global.h"
 #include "cheatoutputplane.h"
+#include "settings.h"
 
 #include <extensionsystem/iplugin.h>
 
 namespace CheatSh {
 namespace Internal {
+
+class OptionsPage;
 
 class CheatShPlugin : public ExtensionSystem::IPlugin
 {
@@ -23,7 +26,11 @@ public:
 
 private:
     void triggerAction();
+    void createOptionsPage();
+
     CheatOutputPlane* cheat_out_plane_;
+    OptionsPage* options_page_;
+    Settings settings_;
 };
 
 } // namespace Internal

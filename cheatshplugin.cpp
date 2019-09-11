@@ -1,6 +1,7 @@
 #include "cheatshplugin.h"
 #include "cheatshconstants.h"
 #include "cheatfilter.h"
+#include "optionspage.h"
 
 #include <coreplugin/icore.h>
 #include <coreplugin/icontext.h>
@@ -150,6 +151,8 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
 
     CheatFilter* cheat_filter = new CheatFilter();
 
+    createOptionsPage();
+
     return true;
 }
 
@@ -173,6 +176,12 @@ void CheatShPlugin::triggerAction()
     QMessageBox::information(Core::ICore::mainWindow(),
                              tr("Action Triggered"),
                              tr("This is an action from CheatSh."));
+}
+
+void CheatShPlugin::createOptionsPage()
+{
+    options_page_ = new OptionsPage(settings_, this);
+    //TODO: connect(m_optionsPage, &OptionsPage::settingsChanged, this, &TodoPlugin::settingsChanged);
 }
 
 } // namespace Internal

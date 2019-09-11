@@ -7,14 +7,20 @@ QT += network
 SOURCES += \
         cheatshplugin.cpp \
     cheatoutputplane.cpp \
-    cheatfilter.cpp
+    cheatfilter.cpp \
+    optionspage.cpp \
+    settings.cpp \
+    optionsdialog.cpp
 
 HEADERS += \
         cheatshplugin.h \
         cheatsh_global.h \
         cheatshconstants.h \
     cheatoutputplane.h \
-    cheatfilter.h
+    cheatfilter.h \
+    optionspage.h \
+    settings.h \
+    optionsdialog.h
 
 # Qt Creator linking
 
@@ -54,3 +60,6 @@ QTC_PLUGIN_RECOMMENDS += \
 ###### End _dependencies.pri contents ######
 
 include($$IDE_SOURCE_TREE/src/qtcreatorplugin.pri)
+
+FORMS += \
+    optionsdialog.ui
