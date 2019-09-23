@@ -131,6 +131,7 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
     settings_.load(Core::ICore::settings());
     createOptionsPage();
     createOutputPane();
+    createMenus();
 
     connect(Core::ICore::instance(), &Core::ICore::saveSettingsRequested,
             this, [this](){ settings_.save(Core::ICore::settings()); });
@@ -185,6 +186,44 @@ void CheatShPlugin::createOutputPane()
 //    ExtensionSystem::PluginManager::addObject(cheat_out_plane_); //Похоже не нужно
 
     //TODO: connections
+}
+
+void CheatShPlugin::createMenus()
+{
+    // create actions:
+    Core::Context textContext( TextEditor::Constants::C_TEXTEDITOR );
+    action_cheat_sh_ = new QAction( tr( "Search selected/under cursor" ), this );
+    Core::Command* cheatShCommand = Core::ActionManager::registerAction(action_cheat_sh_, Constants::ACTION_ID, textContext);
+    cheatShCommand->setAttribute(Core::Command::CA_UpdateText);   //Зачем?
+    cheatShCommand->setDefaultKeySequence(QKeySequence(tr("Ctrl+Alt+Meta+C")));
+
+    // connect actions
+    connect(action_cheat_sh_, &QAction::triggered, [](){
+        qDebug("Cheat sh");
+    });
+
+    // add actions to tools menu
+    Core::ActionContainer* menu = Core::ActionManager::createMenu( Constants::MENU_ID );
+    menu->menu()->setTitle( tr( "CheatSh" ) );
+    menu->addAction( cheatShCommand );
+    Core::ActionManager::actionContainer( Core::Constants::M_TOOLS )->addMenu( menu );
+
+    // add actions to context menu
+
+    Core::ActionContainer* editorcontextMenu =
+            Core::ActionManager::createMenu( TextEditor::Constants::M_STANDARDCONTEXTMENU );
+    Core::ActionContainer* contextMenu =
+            //Core::ActionManager::createMenu( TextEditor::Constants::M_STANDARDCONTEXTMENU );
+            Core::ActionManager::createMenu( Constants::CONTEXT_MENU_ID );
+    contextMenu->menu()->setTitle( tr( "CheatSh" ) );
+    contextMenu->addSeparator();
+    contextMenu->addAction( cheatShCommand );
+    contextMenu->addSeparator();
+    //editorcontextMenu->addMenu(contextMenu);  //
+    Core::Id group_id(Constants::CONTEXT_MENU_ID);
+    editorcontextMenu->appendGroup(group_id);
+    editorcontextMenu->addSeparator(group_id);
+    editorcontextMenu->addAction(cheatShCommand, group_id);
 }
 
 } // namespace Internal

@@ -66,3 +66,6 @@ FORMS += \
 
 RESOURCES += \
     cheatsh.qrc
+
+TRANSLATIONS += \
+    cheatsh_ru.ts

@@ -31,10 +31,12 @@ private:
     void triggerAction();
     void createOptionsPage();
     void createOutputPane();
+    void createMenus();
 
-    CheatOutputPlane* cheat_out_plane_;
+    CheatOutputPlane* cheat_out_plane_; //TODO: change to smart pointers later
     OptionsPage* options_page_;
     Settings settings_;
+    QAction* action_cheat_sh_;
 };
 
 } // namespace Internal

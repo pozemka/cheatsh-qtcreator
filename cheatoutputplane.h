@@ -15,6 +15,7 @@ namespace Internal {
 
 class CheatOutputPlane : public Core::IOutputPane
 {
+    Q_OBJECT
 public:
     CheatOutputPlane(const Settings* settings);
     ~CheatOutputPlane();
