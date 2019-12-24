@@ -10,6 +10,7 @@ namespace CheatSh {
 namespace Internal {
 
 class OptionsPage;
+class CheatSh;
 
 class CheatShPlugin : public ExtensionSystem::IPlugin
 {
@@ -33,8 +34,9 @@ private:
     void createOutputPane();
     void createMenus();
 
-    CheatOutputPlane* cheat_out_plane_; //TODO: change to smart pointers later
+    CheatOutputPlane* out_plane_; //TODO: change to smart pointers later
     OptionsPage* options_page_;
+    CheatSh* cheat_sh_;
     Settings settings_;
     QAction* action_cheat_sh_;
 };

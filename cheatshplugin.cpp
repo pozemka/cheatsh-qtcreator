@@ -1,6 +1,7 @@
 #include "cheatshplugin.h"
 #include "cheatshconstants.h"
 #include "cheatfilter.h"
+#include "cheatsh.h"
 #include "optionspage.h"
 
 #include <coreplugin/icore.h>
@@ -77,30 +78,7 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
 ////    listWidget->show();
 
 
-//    Core::Context textContext( TextEditor::Constants::C_TEXTEDITOR );
-//    QAction* actionCheatSh = new QAction( tr( "Cheat.sh" ), this );
-//    auto cheatShCommand = Core::ActionManager::registerAction(actionCheatSh, Constants::ACTION_ID, textContext);
-//    cheatShCommand->setAttribute(Core::Command::CA_UpdateText);   //Зачем?
-//    cheatShCommand->setDefaultKeySequence(QKeySequence(tr("Ctrl+Alt+Meta+C")));
-//    connect(actionCheatSh, &QAction::triggered, [](){
-//        qDebug("Cheat sh");
-//    });
 
-//    Core::ActionContainer* menu = Core::ActionManager::createMenu( Constants::MENU_ID );
-//    menu->menu()->setTitle( tr( "CheatSh" ) );
-//    menu->addAction( cheatShCommand );
-//    Core::ActionManager::actionContainer( Core::Constants::M_TOOLS )->addMenu( menu );
-
-//    Core::ActionContainer* editorcontextMenu =
-//            Core::ActionManager::createMenu( TextEditor::Constants::M_STANDARDCONTEXTMENU );
-//    Core::ActionContainer* contextMenu =
-//            //Core::ActionManager::createMenu( TextEditor::Constants::M_STANDARDCONTEXTMENU );
-//            Core::ActionManager::createMenu( Constants::CONTEXT_MENU_ID );
-//    contextMenu->menu()->setTitle( tr( "CheatSh" ) );
-//    contextMenu->addSeparator();
-//    contextMenu->addAction( cheatShCommand );
-//    contextMenu->addSeparator();
-//    editorcontextMenu->addMenu(contextMenu);
 ////    contextMenu->menu()->setEnabled(true);
 
 ////    Core::EditorManager* editorManager = Core::EditorManager::instance();
@@ -130,8 +108,26 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
 
     settings_.load(Core::ICore::settings());
     createOptionsPage();
+    cheat_sh_ = new CheatSh(&settings_, this);
     createOutputPane();
+    connect(cheat_sh_, &CheatSh::found, out_plane_, &CheatOutputPlane::displayResult);
     createMenus();
+    //TODO: move somewhere
+    connect(action_cheat_sh_, &QAction::triggered, [this](){
+        TextEditor::TextEditorWidget* editorWidget =
+                qobject_cast<TextEditor::TextEditorWidget*> (
+                    Core::EditorManager::currentEditor()->widget()
+                    );
+
+        QString selected_text = editorWidget->selectedText();
+        if(selected_text.isEmpty()) {
+            QTextCursor text_cursor = editorWidget->textCursor();
+            text_cursor.select(QTextCursor::WordUnderCursor);
+            selected_text = text_cursor.selectedText();
+        }
+        qDebug("selection: '%s'", qPrintable(selected_text));
+        cheat_sh_->search(selected_text);
+    });
 
     connect(Core::ICore::instance(), &Core::ICore::saveSettingsRequested,
             this, [this](){ settings_.save(Core::ICore::settings()); });
@@ -181,11 +177,9 @@ void CheatShPlugin::createOptionsPage()
 
 void CheatShPlugin::createOutputPane()
 {
-    cheat_out_plane_ = new CheatOutputPlane(&settings_);
+    out_plane_ = new CheatOutputPlane(&settings_);
 
 //    ExtensionSystem::PluginManager::addObject(cheat_out_plane_); //Похоже не нужно
-
-    //TODO: connections
 }
 
 void CheatShPlugin::createMenus()

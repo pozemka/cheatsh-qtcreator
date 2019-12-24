@@ -7,8 +7,9 @@
 
 #include <memory>
 
-class QNetworkAccessManager;
+
 class QTextBrowser;
+class QWebEngineView;
 
 namespace CheatSh {
 namespace Internal {
@@ -22,7 +23,8 @@ public:
     //FIXME: очевидно что искалка, настрйоки, это отображение, и управление (которое в cheatshpligin.cpp) должны быть отдельно. Сейчас для проверки идеи пойдёт и так:
     //FIXME: ещё нужно навтыкать всякие проверки на то что CurrentEditor вообще существует и т.п. на 0 указатели.
     //https://doc-snapshots.qt.io/qtcreator-extending/plugin-lifecycle.html
-    void find(QString text);    //копия специально
+public slots:
+    void displayResult(const QString& result);
 
     // IOutputPane interface
 public:
@@ -42,8 +44,7 @@ public:
     void goToPrev();
 
 private:
-    QTextBrowser* text_browser_ = nullptr;
-    QNetworkAccessManager* network_manager_ = nullptr;
+    QWebEngineView* browser_ = nullptr;
     const Settings* settings_ = nullptr;
 };
 

@@ -1,26 +1,29 @@
 DEFINES += CHEATSH_LIBRARY
 
 QT += network
+QT += webenginewidgets
 
 # CheatSh files
 
 SOURCES += \
-        cheatshplugin.cpp \
+    cheatshplugin.cpp \
     cheatoutputplane.cpp \
     cheatfilter.cpp \
     optionspage.cpp \
     settings.cpp \
-    optionsdialog.cpp
+    optionsdialog.cpp \
+    cheatsh.cpp
 
 HEADERS += \
-        cheatshplugin.h \
-        cheatsh_global.h \
-        cheatshconstants.h \
+    cheatshplugin.h \
+    cheatsh_global.h \
+    cheatshconstants.h \
     cheatoutputplane.h \
     cheatfilter.h \
     optionspage.h \
     settings.h \
-    optionsdialog.h
+    optionsdialog.h \
+    cheatsh.h
 
 # Qt Creator linking
 
