@@ -72,3 +72,7 @@ RESOURCES += \
 
 TRANSLATIONS += \
     cheatsh_ru.ts
+
+INCLUDEPATH += $$PWD/ANSIEsc2HTML/src
+
+LIBS += -L$$PWD/ANSIEsc2HTML/build -lANSIEsc2HTML_static

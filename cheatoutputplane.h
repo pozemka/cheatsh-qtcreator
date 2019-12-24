@@ -7,6 +7,7 @@
 
 #include <memory>
 
+class ANSI_SGR2HTML;
 
 class QTextBrowser;
 class QWebEngineView;
@@ -44,8 +45,10 @@ public:
     void goToPrev();
 
 private:
-    QWebEngineView* browser_ = nullptr;
+//    QWebEngineView* browser_ = nullptr;
+    QTextBrowser* browser_ = nullptr;
     const Settings* settings_ = nullptr;
+    std::unique_ptr<ANSI_SGR2HTML> ansi2html_;
 };
 
 }   // namespace Internal

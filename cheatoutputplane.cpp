@@ -4,12 +4,14 @@
 #include <QWebEngineView>
 #include <QString>
 
+#include <ansi_esc2html.h>
+
 namespace CheatSh {
 namespace Internal {
 
 CheatOutputPlane::CheatOutputPlane(const Settings* settings) :
-    settings_(settings)
-
+    settings_(settings),
+    ansi2html_(std::make_unique<ANSI_SGR2HTML>())
 {
 
 }
@@ -21,14 +23,16 @@ CheatOutputPlane::~CheatOutputPlane()
 
 void CheatOutputPlane::displayResult(const QString& result)
 {
-    browser_->setHtml(result);
+    auto sts = ansi2html_->simpleParse(result.toStdString());
+    browser_->setHtml(QString::fromUtf8(sts.data(), sts.size()));
 }
 
 QWidget*CheatOutputPlane::outputWidget(QWidget* parent)
 {
-    browser_ = new QWebEngineView(parent);
-//    browser_->setHtml("Loading,,,");
-    browser_->setUrl(QUrl::fromUserInput("cheat.sh/cpp/int"));
+//    browser_ = new QWebEngineView(parent);
+//    browser_->setUrl(QUrl::fromUserInput("cheat.sh/cpp/int"));
+    browser_ = new QTextBrowser(parent);
+    browser_->setHtml(tr("TODO: plugin's own help text"));
     /* Короче, есть гостинный гарнитур из нескольких стульев:
      * 1. грузить ответ в QTextBrowser через setHtml(), так загрузка вешает креатор, т.к. сайт выдаёт много мусора в странице
      * 2. то же, но без подсветки. Мусора меньше и, похоже он не мешает. Если и тормозит, то меньше, нужно смотреть на больших страницах

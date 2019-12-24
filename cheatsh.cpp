@@ -41,7 +41,7 @@ void CheatSh::search(QString text)
                        .arg(text.replace(' ', '+'))
                    ));
     qDebug("%s", qPrintable(request.url().toString()));
-//    request.setRawHeader("User-Agent", "User-Agent: curl/7.60.0");
+    request.setRawHeader("User-Agent", "User-Agent: curl/7.60.0");
     network_manager_->get(request);
 }
 
