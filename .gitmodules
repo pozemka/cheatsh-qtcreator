@@ -1,0 +1,3 @@
+[submodule "ANSIEsc2HTML"]
+	path = ANSIEsc2HTML
+	url = https://github.com/pozemka/ANSIEsc2HTML.git
