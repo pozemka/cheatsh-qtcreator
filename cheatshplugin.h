@@ -1,12 +1,12 @@
 #pragma once
 
-#include "cheatsh_global.h"
-#include "cheatoutputplane.h"
 #include "settings.h"
 
 #include <extensionsystem/iplugin.h>
 
 #include <memory>
+
+class QAction;
 
 namespace CheatSh {
 namespace Internal {
@@ -14,6 +14,7 @@ namespace Internal {
 class OptionsPage;
 class CheatSh;
 class CheatFilter;
+class CheatOutputPlane;
 
 class CheatShPlugin : public ExtensionSystem::IPlugin
 {
@@ -32,16 +33,13 @@ private slots:
     void changeSettings(const Settings &settings);
 
 private:
-    void triggerAction();
-    void createOptionsPage();
-    void createOutputPane();
     void createMenus();
 
     Settings settings_;
     std::unique_ptr<CheatFilter> cheat_filter_;
 
     QAction* action_cheat_sh_;
-    CheatOutputPlane* out_plane_; //Qt will handle deletion for QObjects. Parent is mandatory and set
+    CheatOutputPlane* out_plane_;
     OptionsPage* options_page_;
     CheatSh* cheat_sh_;
 };

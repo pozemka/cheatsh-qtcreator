@@ -1,7 +1,6 @@
 DEFINES += CHEATSH_LIBRARY
 
 QT += network
-QT += webenginewidgets
 
 # CheatSh files
 

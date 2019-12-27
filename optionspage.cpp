@@ -14,7 +14,6 @@ OptionsPage::OptionsPage(const Settings& settings, QObject* parent) :
     setDisplayName(tr("Cheat.sh")); //tab name on the top
     setCategory("Cheat.sh");
     setDisplayCategory(tr("Cheat.sh"));  //displayed on the left
-    //TODO: icon
     setCategoryIcon(Utils::Icon({{":/cheatshplugin/settings_category.png",
                         Utils::Theme::PanelTextColorDark}}, Utils::Icon::Tint));
 }

@@ -1,10 +1,10 @@
 #include "cheatoutputplane.h"
-
-#include <QTextBrowser>
-#include <QWebEngineView>
-#include <QString>
+#include "settings.h"
 
 #include <ansi_esc2html.h>
+
+#include <QTextBrowser>
+#include <QString>
 
 namespace CheatSh {
 namespace Internal {

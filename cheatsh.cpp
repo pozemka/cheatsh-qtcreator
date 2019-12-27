@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QRegularExpression>
 
 namespace CheatSh {
 namespace Internal {
@@ -14,11 +15,6 @@ CheatSh::CheatSh(const Settings* settigns, QObject* parent) : QObject(parent), s
     network_manager_ = std::make_unique<QNetworkAccessManager>(this);
     connect(network_manager_.get(), &QNetworkAccessManager::finished,
             [this](QNetworkReply* rep) {
-//                qDebug("reply");
-//                for (auto header_name: rep->rawHeaderList()) {
-//                    qDebug("header '%s'", rep->rawHeader(header_name).constData());
-//                }
-
 //                QFile debug_file("debug.txt");
 //                debug_file.open(QIODevice::WriteOnly);
 //                debug_file.write(rep->readAll());
@@ -34,15 +30,24 @@ CheatSh::~CheatSh()
 
 void CheatSh::search(QString text)
 {
-    QNetworkRequest request;
+    // Trailing options
     QString options;
     if(!settings_->comments_enabled)
         options.append("?Q");
+
+    // Context override
+    static const QRegularExpression re("^\\/(\\w+)\\/");
+    QString context = settings_->context;
+    QRegularExpressionMatch match = re.match(text);
+    if(match.hasMatch()) {
+        context = match.captured(1);
+        text.remove(re);
+    }
+    QNetworkRequest request;
     request.setUrl(QUrl::fromUserInput(
                        QString("%1/%2/%3%4") // ?T - no coloring
-                       // TODO: replace cpp with settings_->context or something
                        .arg(settings_->url.toString(QUrl::PrettyDecoded|QUrl::StripTrailingSlash))
-                       .arg(settings_->context)
+                       .arg(context)
                        .arg(text.replace(' ', '+'))
                        .arg(options)
                    ));

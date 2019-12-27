@@ -3,6 +3,8 @@
 #include "cheatfilter.h"
 #include "cheatsh.h"
 #include "optionspage.h"
+#include "cheatoutputplane.h"
+#include "cheatsh_global.h"
 
 #include <coreplugin/icore.h>
 #include <coreplugin/icontext.h>
@@ -49,6 +51,10 @@ CheatShPlugin::~CheatShPlugin()
 {
     // Unregister objects from the plugin manager's object pool
     // Delete members
+    delete action_cheat_sh_;
+    delete out_plane_;
+    delete options_page_;
+    delete cheat_sh_;
 }
 
 bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorString)
@@ -62,58 +68,16 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
     Q_UNUSED(arguments)
     Q_UNUSED(errorString)
 
-//    cheat_out_plane_ = new CheatOutputPlane();
-//    ExtensionSystem::PluginManager::addObject(cheat_out_plane_);
-
-////    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-////    QList<QObject*> objects = pm->allObjects();
-////    QListWidget* listWidget = new QListWidget;
-////    Q_FOREACH(QObject* obj, objects)
-////    {
-////        QString objInfo = QString("%1 (%2)")
-////        .arg(obj->objectName())
-////        .arg(QString::fromUtf8(obj->metaObject()->className()));
-////        listWidget->addItem(objInfo);
-////    }
-////    listWidget->show();
-
-
-
-////    contextMenu->menu()->setEnabled(true);
-
-////    Core::EditorManager* editorManager = Core::EditorManager::instance();
-////    connect(editorManager, &Core::EditorManager::currentEditorChanged, [](){
-////        qDebug("edtior changed");
-////    });
-
-//    connect(actionCheatSh, &QAction::triggered, [this](){
-//        TextEditor::TextEditorWidget* editorWidget =
-//                qobject_cast<TextEditor::TextEditorWidget*> (
-//                    Core::EditorManager::currentEditor()->widget()
-//                );
-
-//        QString selected_text = editorWidget->selectedText();
-//        if(selected_text.isEmpty()) {
-//            QTextCursor text_cursor = editorWidget->textCursor();
-//            text_cursor.select(QTextCursor::WordUnderCursor);
-//            selected_text = text_cursor.selectedText();
-//        }
-//        qDebug("selection: '%s'", qPrintable(selected_text));
-//        cheat_out_plane_->find(selected_text);
-//    });
-
-    cheat_filter_ = std::make_unique<CheatFilter>();
-
-    // good code below
-
     settings_.load(Core::ICore::settings());
-    createOptionsPage();
-    cheat_sh_ = new CheatSh(&settings_, this);
-    createOutputPane();
-    connect(cheat_sh_, &CheatSh::found, out_plane_, &CheatOutputPlane::displayResult);
-    createMenus();
 
+    out_plane_ = new CheatOutputPlane(&settings_, this);
+    cheat_sh_ = new CheatSh(&settings_, this);
+    cheat_filter_ = std::make_unique<CheatFilter>();
+    options_page_ = new OptionsPage(settings_, this);
+    connect(cheat_sh_, &CheatSh::found, out_plane_, &CheatOutputPlane::displayResult);
     connect(cheat_filter_.get(), &CheatFilter::query, cheat_sh_, &CheatSh::search);
+    connect(options_page_, &OptionsPage::settingsChanged, this, &CheatShPlugin::changeSettings);
+    createMenus();
 
     connect(Core::ICore::instance(), &Core::ICore::saveSettingsRequested,
             this, [this](){ settings_.save(Core::ICore::settings()); });
@@ -133,6 +97,11 @@ ExtensionSystem::IPlugin::ShutdownFlag CheatShPlugin::aboutToShutdown()
     // Save settings
     // Disconnect from signals that are not needed during shutdown
     // Hide UI (if you add UI that is not in the main window directly)
+    cheat_filter_->disconnect();
+    action_cheat_sh_->disconnect();
+    options_page_->disconnect();
+    cheat_sh_->disconnect();
+    out_plane_->hide();
     return SynchronousShutdown;
 }
 
@@ -140,32 +109,6 @@ void CheatShPlugin::changeSettings(const Settings& settings)
 {
     settings.save(Core::ICore::settings());
     settings_ = settings;
-
-    //TODO: apply settings
-//    m_todoItemsProvider->settingsChanged(m_settings);
-//    m_todoOutputPane->setScanningScope(m_settings.scanningScope);
-//    m_optionsPage->setSettings(m_settings);
-}
-
-void CheatShPlugin::triggerAction()
-{
-    QMessageBox::information(Core::ICore::mainWindow(),
-                             tr("Action Triggered"),
-                             tr("This is an action from CheatSh."));
-}
-
-void CheatShPlugin::createOptionsPage()
-{
-    options_page_ = new OptionsPage(settings_, this);
-    connect(options_page_, &OptionsPage::settingsChanged,
-            this, &CheatShPlugin::changeSettings);
-}
-
-void CheatShPlugin::createOutputPane()
-{
-    out_plane_ = new CheatOutputPlane(&settings_, this);
-
-//    ExtensionSystem::PluginManager::addObject(cheat_out_plane_); //Похоже не нужно
 }
 
 void CheatShPlugin::createMenus()
