@@ -50,6 +50,19 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="0" colspan="2">
+      <widget class="QCheckBox" name="checkBox_comments">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Unchek if you don't need text comments in the answer &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>With comments</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>

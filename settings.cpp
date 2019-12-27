@@ -16,6 +16,7 @@ void Settings::save(QSettings* settings) const
 
     settings->setValue(Constants::CHT_CONTEXT, context);
     settings->setValue(Constants::CHT_URL, url);
+    settings->setValue(Constants::CHT_COMMENTS, comments_enabled);
 
     settings->endGroup();
     settings->sync();
@@ -27,14 +28,15 @@ void Settings::load(QSettings* settings)
 
     context = settings->value(Constants::CHT_CONTEXT, Constants::CHT_DEFAULT_CONTEXT).toString();
     url = settings->value(Constants::CHT_URL, Constants::CHT_DEFAULT_URL).toUrl();
+    comments_enabled = settings->value(Constants::CHT_COMMENTS, true).toBool();
 
     settings->endGroup();
 }
 
 bool operator ==(Settings& lhs, Settings& rhs)
 {
-    return std::tie(lhs.context, lhs.url) ==
-           std::tie(rhs.context, rhs.url);
+    return std::tie(lhs.context, lhs.url, lhs.comments_enabled) ==
+           std::tie(rhs.context, rhs.url, rhs.comments_enabled);
 }
 
 bool operator !=(Settings& lhs, Settings& rhs)

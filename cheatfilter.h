@@ -3,7 +3,9 @@
 
 #include <coreplugin/locator/ilocatorfilter.h>
 #include <coreplugin/icore.h>
-#include <coreplugin/messagemanager.h>  //Можно печатать в панель вывода! Наверное надо намудрить чтобы прикидыаться curl. Но печатать с подсветкой в отдельную панель тоже прекрасно. Настраивать?
+//#include <coreplugin/messagemanager.h>
+namespace CheatSh {
+namespace Internal {
 
 class CheatFilter : public Core::ILocatorFilter
 {
@@ -17,8 +19,14 @@ public:
 
     void refresh(QFutureInterface<void> &) override {}
 
+signals:
+    void query(const QString& text) const;
+
 private:
     //
 };
+
+}}
+
 
 #endif // CHEATFILTER_H

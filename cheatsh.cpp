@@ -14,10 +14,11 @@ CheatSh::CheatSh(const Settings* settigns, QObject* parent) : QObject(parent), s
     network_manager_ = std::make_unique<QNetworkAccessManager>(this);
     connect(network_manager_.get(), &QNetworkAccessManager::finished,
             [this](QNetworkReply* rep) {
-                qDebug("reply");
-                for (auto header_name: rep->rawHeaderList()) {
-                    qDebug("header '%s'", rep->rawHeader(header_name).constData());
-                }
+//                qDebug("reply");
+//                for (auto header_name: rep->rawHeaderList()) {
+//                    qDebug("header '%s'", rep->rawHeader(header_name).constData());
+//                }
+
 //                QFile debug_file("debug.txt");
 //                debug_file.open(QIODevice::WriteOnly);
 //                debug_file.write(rep->readAll());
@@ -34,11 +35,16 @@ CheatSh::~CheatSh()
 void CheatSh::search(QString text)
 {
     QNetworkRequest request;
+    QString options;
+    if(!settings_->comments_enabled)
+        options.append("?Q");
     request.setUrl(QUrl::fromUserInput(
-                       QString("%1/cpp/%2") // ?T - no coloring
+                       QString("%1/%2/%3%4") // ?T - no coloring
                        // TODO: replace cpp with settings_->context or something
                        .arg(settings_->url.toString(QUrl::PrettyDecoded|QUrl::StripTrailingSlash))
+                       .arg(settings_->context)
                        .arg(text.replace(' ', '+'))
+                       .arg(options)
                    ));
     qDebug("%s", qPrintable(request.url().toString()));
     request.setRawHeader("User-Agent", "User-Agent: curl/7.60.0");

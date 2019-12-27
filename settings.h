@@ -14,6 +14,7 @@ class Settings
 public:
     QString context;
     QUrl url;
+    bool comments_enabled;
 
     void save(QSettings *settings) const;
     void load(QSettings *settings);

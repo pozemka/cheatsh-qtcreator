@@ -6,11 +6,14 @@
 
 #include <extensionsystem/iplugin.h>
 
+#include <memory>
+
 namespace CheatSh {
 namespace Internal {
 
 class OptionsPage;
 class CheatSh;
+class CheatFilter;
 
 class CheatShPlugin : public ExtensionSystem::IPlugin
 {
@@ -34,11 +37,13 @@ private:
     void createOutputPane();
     void createMenus();
 
-    CheatOutputPlane* out_plane_; //TODO: change to smart pointers later
+    Settings settings_;
+    std::unique_ptr<CheatFilter> cheat_filter_;
+
+    QAction* action_cheat_sh_;
+    CheatOutputPlane* out_plane_; //Qt will handle deletion for QObjects. Parent is mandatory and set
     OptionsPage* options_page_;
     CheatSh* cheat_sh_;
-    Settings settings_;
-    QAction* action_cheat_sh_;
 };
 
 } // namespace Internal

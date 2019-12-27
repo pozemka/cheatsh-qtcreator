@@ -19,7 +19,7 @@ class CheatOutputPlane : public Core::IOutputPane
 {
     Q_OBJECT
 public:
-    CheatOutputPlane(const Settings* settings);
+    CheatOutputPlane(const Settings* settings/*non-owning*/, QObject* parent);
     ~CheatOutputPlane();
     //FIXME: очевидно что искалка, настрйоки, это отображение, и управление (которое в cheatshpligin.cpp) должны быть отдельно. Сейчас для проверки идеи пойдёт и так:
     //FIXME: ещё нужно навтыкать всякие проверки на то что CurrentEditor вообще существует и т.п. на 0 указатели.

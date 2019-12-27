@@ -12,6 +12,7 @@ const char CONTEXT_MENU_ID[]   = "CheatSh.ContextMenu";
 const char SETTINGS_GROUP[] = "CheatSh.Plugin";
 const char CHT_CONTEXT[] = "Context";
 const char CHT_URL[] = "URL";
+const char CHT_COMMENTS[] = "commentsEnabled";
 
 const char CHT_DEFAULT_CONTEXT[] = "cpp";
 const char CHT_DEFAULT_URL[] = "https://cht.sh";

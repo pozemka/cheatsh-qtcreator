@@ -102,7 +102,7 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
 //        cheat_out_plane_->find(selected_text);
 //    });
 
-    CheatFilter* cheat_filter = new CheatFilter();
+    cheat_filter_ = std::make_unique<CheatFilter>();
 
     // good code below
 
@@ -112,22 +112,8 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
     createOutputPane();
     connect(cheat_sh_, &CheatSh::found, out_plane_, &CheatOutputPlane::displayResult);
     createMenus();
-    //TODO: move somewhere
-    connect(action_cheat_sh_, &QAction::triggered, [this](){
-        TextEditor::TextEditorWidget* editorWidget =
-                qobject_cast<TextEditor::TextEditorWidget*> (
-                    Core::EditorManager::currentEditor()->widget()
-                    );
 
-        QString selected_text = editorWidget->selectedText();
-        if(selected_text.isEmpty()) {
-            QTextCursor text_cursor = editorWidget->textCursor();
-            text_cursor.select(QTextCursor::WordUnderCursor);
-            selected_text = text_cursor.selectedText();
-        }
-        qDebug("selection: '%s'", qPrintable(selected_text));
-        cheat_sh_->search(selected_text);
-    });
+    connect(cheat_filter_.get(), &CheatFilter::query, cheat_sh_, &CheatSh::search);
 
     connect(Core::ICore::instance(), &Core::ICore::saveSettingsRequested,
             this, [this](){ settings_.save(Core::ICore::settings()); });
@@ -177,7 +163,7 @@ void CheatShPlugin::createOptionsPage()
 
 void CheatShPlugin::createOutputPane()
 {
-    out_plane_ = new CheatOutputPlane(&settings_);
+    out_plane_ = new CheatOutputPlane(&settings_, this);
 
 //    ExtensionSystem::PluginManager::addObject(cheat_out_plane_); //Похоже не нужно
 }
@@ -189,11 +175,23 @@ void CheatShPlugin::createMenus()
     action_cheat_sh_ = new QAction( tr( "Search selected/under cursor" ), this );
     Core::Command* cheatShCommand = Core::ActionManager::registerAction(action_cheat_sh_, Constants::ACTION_ID, textContext);
     cheatShCommand->setAttribute(Core::Command::CA_UpdateText);   //Зачем?
-    cheatShCommand->setDefaultKeySequence(QKeySequence(tr("Ctrl+Alt+Meta+C")));
+    cheatShCommand->setDefaultKeySequence(QKeySequence(tr("Meta+Shift+C")));
 
     // connect actions
-    connect(action_cheat_sh_, &QAction::triggered, [](){
-        qDebug("Cheat sh");
+    connect(action_cheat_sh_, &QAction::triggered, [this](){
+        TextEditor::TextEditorWidget* editorWidget =
+                qobject_cast<TextEditor::TextEditorWidget*> (
+                    Core::EditorManager::currentEditor()->widget()
+                    );
+
+        QString selected_text = editorWidget->selectedText();
+        if(selected_text.isEmpty()) {
+            QTextCursor text_cursor = editorWidget->textCursor();
+            text_cursor.select(QTextCursor::WordUnderCursor);
+            selected_text = text_cursor.selectedText();
+        }
+//        qDebug("selection: '%s'", qPrintable(selected_text));
+        cheat_sh_->search(selected_text);
     });
 
     // add actions to tools menu

@@ -3,6 +3,9 @@
 
 using Core::LocatorFilterEntry;
 
+namespace CheatSh {
+namespace Internal {
+
 CheatFilter::CheatFilter()
 {
     setId("cheat.sh");
@@ -18,10 +21,8 @@ QList<LocatorFilterEntry> CheatFilter::matchesFor(QFutureInterface<LocatorFilter
     if (!entry.isEmpty()) // avoid empty entry
         value.append(LocatorFilterEntry(this, entry, QVariant()));
     QList<LocatorFilterEntry> others;
-//    others.append(LocatorFilterEntry(this, "haba-haba", QVariant()));
-//    others.append(LocatorFilterEntry(this, "zud-zud", QVariant()));
 
-        //TODO: тоже можно поиск по истории. Или по каким-то локальным подсказкам, как в баше автодополнение у cheat.sh реализовано.
+    //TODO: тоже можно поиск по истории. Или по каким-то локальным подсказкам, как в баше автодополнение у cheat.sh реализовано.
 //        const Qt::CaseSensitivity entryCaseSensitivity = caseSensitivity(entry);
 //        for (const QString &cmd : qAsConst(m_commandHistory)) {
 //            if (future.isCanceled())
@@ -43,7 +44,9 @@ QList<LocatorFilterEntry> CheatFilter::matchesFor(QFutureInterface<LocatorFilter
 
 void CheatFilter::accept(Core::LocatorFilterEntry selection, QString* newText, int* selectionStart, int* selectionLength) const
 {
-    qDebug() << "accept" << selection.displayName << *newText << *selectionStart << *selectionLength;   //accept "aaa" "" -1 0
-    //TODO forward search to cheatsh
+//    qDebug() << "accept" << selection.displayName << *newText << *selectionStart << *selectionLength;   //accept "aaa" "" -1 0
+    if(!selection.displayName.isEmpty())
+        emit query(selection.displayName);
 }
 
+}}

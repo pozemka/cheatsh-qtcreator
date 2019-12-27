@@ -19,7 +19,7 @@ class CheatSh : public QObject
 {
     Q_OBJECT
 public:
-    explicit CheatSh(const Settings* settigns, QObject *parent = nullptr);
+    explicit CheatSh(const Settings* settigns, QObject *parent);
     ~CheatSh();
 
 signals:
