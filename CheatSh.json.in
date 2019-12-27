@@ -2,10 +2,10 @@
     \"Name\" : \"CheatSh\",
     \"Version\" : \"0.0.1\",
     \"CompatVersion\" : \"0.0.1\",
-    \"Vendor\" : \"MyCompany\",
-    \"Copyright\" : \"(C) MyCompany\",
-    \"License\" : \"Put your license information here\",
-    \"Description\" : \"Put a short description of your plugin here\",
-    \"Url\" : \"http://www.mycompany.com\",
+    \"Vendor\" : \"Pozemka\",
+    \"Copyright\" : \"(C) Mikahil Bryukhovets\",
+    \"License\" : \"MIT License\",
+    \"Description\" : \"View cheat sheets from cheat.sh\",
+    \"Url\" : \"https://github.com/pozemka/cheatsh-qtcreator\",
     $$dependencyList
 }
