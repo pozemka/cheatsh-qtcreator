@@ -1,6 +1,7 @@
 DEFINES += CHEATSH_LIBRARY
 
 QT += network
+QT += webenginewidgets
 
 # CheatSh files
 
@@ -24,17 +25,34 @@ HEADERS += \
     optionsdialog.h \
     cheatsh.h
 
+# Automatic ANSIEsc2HTML build
+QMAKE_BIN = $$system(which qmake-qt5)
+
+isEmpty(QMAKE_BIN) {
+    QMAKE_BIN = $$system(which qmake-qt5)
+    isEmpty(QMAKE_BIN) {
+        message("Neither qmake or qmake-qt5 not found!")
+    }
+}
+message($$QMAKE_BIN)
+
+ansiesc2htmllib.target = ANSIEsc2HTML
+ansiesc2htmllib.depends = FORCE
+ansiesc2htmllib.commands = echo "Building ANSIEsc2HTML..."; \
+                           cd ANSIEsc2HTML; $$QMAKE_BIN; make; \
+                           echo "Done building ANSIEsc2HTML.";
+PRE_TARGETDEPS += ANSIEsc2HTML
+QMAKE_EXTRA_TARGETS += ansiesc2htmllib
+
 # Qt Creator linking
 
 ## Either set the IDE_SOURCE_TREE when running qmake,
 ## or set the QTC_SOURCE environment variable, to override the default setting
 isEmpty(IDE_SOURCE_TREE): IDE_SOURCE_TREE = $$(QTC_SOURCE)
-isEmpty(IDE_SOURCE_TREE): IDE_SOURCE_TREE = "/home/uni/projects/3rdparty/qt-creator"
 
 ## Either set the IDE_BUILD_TREE when running qmake,
 ## or set the QTC_BUILD environment variable, to override the default setting
 isEmpty(IDE_BUILD_TREE): IDE_BUILD_TREE = $$(QTC_BUILD)
-isEmpty(IDE_BUILD_TREE): IDE_BUILD_TREE = "/home/uni/projects/3rdparty/qtcreator-build"
 
 ## uncomment to build plugin into user config directory
 ## <localappdata>/plugins/<ideversion>

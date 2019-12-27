@@ -115,7 +115,7 @@ void CheatShPlugin::createMenus()
 {
     // create actions:
     Core::Context textContext( TextEditor::Constants::C_TEXTEDITOR );
-    action_cheat_sh_ = new QAction( tr( "Search selected/under cursor" ), this );
+    action_cheat_sh_ = new QAction( tr( "Search cheat.sh" ), this );
     Core::Command* cheatShCommand = Core::ActionManager::registerAction(action_cheat_sh_, Constants::ACTION_ID, textContext);
     cheatShCommand->setAttribute(Core::Command::CA_UpdateText);   //Зачем?
     cheatShCommand->setDefaultKeySequence(QKeySequence(tr("Meta+Shift+C")));
