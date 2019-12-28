@@ -24,17 +24,15 @@ CheatOutputPlane::~CheatOutputPlane()
 
 void CheatOutputPlane::displayResult(const QString& result)
 {
-    auto sts = ansi2html_->simpleParse(result.toStdString());
-    browser_->setHtml(QString::fromUtf8(sts.data(), sts.size()));
-    popup(NoModeSwitch);
+    std::string html = ansi2html_->simpleParse(result.toStdString());
+    browser_->setHtml(QString::fromUtf8(html.data(), html.size()));
+    popup(ModeSwitch);
 }
 
 QWidget*CheatOutputPlane::outputWidget(QWidget* parent)
 {
 
     browser_ = new QTextBrowser(parent);
-    browser_->setHtml(tr("TODO: plugin's own help text"));
-
     return browser_;
 }
 

@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/cheatshplugin">
         <file alias="settings_category.png">images/settingscategory_cheatsh.png</file>
+        <file>i18n/cheatsh_ru.qm</file>
     </qresource>
 </RCC>

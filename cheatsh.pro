@@ -39,10 +39,11 @@ message($$QMAKE_BIN)
 ansiesc2htmllib.target = ANSIEsc2HTML
 ansiesc2htmllib.depends = FORCE
 ansiesc2htmllib.commands = echo "Building ANSIEsc2HTML..."; \
-                           cd ANSIEsc2HTML; $$QMAKE_BIN; make; \
+                           cd $$PWD/ANSIEsc2HTML; $$QMAKE_BIN; make; \
                            echo "Done building ANSIEsc2HTML.";
 PRE_TARGETDEPS += ANSIEsc2HTML
 QMAKE_EXTRA_TARGETS += ansiesc2htmllib
+
 
 # Qt Creator linking
 
@@ -88,8 +89,17 @@ RESOURCES += \
     cheatsh.qrc
 
 TRANSLATIONS += \
-    cheatsh_ru.ts
+    i18n/cheatsh_ru.ts
+
 
 INCLUDEPATH += $$PWD/ANSIEsc2HTML/src
 
 LIBS += -L$$PWD/ANSIEsc2HTML/build -lANSIEsc2HTML_static
+
+#CONFIG += lrelease embed_translations  // doesn't work. https://stackoverflow.com/a/53872260/149897
+
+QMAKE_EXTRA_COMPILERS += lrelease
+lrelease.input         = TRANSLATIONS
+lrelease.output        = ${QMAKE_FILE_BASE}.qm
+lrelease.commands      = $$[QT_INSTALL_BINS]/lrelease ${QMAKE_FILE_IN} -qm $$PWD/i18n/${QMAKE_FILE_BASE}.qm
+lrelease.CONFIG       += no_link target_predeps

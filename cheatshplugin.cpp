@@ -38,6 +38,11 @@
 #include <QObject>
 #include <QDebug>
 #include <QTextCursor>
+#include <QTranslator>
+
+#include <QDirIterator> //
+
+using namespace Core;
 
 namespace CheatSh {
 namespace Internal {
@@ -45,6 +50,12 @@ namespace Internal {
 CheatShPlugin::CheatShPlugin()
 {
     // Create your members
+    const QLocale locale(ICore::userInterfaceLanguage());
+    QTranslator *translator = new QTranslator(this);
+    if (translator->load(locale, QLatin1String("cheatsh"), QLatin1String("_"), QLatin1String(":/cheatshplugin/i18n")))
+        QCoreApplication::installTranslator(translator);
+    else
+        delete translator;
 }
 
 CheatShPlugin::~CheatShPlugin()
