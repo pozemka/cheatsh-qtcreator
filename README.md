@@ -16,6 +16,7 @@ You will need Qt Creator Plugin Development Files:
 * * re-login after installation
 * * do `sudo ln -s /usr/lib64/qtcreator /usr/lib`
 * **Ubuntu** ***UNTESTED*** install `qtcreator-dev`
+* **Windows** If you know more simple way then building Qt Creator from sources let me know.
 * Or [build Qt Creator from sources](https://wiki.qt.io/Building_Qt_Creator_from_Git). Then:
 * * Either set the IDE_SOURCE_TREE when running qmake,
 or set the QTC_SOURCE environment variable, to override the default setting.

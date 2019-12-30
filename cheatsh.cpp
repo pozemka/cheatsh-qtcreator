@@ -10,7 +10,7 @@
 namespace CheatSh {
 namespace Internal {
 
-CheatSh::CheatSh(const Settings* settigns, QObject* parent) : QObject(parent), settings_(settigns)
+Cheat::Cheat(const Settings* settigns, QObject* parent) : QObject(parent), settings_(settigns)
 {
     network_manager_ = std::make_unique<QNetworkAccessManager>(this);
     connect(network_manager_.get(), &QNetworkAccessManager::finished,
@@ -23,12 +23,12 @@ CheatSh::CheatSh(const Settings* settigns, QObject* parent) : QObject(parent), s
 
 }
 
-CheatSh::~CheatSh()
+Cheat::~Cheat()
 {
 
 }
 
-void CheatSh::search(QString text)
+void Cheat::search(QString text)
 {
     // Trailing options
     QString options;

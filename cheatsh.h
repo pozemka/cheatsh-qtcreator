@@ -15,12 +15,12 @@ class Settings;
 /**
  * @brief The CheatSh class is used to interact with cheat.sh server
  */
-class CheatSh : public QObject
+class Cheat : public QObject
 {
     Q_OBJECT
 public:
-    explicit CheatSh(const Settings* settigns, QObject *parent);
-    ~CheatSh();
+    explicit Cheat(const Settings* settigns, QObject *parent);
+    ~Cheat();
 
 signals:
     void found(const QString& result);

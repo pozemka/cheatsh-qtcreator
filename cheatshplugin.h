@@ -12,7 +12,7 @@ namespace CheatSh {
 namespace Internal {
 
 class OptionsPage;
-class CheatSh;
+class Cheat;
 class CheatFilter;
 class CheatOutputPlane;
 
@@ -41,7 +41,7 @@ private:
     QAction* action_cheat_sh_;
     CheatOutputPlane* out_plane_;
     OptionsPage* options_page_;
-    CheatSh* cheat_sh_;
+    Cheat* cheat_sh_;
 };
 
 } // namespace Internal

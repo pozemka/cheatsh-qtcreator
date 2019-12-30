@@ -25,24 +25,56 @@ HEADERS += \
     optionsdialog.h \
     cheatsh.h
 
-# Automatic ANSIEsc2HTML build
-QMAKE_BIN = $$system(which qmake-qt5)
+FORMS += \
+    optionsdialog.ui
 
+#RESOURCES += \
+#    cheatsh.qrc
+
+TRANSLATIONS += \
+    i18n/cheatsh_ru.ts
+
+
+INCLUDEPATH += $$PWD/ANSIEsc2HTML/src
+
+LIBS += -L$$PWD/ANSIEsc2HTML/build -lANSIEsc2HTML_static
+
+
+# Automatic ANSIEsc2HTML build
+
+unix {
+QMAKE_BIN = $$system(which qmake-qt5)
 isEmpty(QMAKE_BIN) {
     QMAKE_BIN = $$system(which qmake-qt5)
     isEmpty(QMAKE_BIN) {
-        message("Neither qmake or qmake-qt5 not found!")
+        message("Neither qmake nor qmake-qt5 found!")
     }
 }
-message($$QMAKE_BIN)
+}
+win32 {
+QMAKE_BIN = qmake
+}
 
 ansiesc2htmllib.target = ANSIEsc2HTML
 ansiesc2htmllib.depends = FORCE
 ansiesc2htmllib.commands = echo "Building ANSIEsc2HTML..."; \
                            cd $$PWD/ANSIEsc2HTML; $$QMAKE_BIN; make; \
                            echo "Done building ANSIEsc2HTML.";
-PRE_TARGETDEPS += ANSIEsc2HTML
+PRE_TARGETDEPS += ANSIEsc2HTML #compiler_lrelease_make_all
 QMAKE_EXTRA_TARGETS += ansiesc2htmllib
+
+#CONFIG += lrelease embed_translations  # doesn't work. https://stackoverflow.com/a/53872260/149897
+win32 {
+
+}
+unix {
+    QMAKE_EXTRA_COMPILERS += lrelease
+    lrelease.nmae          = LRELEASE compiler
+    lrelease.input         = TRANSLATIONS
+    lrelease.output        = ${QMAKE_FILE_BASE}.qm
+    lrelease.commands      = $$[QT_INSTALL_BINS]/lrelease ${QMAKE_FILE_IN} -qm $$PWD/i18n/${QMAKE_FILE_BASE}.qm
+    lrelease.CONFIG       += no_link target_predeps
+}
 
 
 # Qt Creator linking
@@ -81,25 +113,3 @@ QTC_PLUGIN_RECOMMENDS += \
 ###### End _dependencies.pri contents ######
 
 include($$IDE_SOURCE_TREE/src/qtcreatorplugin.pri)
-
-FORMS += \
-    optionsdialog.ui
-
-RESOURCES += \
-    cheatsh.qrc
-
-TRANSLATIONS += \
-    i18n/cheatsh_ru.ts
-
-
-INCLUDEPATH += $$PWD/ANSIEsc2HTML/src
-
-LIBS += -L$$PWD/ANSIEsc2HTML/build -lANSIEsc2HTML_static
-
-#CONFIG += lrelease embed_translations  // doesn't work. https://stackoverflow.com/a/53872260/149897
-
-QMAKE_EXTRA_COMPILERS += lrelease
-lrelease.input         = TRANSLATIONS
-lrelease.output        = ${QMAKE_FILE_BASE}.qm
-lrelease.commands      = $$[QT_INSTALL_BINS]/lrelease ${QMAKE_FILE_IN} -qm $$PWD/i18n/${QMAKE_FILE_BASE}.qm
-lrelease.CONFIG       += no_link target_predeps

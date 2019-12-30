@@ -82,11 +82,11 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
     settings_.load(Core::ICore::settings());
 
     out_plane_ = new CheatOutputPlane(&settings_, this);
-    cheat_sh_ = new CheatSh(&settings_, this);
+    cheat_sh_ = new Cheat(&settings_, this);
     cheat_filter_ = std::make_unique<CheatFilter>();
     options_page_ = new OptionsPage(settings_, this);
-    connect(cheat_sh_, &CheatSh::found, out_plane_, &CheatOutputPlane::displayResult);
-    connect(cheat_filter_.get(), &CheatFilter::query, cheat_sh_, &CheatSh::search);
+    connect(cheat_sh_, &Cheat::found, out_plane_, &CheatOutputPlane::displayResult);
+    connect(cheat_filter_.get(), &CheatFilter::query, cheat_sh_, &Cheat::search);
     connect(options_page_, &OptionsPage::settingsChanged, this, &CheatShPlugin::changeSettings);
     createMenus();
 
