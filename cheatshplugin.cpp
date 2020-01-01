@@ -49,10 +49,14 @@ namespace Internal {
 
 CheatShPlugin::CheatShPlugin()
 {
+    QDirIterator it(":", QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        qDebug() << it.next();
+    }
     // Create your members
     const QLocale locale(ICore::userInterfaceLanguage());
     QTranslator *translator = new QTranslator(this);
-    if (translator->load(locale, QLatin1String("cheatsh"), QLatin1String("_"), QLatin1String(":/cheatshplugin/i18n")))
+    if (translator->load(locale, QLatin1String("cheatsh"), QLatin1String("_"), QLatin1String(":/i18n")))
         QCoreApplication::installTranslator(translator);
     else
         delete translator;

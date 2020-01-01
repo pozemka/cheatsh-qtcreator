@@ -28,8 +28,7 @@ HEADERS += \
 FORMS += \
     optionsdialog.ui
 
-#RESOURCES += \
-#    cheatsh.qrc
+
 
 TRANSLATIONS += \
     i18n/cheatsh_ru.ts
@@ -63,12 +62,15 @@ ansiesc2htmllib.commands = echo "Building ANSIEsc2HTML..."; \
 PRE_TARGETDEPS += ANSIEsc2HTML #compiler_lrelease_make_all
 QMAKE_EXTRA_TARGETS += ansiesc2htmllib
 
-#CONFIG += lrelease embed_translations  # doesn't work. https://stackoverflow.com/a/53872260/149897
 win32 {
-
+CONFIG += lrelease embed_translations  # doesn't work on Linux. https://stackoverflow.com/a/53872260/149897
+RESOURCES += \
+    cheatsh_win32.qrc
 }
 unix {
-    QMAKE_EXTRA_COMPILERS += lrelease
+RESOURCES += \
+    cheatsh_unix.qrc
+    QMAKE_EXTRA_COMPILERS += lrelease  # doesn't work on Windows. kek
     lrelease.nmae          = LRELEASE compiler
     lrelease.input         = TRANSLATIONS
     lrelease.output        = ${QMAKE_FILE_BASE}.qm

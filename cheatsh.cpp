@@ -19,6 +19,7 @@ Cheat::Cheat(const Settings* settigns, QObject* parent) : QObject(parent), setti
 //                debug_file.open(QIODevice::WriteOnly);
 //                debug_file.write(rep->readAll());
                 emit found(QString::fromUtf8(rep->readAll()));
+                rep->deleteLater();
             });
 
 }
