@@ -9,27 +9,14 @@ Select something or just put text cursor on the word. Right click word or select
 2. Type `cs <search term>` to search in default context or `cs \<context>\<search term>` to override context for this search
 
 ## Compilation and installation:
-### Requirements
-You will need Qt Creator Plugin Development Files:
+See [INSTALL](INSTALL.md) for more info
 
-* **openSUSE 15.1:** install `libqt5-creator-plugin-devel`
-* * re-login after installation
-* * do `sudo ln -s /usr/lib64/qtcreator /usr/lib`
-* **Ubuntu** ***UNTESTED*** install `qtcreator-dev`
-* **Windows** If you know more simple way then building Qt Creator from sources let me know.
-* Or [build Qt Creator from sources](https://wiki.qt.io/Building_Qt_Creator_from_Git). Then:
-* * Either set the IDE_SOURCE_TREE when running qmake,
-or set the QTC_SOURCE environment variable, to override the default setting.
-* * Either set the IDE_BUILD_TREE when running qmake,
-or set the QTC_BUILD environment variable, to override the default setting
-
-### Build steps
 0. `export QTC_SOURCE="/home/user/qt-creator-src"` — (optional) unpacked Qt Creator sources
 0. `export  QTC_BUILD="/home/user/qtcreator-build"` — (optional) path to Qt Creator build from that sources
 1. `git clone --recursive https://github.com/pozemka/cheatsh-qtcreator.git`
 2. `cd cheatsh-qtcreator`
 3. `qmake-qt5 && make` — this will install to user's plugin directory
-4. `sudo make install` — if you want to install sytem-wide 
+4. `sudo make install` — if you want to install system-wide
 
 ## TODO:
 * quick paste of results

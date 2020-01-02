@@ -1,7 +1,6 @@
 DEFINES += CHEATSH_LIBRARY
 
 QT += network
-QT += webenginewidgets
 
 # CheatSh files
 
@@ -42,7 +41,7 @@ LIBS += -L$$PWD/ANSIEsc2HTML/build -lANSIEsc2HTML_static
 # Automatic ANSIEsc2HTML build
 
 unix {
-QMAKE_BIN = $$system(which qmake-qt5)
+QMAKE_BIN = $$system(which qmake)
 isEmpty(QMAKE_BIN) {
     QMAKE_BIN = $$system(which qmake-qt5)
     isEmpty(QMAKE_BIN) {

@@ -49,10 +49,10 @@ namespace Internal {
 
 CheatShPlugin::CheatShPlugin()
 {
-    QDirIterator it(":", QDirIterator::Subdirectories);
-    while (it.hasNext()) {
-        qDebug() << it.next();
-    }
+//    QDirIterator it(":", QDirIterator::Subdirectories);
+//    while (it.hasNext()) {
+//        qDebug() << it.next();
+//    }
     // Create your members
     const QLocale locale(ICore::userInterfaceLanguage());
     QTranslator *translator = new QTranslator(this);
