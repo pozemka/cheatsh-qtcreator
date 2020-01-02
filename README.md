@@ -7,12 +7,21 @@ Plugin for QtCreator to view cheat sheets from [cheat.sh](https://github.com/chu
 ### From editor
 Select something or just put text cursor on the word. Right click word or selection and select `Search cheat.sh` from menu or hit <kbd>Meta</kbd> + <kbd>⇧ Shift</kbd> + <kbd>c</kbd>
 
+<details><summary>Context menu example animation</summary>
+
 ![Context menu example animation](https://raw.githubusercontent.com/pozemka/resources/master/contextmenu.gif)
+
+</details>
+
 ### From Locator
 1. Hit <kbd>Ctrl</kbd> + <kbd>k</kbd> to focus Locator
 2. Type `cs <search term>` to search in default context or `cs \<context>\<search term>` to override context for this search
 
-![Context menu example animation](https://raw.githubusercontent.com/pozemka/resources/master/locator.gif)
+<details><summary>Locator menu example animation</summary>
+  
+![Locator example animation](https://raw.githubusercontent.com/pozemka/resources/master/locator.gif)
+
+</details>
 
 ## Compilation and installation:
 See [INSTALL](INSTALL.md) for more info
