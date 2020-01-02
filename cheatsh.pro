@@ -51,15 +51,24 @@ isEmpty(QMAKE_BIN) {
         message("Neither qmake nor qmake-qt5 found!")
     }
 }
+MAKE_BIN = make
 }
 win32 {
 QMAKE_BIN = qmake
+MAKE_BIN = nmake
 }
+
+CONFIG(debug, debug|release) {  # release
+    QMAKE_CONFIG = "CONFIG+=debug"
+} else {    # debug
+    QMAKE_CONFIG = "CONFIG+=release"
+}
+message($$QMAKE_CONFIG)
 
 ansiesc2htmllib.target = ANSIEsc2HTML
 ansiesc2htmllib.depends = FORCE
 ansiesc2htmllib.commands = echo "Building ANSIEsc2HTML..."; \
-                           cd $$PWD/ANSIEsc2HTML; $$QMAKE_BIN; make; \
+                           cd $$PWD/ANSIEsc2HTML; $$QMAKE_BIN $$QMAKE_CONFIG; $$MAKE_BIN; \
                            echo "Done building ANSIEsc2HTML.";
 PRE_TARGETDEPS += ANSIEsc2HTML #compiler_lrelease_make_all
 QMAKE_EXTRA_TARGETS += ansiesc2htmllib
@@ -79,6 +88,12 @@ RESOURCES += \
     lrelease.commands      = $$[QT_INSTALL_BINS]/lrelease ${QMAKE_FILE_IN} -qm $$PWD/i18n/${QMAKE_FILE_BASE}.qm
     lrelease.CONFIG       += no_link target_predeps
 }
+
+extraclean.commands = cd $$PWD/ANSIEsc2HTML; $$MAKE_BIN clean;
+clean.depends += extraclean
+extradistclean.commands = cd $$PWD/ANSIEsc2HTML; $$MAKE_BIN distclean;
+distclean.depends += extradistclean
+QMAKE_EXTRA_TARGETS += extraclean clean extradistclean distclean
 
 # Automatic versioning
 GIT_VERSION = $$system(git --git-dir $$PWD/.git --work-tree $$PWD describe --always --tags)
