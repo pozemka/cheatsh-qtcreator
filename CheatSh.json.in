@@ -1,7 +1,7 @@
 {
     \"Name\" : \"CheatSh\",
-    \"Version\" : \"0.0.1\",
-    \"CompatVersion\" : \"0.0.1\",
+    \"Version\" : \"$$GIT_VERSION\",
+    \"CompatVersion\" : \"$$GIT_VERSION\",
     \"Vendor\" : \"Pozemka\",
     \"Copyright\" : \"(C) Mikahil Bryukhovets\",
     \"License\" : \"MIT License\",

@@ -12,7 +12,7 @@
 <context>
     <name>CheatSh::Internal::CheatOutputPlane</name>
     <message>
-        <location filename="../cheatoutputplane.cpp" line="46"/>
+        <location filename="../cheatoutputplane.cpp" line="53"/>
         <source>cheat.sh</source>
         <translation>cheat.sh</translation>
     </message>
@@ -20,18 +20,18 @@
 <context>
     <name>CheatSh::Internal::CheatShPlugin</name>
     <message>
-        <location filename="../cheatshplugin.cpp" line="129"/>
+        <location filename="../cheatshplugin.cpp" line="140"/>
         <source>Search cheat.sh</source>
         <translation>Искать на cheat.sh</translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="132"/>
+        <location filename="../cheatshplugin.cpp" line="143"/>
         <source>Meta+Shift+C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="153"/>
         <location filename="../cheatshplugin.cpp" line="164"/>
+        <location filename="../cheatshplugin.cpp" line="175"/>
         <source>CheatSh</source>
         <translation></translation>
     </message>
@@ -63,6 +63,11 @@
         <source>With comments</source>
         <translation>Ответ с комментариями</translation>
     </message>
+    <message>
+        <location filename="../optionsdialog.ui" line="72"/>
+        <source>Check for plugin updates weekly</source>
+        <translation>Проверять обновления плагина еженедельно</translation>
+    </message>
 </context>
 <context>
     <name>CheatSh::Internal::OptionsPage</name>
@@ -75,6 +80,20 @@
         <location filename="../optionspage.cpp" line="16"/>
         <source>Cheat.sh</source>
         <translation>Cheat.sh</translation>
+    </message>
+</context>
+<context>
+    <name>CheatSh::Internal::UpdateChecker</name>
+    <message>
+        <location filename="../updatechecker.cpp" line="39"/>
+        <source>&lt;b&gt;Cheat.sh plugin update avaliable.&lt;/b&gt;
+&lt;br /&gt;New version: %1 from %2
+&lt;br /&gt;Description: %3
+&lt;br /&gt;&lt;a href=&quot;%4&quot;&gt;Download here&lt;/a&gt;</source>
+        <translation>&lt;b&gt;Доступно обновление плагина Cheat.sh&lt;/b&gt;
+&lt;br /&gt;Новая версия: %1 от %2
+&lt;br /&gt;Описание: %3
+&lt;br /&gt;&lt;a href=&quot;%4&quot;&gt;Загрузить здесь&lt;/a&gt;</translation>
     </message>
 </context>
 </TS>

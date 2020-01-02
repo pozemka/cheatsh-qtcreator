@@ -1,6 +1,8 @@
 # CheatSh-QtCreator
 Plugin for QtCreator to view cheat sheets from [cheat.sh](https://github.com/chubin/cheat.sh)
 
+[Download here](github.com/pozemka/cheatsh-qtcreator/releases)
+
 ## Usage
 ### From editor
 Select something or just put text cursor on the word. Right click word or selection and select `Search cheat.sh` from menu or hit <kbd>Meta</kbd> + <kbd>⇧ Shift</kbd> + <kbd>c</kbd>

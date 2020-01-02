@@ -11,7 +11,8 @@ SOURCES += \
     optionspage.cpp \
     settings.cpp \
     optionsdialog.cpp \
-    cheatsh.cpp
+    cheatsh.cpp \
+    updatechecker.cpp
 
 HEADERS += \
     cheatshplugin.h \
@@ -22,15 +23,17 @@ HEADERS += \
     optionspage.h \
     settings.h \
     optionsdialog.h \
-    cheatsh.h
+    cheatsh.h \
+    updatechecker.h
 
 FORMS += \
     optionsdialog.ui
 
-
-
 TRANSLATIONS += \
     i18n/cheatsh_ru.ts
+
+OTHER_FILES += \
+    CheatSh.json.in
 
 
 INCLUDEPATH += $$PWD/ANSIEsc2HTML/src
@@ -76,6 +79,11 @@ RESOURCES += \
     lrelease.commands      = $$[QT_INSTALL_BINS]/lrelease ${QMAKE_FILE_IN} -qm $$PWD/i18n/${QMAKE_FILE_BASE}.qm
     lrelease.CONFIG       += no_link target_predeps
 }
+
+# Automatic versioning
+GIT_VERSION = $$system(git --git-dir $$PWD/.git --work-tree $$PWD describe --always --tags)
+message($$GIT_VERSION)
+DEFINES += GIT_VERSION=\\\"$$GIT_VERSION\\\"
 
 
 # Qt Creator linking

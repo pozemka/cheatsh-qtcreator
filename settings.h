@@ -1,6 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include <QDate>
 #include <QString>
 #include <QUrl>
 
@@ -15,6 +16,8 @@ public:
     QString context;
     QUrl url;
     bool comments_enabled;
+    bool check_updates;
+    QDate last_check_date;
 
     void save(QSettings *settings) const;
     void load(QSettings *settings);

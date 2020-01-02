@@ -23,6 +23,7 @@ public:
 
 public slots:
     void displayResult(const QString& result);
+    void displayHtml(const QString& html);
 
     // IOutputPane interface
 public:

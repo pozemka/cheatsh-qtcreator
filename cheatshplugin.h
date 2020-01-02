@@ -15,6 +15,7 @@ class OptionsPage;
 class Cheat;
 class CheatFilter;
 class CheatOutputPlane;
+class UpdateChecker;
 
 class CheatShPlugin : public ExtensionSystem::IPlugin
 {
@@ -37,6 +38,7 @@ private:
 
     Settings settings_;
     std::unique_ptr<CheatFilter> cheat_filter_;
+    UpdateChecker* update_checker_;
 
     QAction* action_cheat_sh_;
     CheatOutputPlane* out_plane_;

@@ -2,8 +2,9 @@
 #include "cheatshconstants.h"
 #include "cheatfilter.h"
 #include "cheatsh.h"
-#include "optionspage.h"
 #include "cheatoutputplane.h"
+#include "optionspage.h"
+#include "updatechecker.h"
 #include "cheatsh_global.h"
 
 #include <coreplugin/icore.h>
@@ -93,9 +94,13 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
     connect(cheat_filter_.get(), &CheatFilter::query, cheat_sh_, &Cheat::search);
     connect(options_page_, &OptionsPage::settingsChanged, this, &CheatShPlugin::changeSettings);
     createMenus();
+    update_checker_ = new UpdateChecker(&settings_, this);
+
+    connect(update_checker_, &UpdateChecker::updateAvaliable, out_plane_, &CheatOutputPlane::displayHtml);
 
     connect(Core::ICore::instance(), &Core::ICore::saveSettingsRequested,
             this, [this](){ settings_.save(Core::ICore::settings()); });
+
 
     return true;
 }
@@ -105,6 +110,7 @@ void CheatShPlugin::extensionsInitialized()
     // Retrieve objects from the plugin manager's object pool
     // In the extensionsInitialized function, a plugin can be sure that all
     // plugins that depend on it are completely initialized.
+    update_checker_->checkUpdatesIfPossible();
 }
 
 ExtensionSystem::IPlugin::ShutdownFlag CheatShPlugin::aboutToShutdown()
@@ -116,6 +122,7 @@ ExtensionSystem::IPlugin::ShutdownFlag CheatShPlugin::aboutToShutdown()
     action_cheat_sh_->disconnect();
     options_page_->disconnect();
     cheat_sh_->disconnect();
+    update_checker_->disconnect();
     out_plane_->hide();
     return SynchronousShutdown;
 }

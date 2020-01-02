@@ -29,10 +29,17 @@ void CheatOutputPlane::displayResult(const QString& result)
     popup(ModeSwitch);
 }
 
+void CheatOutputPlane::displayHtml(const QString &html)
+{
+    browser_->setHtml(html);
+    popup(ModeSwitch);
+}
+
 QWidget*CheatOutputPlane::outputWidget(QWidget* parent)
 {
 
     browser_ = new QTextBrowser(parent);
+    browser_->setOpenExternalLinks(true);
     return browser_;
 }
 

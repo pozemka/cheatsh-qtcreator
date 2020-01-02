@@ -1,5 +1,5 @@
 1. [openSUSE](#openSUSE)
-2. [Ubuntu (Kubuntu)](#Ubuntu)
+2. [Ubuntu (Kubuntu)](#ubuntu-kubuntu)
 3. [Windows](#Windows)
 
 ## openSUSE

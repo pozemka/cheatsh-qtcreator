@@ -28,6 +28,7 @@ void OptionsDialog::setSettings(const Settings& settings)
     ui->contextLineEdit->setText(settings.context);
     ui->urlLineEdit->setText(settings.url.toString());
     ui->checkBox_comments->setChecked(settings.comments_enabled);
+    ui->checkBox_updates->setChecked(settings.check_updates);
 }
 
 Settings OptionsDialog::settings()
@@ -39,6 +40,7 @@ Settings OptionsDialog::settings()
     settings.url = secondIfFirstIsEmpty(QUrl::fromUserInput(ui->urlLineEdit->text()),
                                         QUrl::fromUserInput(Constants::CHT_DEFAULT_URL));
     settings.comments_enabled = ui->checkBox_comments->isChecked();
+    settings.check_updates = ui->checkBox_updates->isChecked();
     return settings;
 }
 
