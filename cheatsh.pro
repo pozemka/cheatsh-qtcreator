@@ -96,7 +96,7 @@ distclean.depends += extradistclean
 QMAKE_EXTRA_TARGETS += extraclean clean extradistclean distclean
 
 # Automatic versioning
-GIT_VERSION = $$system(git --git-dir $$PWD/.git --work-tree $$PWD describe --always --tags)
+GIT_VERSION = $$system(git --git-dir $$PWD/.git --work-tree $$PWD describe --always --tags --abbrev=0)
 message($$GIT_VERSION)
 DEFINES += GIT_VERSION=\\\"$$GIT_VERSION\\\"
 
