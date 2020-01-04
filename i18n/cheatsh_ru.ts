@@ -31,7 +31,7 @@
     </message>
     <message>
         <location filename="../cheatshplugin.cpp" line="153"/>
-        <source>Meta+Shift+C</source>
+        <source>Alt+Shift+C</source>
         <translation></translation>
     </message>
     <message>

@@ -38,8 +38,7 @@ private:
 
     Settings settings_;
     std::unique_ptr<CheatFilter> cheat_filter_;
-    UpdateChecker* update_checker_;
-
+    UpdateChecker* update_checker_ = nullptr;
     QAction* action_cheat_sh_ = nullptr;
     CheatOutputPlane* out_plane_ = nullptr;
     OptionsPage* options_page_ = nullptr;

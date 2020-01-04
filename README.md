@@ -5,7 +5,7 @@ Plugin for QtCreator to view cheat sheets from [cheat.sh](https://github.com/chu
 
 ## Usage
 ### From editor
-Select some text or just put text cursor on the word. Right click word or selection and choose `Search cheat.sh` from menu. Or hit <kbd>Meta</kbd> + <kbd>⇧ Shift</kbd> + <kbd>c</kbd>
+Select some text or just put text cursor on the word. Right click word or selection and choose `Search cheat.sh` from menu. Or hit <kbd>Alt</kbd> + <kbd>⇧ Shift</kbd> + <kbd>c</kbd>
 
 <details><summary>Context menu example animation</summary>
 

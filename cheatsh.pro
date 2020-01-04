@@ -33,7 +33,9 @@ TRANSLATIONS += \
     i18n/cheatsh_ru.ts
 
 OTHER_FILES += \
-    CheatSh.json.in
+    CheatSh.json.in \
+    README.md \
+    INSTALL.md
 
 
 INCLUDEPATH += $$PWD/ANSIEsc2HTML/src
