@@ -12,7 +12,7 @@
 <context>
     <name>CheatSh::Internal::CheatOutputPlane</name>
     <message>
-        <location filename="../cheatoutputplane.cpp" line="53"/>
+        <location filename="../cheatoutputplane.cpp" line="52"/>
         <source>cheat.sh</source>
         <translation>cheat.sh</translation>
     </message>
@@ -20,18 +20,23 @@
 <context>
     <name>CheatSh::Internal::CheatShPlugin</name>
     <message>
-        <location filename="../cheatshplugin.cpp" line="140"/>
+        <location filename="../cheatshplugin.cpp" line="117"/>
+        <source>&lt;b&gt;Cheat.sh plugin can&apos;t use SSL.&lt;/b&gt;&lt;br /&gt;HTTPS connections and update checks will be unavaliable.&lt;br /&gt;Please &lt;a href=&quot;%1&quot;&gt;install OpenSSL&lt;/a&gt;</source>
+        <translation>&lt;b&gt;Плагин Cheat.sh не может использовать SSL.&lt;/b&gt;&lt;br /&gt;Соединения по HTTPS и проверка обновлений не будут работать.&lt;br /&gt;Пожалуйста, &lt;a href=&quot;%1&quot;&gt;установите OpenSSL&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../cheatshplugin.cpp" line="150"/>
         <source>Search cheat.sh</source>
         <translation>Искать на cheat.sh</translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="143"/>
+        <location filename="../cheatshplugin.cpp" line="153"/>
         <source>Meta+Shift+C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="164"/>
-        <location filename="../cheatshplugin.cpp" line="175"/>
+        <location filename="../cheatshplugin.cpp" line="174"/>
+        <location filename="../cheatshplugin.cpp" line="185"/>
         <source>CheatSh</source>
         <translation></translation>
     </message>
@@ -85,7 +90,7 @@
 <context>
     <name>CheatSh::Internal::UpdateChecker</name>
     <message>
-        <location filename="../updatechecker.cpp" line="39"/>
+        <location filename="../updatechecker.cpp" line="40"/>
         <source>&lt;b&gt;Cheat.sh plugin update avaliable.&lt;/b&gt;
 &lt;br /&gt;New version: %1 from %2
 &lt;br /&gt;Description: %3

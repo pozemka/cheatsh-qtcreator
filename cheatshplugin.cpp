@@ -31,6 +31,7 @@
 
 #include <QAction>
 #include <QMessageBox>
+#include <QMetaObject>
 #include <QMainWindow>
 #include <QMenu>
 
@@ -38,6 +39,7 @@
 #include <QString>
 #include <QObject>
 #include <QDebug>
+#include <QSslSocket>
 #include <QTextCursor>
 #include <QTranslator>
 
@@ -90,7 +92,7 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
     cheat_sh_ = new Cheat(&settings_, this);
     cheat_filter_ = std::make_unique<CheatFilter>();
     options_page_ = new OptionsPage(settings_, this);
-    connect(cheat_sh_, &Cheat::found, out_plane_, &CheatOutputPlane::displayResult);
+    connect(cheat_sh_, &Cheat::found, out_plane_, &CheatOutputPlane::displayANSI);
     connect(cheat_filter_.get(), &CheatFilter::query, cheat_sh_, &Cheat::search);
     connect(options_page_, &OptionsPage::settingsChanged, this, &CheatShPlugin::changeSettings);
     createMenus();
@@ -101,7 +103,6 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
     connect(Core::ICore::instance(), &Core::ICore::saveSettingsRequested,
             this, [this](){ settings_.save(Core::ICore::settings()); });
 
-
     return true;
 }
 
@@ -110,7 +111,16 @@ void CheatShPlugin::extensionsInitialized()
     // Retrieve objects from the plugin manager's object pool
     // In the extensionsInitialized function, a plugin can be sure that all
     // plugins that depend on it are completely initialized.
-    update_checker_->checkUpdatesIfPossible();
+    if(QSslSocket::supportsSsl()) {
+        update_checker_->checkUpdatesIfPossible();
+    } else {
+        QString ssl_error_string = tr("<b>Cheat.sh plugin can't use SSL.</b>"
+                                      "<br />HTTPS connections and update checks will be unavaliable."
+                                      "<br />Please <a href=\"%1\">install OpenSSL</a>")
+                .arg("https://slproweb.com/products/Win32OpenSSL.html");
+        QMetaObject::invokeMethod(out_plane_, "displayHtml",
+                                   Qt::QueuedConnection, Q_ARG(QString, ssl_error_string));
+    }
 }
 
 ExtensionSystem::IPlugin::ShutdownFlag CheatShPlugin::aboutToShutdown()

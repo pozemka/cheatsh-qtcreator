@@ -22,7 +22,7 @@ public:
     ~CheatOutputPlane();
 
 public slots:
-    void displayResult(const QString& result);
+    void displayANSI(const QString& result);
     void displayHtml(const QString& html);
 
     // IOutputPane interface

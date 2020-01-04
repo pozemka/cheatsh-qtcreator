@@ -40,22 +40,15 @@ INCLUDEPATH += $$PWD/ANSIEsc2HTML/src
 
 LIBS += -L$$PWD/ANSIEsc2HTML/build -lANSIEsc2HTML_static
 
-
 # Automatic ANSIEsc2HTML build
 
 unix {
-QMAKE_BIN = $$system(which qmake)
-isEmpty(QMAKE_BIN) {
-    QMAKE_BIN = $$system(which qmake-qt5)
-    isEmpty(QMAKE_BIN) {
-        message("Neither qmake nor qmake-qt5 found!")
-    }
-}
 MAKE_BIN = make
+SPLIT = ;
 }
 win32 {
-QMAKE_BIN = qmake
 MAKE_BIN = nmake
+SPLIT = &
 }
 
 CONFIG(debug, debug|release) {  # release
@@ -67,9 +60,11 @@ message($$QMAKE_CONFIG)
 
 ansiesc2htmllib.target = ANSIEsc2HTML
 ansiesc2htmllib.depends = FORCE
-ansiesc2htmllib.commands = echo "Building ANSIEsc2HTML..."; \
-                           cd $$PWD/ANSIEsc2HTML; $$QMAKE_BIN $$QMAKE_CONFIG; $$MAKE_BIN; \
-                           echo "Done building ANSIEsc2HTML.";
+ansiesc2htmllib.commands = echo "Building ANSIEsc2HTML..." $$SPLIT \
+                           cd $$PWD/ANSIEsc2HTML $$SPLIT \
+                           $$QMAKE_QMAKE $$QMAKE_CONFIG $$SPLIT \
+                           $$MAKE_BIN $$SPLIT \
+                           echo "Done building ANSIEsc2HTML."
 PRE_TARGETDEPS += ANSIEsc2HTML #compiler_lrelease_make_all
 QMAKE_EXTRA_TARGETS += ansiesc2htmllib
 
@@ -89,10 +84,14 @@ RESOURCES += \
     lrelease.CONFIG       += no_link target_predeps
 }
 
-extraclean.commands = cd $$PWD/ANSIEsc2HTML; $$MAKE_BIN clean;
+extraclean.commands = cd $$PWD/ANSIEsc2HTML $$SPLIT \
+                          $$MAKE_BIN clean
 clean.depends += extraclean
-extradistclean.commands = cd $$PWD/ANSIEsc2HTML; $$MAKE_BIN distclean;
+
+extradistclean.commands = cd $$PWD/ANSIEsc2HTML $$SPLIT \
+                          $$MAKE_BIN distclean
 distclean.depends += extradistclean
+
 QMAKE_EXTRA_TARGETS += extraclean clean extradistclean distclean
 
 # Automatic versioning
@@ -127,6 +126,7 @@ QTC_PLUGIN_NAME = CheatSh
 QTC_LIB_DEPENDS += \
     # nothing here at this time
 
+### There is a trick to fool Qt Creator's dependencies check on Windows. First comment QTC_PLUGIN_DEPENDS and try to build until it fails to link. Then uncomment QTC_PLUGIN_DEPENDS. Run qmake and nmake again. It will produce dll compatible with wider variety of Qt Creator versions. It is may be a bad idea still.
 QTC_PLUGIN_DEPENDS += \
     coreplugin \
     texteditor
