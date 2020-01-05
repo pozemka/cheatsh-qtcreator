@@ -1,7 +1,7 @@
 # CheatSh-QtCreator
 Plugin for QtCreator to view cheat sheets from [cheat.sh](https://github.com/chubin/cheat.sh)
 
-[Download here](github.com/pozemka/cheatsh-qtcreator/releases)
+[Download here](https://github.com/pozemka/cheatsh-qtcreator/releases)
 
 ## Usage
 ### From editor
@@ -24,7 +24,7 @@ Select some text or just put text cursor on the word. Right click word or select
 </details>
 
 ## Installation:
-To install plugin please download suitable version from [releases page](github.com/pozemka/cheatsh-qtcreator/releases). 
+To install plugin please download suitable version from [releases page](https://github.com/pozemka/cheatsh-qtcreator/releases). 
 Then extract plugin to user plugins directory which is:
 * `"%LOCALAPPDATA%\QtProject\qtcreator\plugins"` on Windows Vista and later (For example `c:\Users\Username\AppData\Local\QtProject\QtCreator\plugins`)
 * `"~/.local/share/data/QtProject/qtcreator/plugins"` or `"$XDG_DATA_HOME/data/QtProject/qtcreator/plugins"` on Linux
