@@ -1,14 +1,16 @@
 #include "optionspage.h"
 
+#include <utility>
+
 #include "optionsdialog.h"
 
 namespace CheatSh {
 namespace Internal {
 
-OptionsPage::OptionsPage(const Settings& settings, QObject* parent) :
+OptionsPage::OptionsPage(Settings  settings, QObject* parent) :
     Core::IOptionsPage(parent),
     widget_(nullptr),
-    settings_(settings)
+    settings_(std::move(settings))
 {
     setId("CheatShSettings");
     setDisplayName(tr("General")); //tab name on the top

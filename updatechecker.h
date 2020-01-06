@@ -18,7 +18,7 @@ class UpdateChecker : public QObject
     Q_OBJECT
 public:
     UpdateChecker(Settings *settigns, QObject* parent = nullptr);
-    ~UpdateChecker();
+    ~UpdateChecker() override;
 
     void checkUpdatesIfPossible();
 

@@ -47,10 +47,10 @@ void Cheat::search(QString text)
     QNetworkRequest request;
     request.setUrl(QUrl::fromUserInput(
                        QString("%1/%2/%3%4") // ?T - no coloring
-                       .arg(settings_->url.toString(QUrl::PrettyDecoded|QUrl::StripTrailingSlash))
-                       .arg(context)
-                       .arg(text.replace(' ', '+'))
-                       .arg(options)
+                       .arg(settings_->url.toString(QUrl::PrettyDecoded|QUrl::StripTrailingSlash),
+                            context,
+                            text.replace(' ', '+'),
+                            options)
                    ));
     qDebug("%s", qPrintable(request.url().toString()));
     request.setRawHeader("User-Agent", "User-Agent: curl/7.60.0");

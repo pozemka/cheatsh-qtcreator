@@ -17,7 +17,7 @@ class OptionsDialog : public QWidget
 
 public:
     explicit OptionsDialog(QWidget *parent = nullptr);
-    ~OptionsDialog();
+    ~OptionsDialog() override;
 
     void setSettings(const Settings& settings);
     Settings settings();

@@ -19,7 +19,7 @@ class CheatOutputPlane : public Core::IOutputPane
     Q_OBJECT
 public:
     CheatOutputPlane(const Settings* settings/*non-owning*/, QObject* parent);
-    ~CheatOutputPlane();
+    ~CheatOutputPlane() override;
 
 public slots:
     void displayANSI(const QString& result);
@@ -27,20 +27,20 @@ public slots:
 
     // IOutputPane interface
 public:
-    QWidget* outputWidget(QWidget* parent);
-    QList<QWidget*> toolBarWidgets() const;
-    QString displayName() const;
-    int priorityInStatusBar() const;
+    QWidget* outputWidget(QWidget* parent) override;
+    QList<QWidget*> toolBarWidgets() const override;
+    QString displayName() const override;
+    int priorityInStatusBar() const override;
     void clearContents();
-    void visibilityChanged(bool visible);
-    void setFocus();
-    bool hasFocus() const;
-    bool canFocus() const;
+    void visibilityChanged(bool visible) override;
+    void setFocus() override;
+    bool hasFocus() const override;
+    bool canFocus() const override;
     bool canNavigate() const;
-    bool canNext() const;
-    bool canPrevious() const;
-    void goToNext();
-    void goToPrev();
+    bool canNext() const override;
+    bool canPrevious() const override;
+    void goToNext() override;
+    void goToPrev() override;
 
 private:
     QTextBrowser* browser_ = nullptr;

@@ -20,7 +20,7 @@ class Cheat : public QObject
     Q_OBJECT
 public:
     explicit Cheat(const Settings* settigns, QObject *parent);
-    ~Cheat();
+    ~Cheat() override;
 
 signals:
     void found(const QString& result);

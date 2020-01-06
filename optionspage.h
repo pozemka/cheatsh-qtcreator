@@ -17,12 +17,12 @@ class OptionsPage : public Core::IOptionsPage
     Q_OBJECT
 
 public:
-    OptionsPage(const Settings& settings, QObject* parent);
+    OptionsPage(Settings  settings, QObject* parent);
 
     void setSettings(const Settings& settings);
-    QWidget* widget();
-    void apply();
-    void finish();
+    QWidget* widget() override;
+    void apply() override;
+    void finish() override;
 
 signals:
     void settingsChanged(const Settings& settings);

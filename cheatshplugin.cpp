@@ -58,7 +58,7 @@ CheatShPlugin::CheatShPlugin()
 //    }
     // Create your members
     const QLocale locale(ICore::userInterfaceLanguage());
-    QTranslator *translator = new QTranslator(this);
+    auto *translator = new QTranslator(this);
     if (translator->load(locale, QLatin1String("cheatsh"), QLatin1String("_"), QLatin1String(":/i18n")))
         QCoreApplication::installTranslator(translator);
     else
@@ -154,7 +154,7 @@ void CheatShPlugin::createMenus()
 
     // connect actions
     connect(action_cheat_sh_, &QAction::triggered, [this](){
-        TextEditor::TextEditorWidget* editorWidget =
+        auto* editorWidget =
                 qobject_cast<TextEditor::TextEditorWidget*> (
                     Core::EditorManager::currentEditor()->widget()
                     );

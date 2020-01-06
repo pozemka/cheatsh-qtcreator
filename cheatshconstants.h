@@ -20,5 +20,7 @@ const char CHT_DEFAULT_CONTEXT[] = "cpp";
 const char CHT_DEFAULT_URL[] = "https://cht.sh";
 const char UPDATES_URL[]   = "https://api.github.com/repos/pozemka/cheatsh-qtcreator/releases/latest";
 
+const unsigned int UPDATE_INTERVAL = 7;
+
 } // namespace Constants
 } // namespace CheatSh

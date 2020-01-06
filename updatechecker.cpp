@@ -25,6 +25,7 @@ UpdateChecker::UpdateChecker(Settings *settigns, QObject *parent) :
 {
     connect(network_manager_.get(), &QNetworkAccessManager::finished, [this](QNetworkReply* reply){
         QJsonDocument jsdoc = QJsonDocument::fromJson(reply->readAll());
+        reply->deleteLater();
         if(jsdoc.isNull())
             return;
         settings_->last_check_date = QDate::currentDate();
@@ -41,10 +42,10 @@ UpdateChecker::UpdateChecker(Settings *settigns, QObject *parent) :
                                    "<br />New version: %1 from %2\n"
                                    "<br />Description: %3\n"
                                    "<br /><a href=\"%4\">Download here</a>")
-                .arg(version)
-                .arg(locale.toString(QDateTime::fromString(jsobj.value("published_at").toString(), Qt::ISODate), QLocale::ShortFormat))
-                .arg(jsobj.value("body").toString())
-                .arg(jsobj.value("html_url").toString());
+                .arg(version,
+                     locale.toString(QDateTime::fromString(jsobj.value("published_at").toString(), Qt::ISODate), QLocale::ShortFormat),
+                     jsobj.value("body").toString(),
+                     jsobj.value("html_url").toString());
         emit updateAvaliable(update_string);
     });
 }
@@ -57,7 +58,7 @@ UpdateChecker::~UpdateChecker()
 void UpdateChecker::checkUpdatesIfPossible()
 {
     if(settings_->check_updates &&
-            settings_->last_check_date.daysTo(QDate::currentDate()) >=7 ) {
+            settings_->last_check_date.daysTo(QDate::currentDate()) >= CheatSh::Constants::UPDATE_INTERVAL ) {
         network_manager_->get(QNetworkRequest(QUrl(CheatSh::Constants::UPDATES_URL)));
     }
 }

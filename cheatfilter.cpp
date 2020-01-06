@@ -18,9 +18,10 @@ CheatFilter::CheatFilter()
 QList<LocatorFilterEntry> CheatFilter::matchesFor(QFutureInterface<LocatorFilterEntry>& future, const QString& entry)
 {
     QList<LocatorFilterEntry> value;
-    if (!entry.isEmpty()) // avoid empty entry
-        value.append(LocatorFilterEntry(this, entry, QVariant()));
-    QList<LocatorFilterEntry> others;
+    if (!future.isCanceled())
+        if (!entry.isEmpty()) // avoid empty entry
+            value.append(LocatorFilterEntry(this, entry, QVariant()));
+//    QList<LocatorFilterEntry> others;
 
     //TODO: тоже можно поиск по истории. Или по каким-то локальным подсказкам, как в баше автодополнение у cheat.sh реализовано.
 //        const Qt::CaseSensitivity entryCaseSensitivity = caseSensitivity(entry);
@@ -38,7 +39,7 @@ QList<LocatorFilterEntry> CheatFilter::matchesFor(QFutureInterface<LocatorFilter
 //                others.append(filterEntry);
 //            }
 //        }
-    value.append(others);
+//    value.append(others);
     return value;
 }
 

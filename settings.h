@@ -15,16 +15,16 @@ class Settings
 public:
     QString context;
     QUrl url;
-    bool comments_enabled;
-    bool check_updates;
+    bool comments_enabled = true;
+    bool check_updates = true;
     QDate last_check_date;
 
     void save(QSettings *settings) const;
     void load(QSettings *settings);
 };
 
-bool operator ==(Settings &s1, Settings &s2);
-bool operator !=(Settings &s1, Settings &s2);
+bool operator ==(Settings &lhs, Settings &rhs);
+bool operator !=(Settings &lhs, Settings &rhs);
 
 }   // namespace Internal
 }   // namespace CheatSh
