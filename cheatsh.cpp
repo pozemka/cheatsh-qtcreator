@@ -37,7 +37,7 @@ void Cheat::search(QString text)
         options.append("?Q");
 
     // Context override
-    static const QRegularExpression re("^\\/(\\w+)\\/");
+    static const QRegularExpression re(R"(^\/(\w+)\/)");
     QString context = settings_->context;
     QRegularExpressionMatch match = re.match(text);
     if(match.hasMatch()) {

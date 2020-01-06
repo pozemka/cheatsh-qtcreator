@@ -23,6 +23,12 @@ Select some text or just put text cursor on the word. Right click word or select
 
 </details>
 
+## Useful settings
+* You can change default search context if your default language is not C++
+* And set custom URL to self-hosted cheat.sh instance
+* If you prefer only code in your answers, just disable comments
+* You can even disable update checks
+
 ## Installation:
 To install plugin please download suitable version from [releases page](https://github.com/pozemka/cheatsh-qtcreator/releases). 
 Then extract plugin to user plugins directory which is:
