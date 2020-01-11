@@ -77,12 +77,12 @@
 <context>
     <name>CheatSh::Internal::OptionsPage</name>
     <message>
-        <location filename="../optionspage.cpp" line="14"/>
+        <location filename="../optionspage.cpp" line="16"/>
         <source>General</source>
         <translation>Основное</translation>
     </message>
     <message>
-        <location filename="../optionspage.cpp" line="16"/>
+        <location filename="../optionspage.cpp" line="18"/>
         <source>Cheat.sh</source>
         <translation>Cheat.sh</translation>
     </message>
@@ -90,15 +90,19 @@
 <context>
     <name>CheatSh::Internal::UpdateChecker</name>
     <message>
-        <location filename="../updatechecker.cpp" line="40"/>
         <source>&lt;b&gt;Cheat.sh plugin update avaliable.&lt;/b&gt;
 &lt;br /&gt;New version: %1 from %2
 &lt;br /&gt;Description: %3
 &lt;br /&gt;&lt;a href=&quot;%4&quot;&gt;Download here&lt;/a&gt;</source>
-        <translation>&lt;b&gt;Доступно обновление плагина Cheat.sh&lt;/b&gt;
+        <translation type="vanished">&lt;b&gt;Доступно обновление плагина Cheat.sh&lt;/b&gt;
 &lt;br /&gt;Новая версия: %1 от %2
 &lt;br /&gt;Описание: %3
 &lt;br /&gt;&lt;a href=&quot;%4&quot;&gt;Загрузить здесь&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../updatechecker.cpp" line="41"/>
+        <source>&lt;b&gt;Cheat.sh plugin update avaliable.&lt;/b&gt;&lt;br /&gt;New version: %1 from %2&lt;br /&gt;Description: &lt;br /&gt;%3&lt;br /&gt;&lt;br /&gt;&lt;b&gt;&lt;a href=&quot;%4&quot;&gt;Download here&lt;/a&gt;&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Доступно обновление плагина Cheat.sh&lt;/b&gt;&lt;br /&gt;Новая версия: %1 от %2&lt;br /&gt;Описание:&lt;br /&gt; %3&lt;br /&gt;&lt;br /&gt;&lt;b&gt;&lt;a href=&quot;%4&quot;&gt;Загрузить здесь&lt;/b&gt;&lt;/a&gt;</translation>
     </message>
 </context>
 </TS>

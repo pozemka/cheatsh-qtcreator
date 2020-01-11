@@ -38,13 +38,13 @@ UpdateChecker::UpdateChecker(Settings *settigns, QObject *parent) :
         if(local_version >= remote_version)
             return;
 
-        QString update_string = tr("<b>Cheat.sh plugin update avaliable.</b>\n"
-                                   "<br />New version: %1 from %2\n"
-                                   "<br />Description: %3\n"
-                                   "<br /><a href=\"%4\">Download here</a>")
+        QString update_string = tr("<b>Cheat.sh plugin update avaliable.</b>"
+                                   "<br />New version: %1 from %2"
+                                   "<br />Description: <br />%3"
+                                   "<br /><br /><b><a href=\"%4\">Download here</a></b>")
                 .arg(version,
                      locale.toString(QDateTime::fromString(jsobj.value("published_at").toString(), Qt::ISODate), QLocale::ShortFormat),
-                     jsobj.value("body").toString(),
+                     jsobj.value("body").toString().replace('\n', "<br />"),
                      jsobj.value("html_url").toString());
         emit updateAvaliable(update_string);
     });
