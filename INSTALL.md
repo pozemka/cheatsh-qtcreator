@@ -44,9 +44,10 @@ Tested on Kubuntu 19.10
 ## Windows
 ### Requirements
 0. Don't forget to use same architecture everywhere. See your Qt Creator's about dialog if in doubt.
-1. Download and install OpenSSL for Windows. This is required only if you plan to use built Qt Creator. Installed Qt Creator is shipped with all necessary. As alternative you can switch to unsecure connection by changing address of server in the plugin's settings to `http://cheat.sh`. Please note that update checks are not possible without OpenSSL (GitHub redirects to https).
+1. Download and install OpenSSL for Windows. This is required only if you plan to use Qt Creator that you built. Installed Qt Creator is shipped with necessary libraries. As alternative you can switch to unsecure connection by changing address of server in the plugin's settings to `http://cheat.sh`. Please note that update checks are not possible without OpenSSL (GitHub redirects to https).
    * [download OpenSSL installer](https://slproweb.com/products/Win32OpenSSL.html). Light one is sufficient. You can choose to copy OpenSSl DLLs to the Windows system directory or to add them to the PATH environment variable manually.
    * Or you can install it with via Qt online installer (see Developer and Designer Tools section). Please note that Qt installer doesn't set up OpenSSL environment. So you should add the directory with the DLLs (something like `C:\Qt\Tools\OpenSSL\Win_x64\bin`) to the PATH environment variable. ([see so](https://stackoverflow.com/a/59072649/149897)). 
+   * See also [OpenSSL](https://github.com/pozemka/cheatsh-qtcreator/wiki/OpenSSL)
    * See also https://doc.qt.io/QT-5/windows-requirements.html#ssl
 2. Qt Creator sources
 
