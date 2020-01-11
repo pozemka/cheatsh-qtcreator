@@ -24,10 +24,11 @@ Select some text or just put text cursor on the word. Right click word or select
 </details>
 
 ### Useful settings
-* You can change default search context if your default language is not C++
-* And set custom URL to self-hosted cheat.sh instance
-* If you prefer only code in your answers, just disable comments
-* You can even disable update checks
+Plugin setting allows you to:
+* change default search context to your favorite language (default value is C++ language)
+* set custom URL to self-hosted cheat.sh instance
+* turn on and off displaying comments in results
+* disable update checks
 
 ## Installation
 To install plugin please download suitable version from [releases page](https://github.com/pozemka/cheatsh-qtcreator/releases). 
@@ -35,7 +36,7 @@ Then extract plugin to user plugins directory which is:
 * `"%LOCALAPPDATA%\QtProject\qtcreator\plugins"` on Windows Vista and later (For example `c:\Users\Username\AppData\Local\QtProject\QtCreator\plugins`)
 * `"~/.local/share/data/QtProject/qtcreator/plugins"` or `"$XDG_DATA_HOME/data/QtProject/qtcreator/plugins"` on Linux
 
-Please note that plugin must be put into subdirectory according to Qt Creator version (For example `…/QtProject/qtcreator/plugins/4.8.2`)
+Please note that for Qt Creator **prior 4.9.0** plugin must be put into subdirectory with exact match to Qt Creator version (For example `…/QtProject/qtcreator/plugins/4.8.2`). For **4.9.0 and later** you can put plugin into subdirectory with lowest patch version (e.g. 4.9.0 instead of 4.9.2).
 
 ## Compilation
 See [INSTALL](INSTALL.md) for more info about compilation from sources.
