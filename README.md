@@ -3,6 +3,22 @@ Plugin for QtCreator to view cheat sheets from [cheat.sh](https://github.com/chu
 
 [Download here](https://github.com/pozemka/cheatsh-qtcreator/releases)
 
+## Introduction
+[Cheat.sh](https://github.com/chubin/cheat.sh) is a community-driven cheat sheets repository for programming languages, databases, linux tools commands. It is also searches StackOverflow if no answer was found in repository. This plugin provides integrated access to cheat.sh from Qt Creator.
+
+For example you want to know how to get random number in some range. Instead of switching to documentaion or to browser you can search with plugin for `random in interval` and have cheat sheet right inside Qt Creator.
+
+Some examples of searches:
+<a href="http://cheat.sh/cpp/tie" target="_blank">tie</a>, 
+<a href="http://cheat.sh/cpp/RAII" target="_blank">RAII</a>, 
+<a href="http://cheat.sh/cpp/random+in+interval" target="_blank">random in interval</a>, 
+<a href="http://cheat.sh/cpp/measure+time" target="_blank">measure time</a>, 
+<a href="http://cheat.sh/cpp/reverse+a+list" target="_blank">reverse a list</a>. 
+<a href="http://cheat.sh/QML/js+function" target="_blank">QML/js function</a>, 
+<a href="http://cheat.sh/Qt/resources" target="_blank">Qt/resources</a>, 
+<a href="http://cheat.sh/SQL/select" target="_blank">SQL/select</a>, 
+<a href="http://cheat.sh/tar" target="_blank">tar</a>
+
 ## Usage
 ### From editor
 Select some text or just put text cursor on the word. Right click word or selection and choose `Search cheat.sh` from menu. Or hit <kbd>Alt</kbd> + <kbd>⇧ Shift</kbd> + <kbd>c</kbd>
