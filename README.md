@@ -52,7 +52,9 @@ Then extract plugin to user plugins directory which is:
 * `"%LOCALAPPDATA%\QtProject\qtcreator\plugins"` on Windows Vista and later (For example `c:\Users\Username\AppData\Local\QtProject\QtCreator\plugins`)
 * `"~/.local/share/data/QtProject/qtcreator/plugins"` or `"$XDG_DATA_HOME/data/QtProject/qtcreator/plugins"` on Linux
 
-Please note that for Qt Creator **prior 4.9.0** plugin must be put into subdirectory with exact match to Qt Creator version (For example `…/QtProject/qtcreator/plugins/4.8.2`). For **4.9.0 and later** you can put plugin into subdirectory with lowest patch version (e.g. 4.9.0 instead of 4.9.2).
+Please note:
+* for Qt Creator **prior 4.9.0** plugin must be put into subdirectory with exact match to Qt Creator version (For example `…/QtProject/qtcreator/plugins/4.8.2`). For **4.9.0 and later** you can put plugin into subdirectory with lowest patch version (e.g. 4.9.0 instead of 4.9.2).
+* Qt Creator **4.9.x for Windows** has broken SSL support so you should install OpenSSL manually. See [here](https://github.com/pozemka/cheatsh-qtcreator/wiki/OpenSSL) for more information.
 
 ## Compilation
 See [INSTALL](INSTALL.md) for more info about compilation from sources.
