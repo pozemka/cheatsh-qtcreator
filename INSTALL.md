@@ -1,3 +1,5 @@
+# Manual build
+
 1. [openSUSE](#openSUSE)
 2. [Ubuntu (Kubuntu)](#ubuntu-kubuntu)
 3. [Windows](#Windows)
