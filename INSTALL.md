@@ -16,7 +16,7 @@ Tested on openSUSE 15.1
 ### Build process
 1. `git clone --recursive https://github.com/pozemka/cheatsh-qtcreator.git`
 2. `cd cheatsh-qtcreator`
-3. `qmake-qt5 && make` — this installs to user's plug-in directory
+3. `qmake-qt5 && make` — this installs to user plugin directory
 4. `sudo make install` — if you want to install system-wide
 
 ## Ubuntu (Kubuntu)
@@ -40,7 +40,7 @@ Tested on Kubuntu 19.10
     
     `qmake "IDE_SOURCE_TREE=/home/user/projects/qtcreator-4.8.2" "IDE_BUILD_TREE=/usr" cheatsh.pro`
     
-4. `make` — this installs to user's plug-in directory
+4. `make` — this installs to user plugin directory
 5. `sudo make install` — if you want to install system-wide
 
 ## Windows
@@ -59,4 +59,4 @@ Tested on Kubuntu 19.10
     
     `d:\projects\cheatsh-qtcreator>qmake "IDE_SOURCE_TREE=d:\projects\3rdparties\qt-creator-opensource-src-4.11.0" "IDE_BUILD
 _TREE=d:\projects\3rdparties\qt-creator-4.11.0-x64-build" cheatsh.pro`
-5. `nmake release` — this installs to user's plug-in directory
+5. `nmake release` — this installs to user plugin directory

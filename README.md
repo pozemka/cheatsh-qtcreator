@@ -1,12 +1,14 @@
 # CheatSh-QtCreator
-Plug-in for QtCreator to view cheat sheets from [cheat.sh](https://github.com/chubin/cheat.sh)
+Plugin for QtCreator to view cheat sheets from [cheat.sh](https://github.com/chubin/cheat.sh)
 
 [Download here](https://github.com/pozemka/cheatsh-qtcreator/releases)
 
 ## Introduction
-[Cheat.sh](https://github.com/chubin/cheat.sh) is a community-driven cheat sheets repository for programming languages, databases, linux tools and commands. It is also searches StackOverflow if no answer was found in repository. This plugin provides integrated access to cheat.sh from Qt Creator.
+[Cheat.sh](https://github.com/chubin/cheat.sh) is a community-driven cheat sheets repository for programming languages, databases, linux tools and commands. It also searches StackOverflow if nothing is found in cheat.sh repository.
 
-For example you want to know how to get random number in a range. Instead of switching to documentaion or to browser you can search with plug-in for `random in range` and read cheat sheet right inside Qt Creator.
+This plugin provides integrated access to cheat.sh from Qt Creator.
+
+For example, you want to know how to get random number in a range. Instead of switching to documentaion or to browser you can search with plugin for `random in range` and read cheat sheet right inside Qt Creator.
 
 Search examples:
 <a href="http://cheat.sh/cpp/tie" target="_blank">tie</a>,
@@ -48,13 +50,13 @@ Plugin setting allows you to:
 * disable update checks
 
 ## Installation
-To install plug-in, please download suitable version from [releases page](https://github.com/pozemka/cheatsh-qtcreator/releases). 
-Then extract plugin to user plug-ins directory which is:
-* `"%LOCALAPPDATA%\QtProject\qtcreator\plugins"` on Windows Vista and later (For example `c:\Users\Username\AppData\Local\QtProject\QtCreator\plugins`)
-* `"~/.local/share/data/QtProject/qtcreator/plugins"` or `"$XDG_DATA_HOME/data/QtProject/qtcreator/plugins"` on Linux
+To install plugin, please download suitable version from [releases page](https://github.com/pozemka/cheatsh-qtcreator/releases). 
+Then extract archive to user plugin directory:
+* Windows Vista and newer: `"%LOCALAPPDATA%\QtProject\qtcreator\plugins"`. For example: `c:\Users\Username\AppData\Local\QtProject\QtCreator\plugins`
+* Linux: `"~/.local/share/data/QtProject/qtcreator/plugins"` or `"$XDG_DATA_HOME/data/QtProject/qtcreator/plugins"` 
 
 Please note:
-* for Qt Creator **prior 4.9.0** plug-in must be put into subdirectory with exact match to Qt Creator version (For example `…/QtProject/qtcreator/plugins/4.8.2`). Starting **from 4.9.0** you can put plug-in into subdirectory with lowest patch version (e.g. 4.9.0 instead of 4.9.2).
+* for Qt Creator **prior 4.9.0** plugin must be put into subdirectory with exact match to Qt Creator version (For example `…/QtProject/qtcreator/plugins/4.8.2`). Starting **from 4.9.0** you can put plugin into subdirectory with lowest patch version (e.g. 4.9.0 instead of 4.9.2).
 * Qt Creator **4.9.x for Windows** has broken SSL support so you should [install OpenSSL manually](https://github.com/pozemka/cheatsh-qtcreator/wiki/OpenSSL).
 
 ## Compilation
