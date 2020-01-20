@@ -3,7 +3,8 @@
 namespace CheatSh {
 namespace Constants {
 
-const char ACTION_ID[] = "CheatSh.Action";
+const char SEARCH_ACTION_ID[] = "CheatSh.Action.Search";
+const char PASTE_ACTION_ID[] = "CheatSh.Action.Paste";
 const char LOCATOR_ACTION_ID[] = "CheatSh.LocatorAction";
 const char MENU_ID[] = "CheatSh.Menu";
 const char CONTEXT_MENU_ID[]   = "CheatSh.ContextMenu";

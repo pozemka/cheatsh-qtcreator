@@ -40,9 +40,11 @@ private:
     std::unique_ptr<CheatFilter> cheat_filter_;
     UpdateChecker* update_checker_ = nullptr;
     QAction* action_cheat_sh_ = nullptr;
+    QAction* action_paste_ = nullptr;
     CheatOutputPlane* out_plane_ = nullptr;
     OptionsPage* options_page_ = nullptr;
     Cheat* cheat_sh_ = nullptr;
+    QString paste_value_;
 };
 
 } // namespace Internal

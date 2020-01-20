@@ -24,6 +24,7 @@ public:
 
 signals:
     void found(const QString& result);
+    void pasteReady(const QString& result);
 
 public slots:
     void search(QString text/*intentional copy*/);
@@ -31,6 +32,7 @@ public slots:
 private:
     const Settings* settings_ = nullptr;
     std::unique_ptr<QNetworkAccessManager> network_manager_;
+    std::unique_ptr<QNetworkAccessManager> network_manager_stripped_;
 };
 
 } // namespace Internal

@@ -20,23 +20,33 @@
 <context>
     <name>CheatSh::Internal::CheatShPlugin</name>
     <message>
-        <location filename="../cheatshplugin.cpp" line="117"/>
+        <location filename="../cheatshplugin.cpp" line="120"/>
         <source>&lt;b&gt;Cheat.sh plugin can&apos;t use SSL.&lt;/b&gt;&lt;br /&gt;HTTPS connections and update checks will be unavaliable.&lt;br /&gt;Please &lt;a href=&quot;%1&quot;&gt;install OpenSSL&lt;/a&gt;</source>
         <translation>&lt;b&gt;Плагин Cheat.sh не может использовать SSL.&lt;/b&gt;&lt;br /&gt;Соединения по HTTPS и проверка обновлений не будут работать.&lt;br /&gt;Пожалуйста, &lt;a href=&quot;%1&quot;&gt;установите OpenSSL&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="150"/>
+        <location filename="../cheatshplugin.cpp" line="155"/>
         <source>Search cheat.sh</source>
         <translation>Искать на cheat.sh</translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="153"/>
+        <location filename="../cheatshplugin.cpp" line="158"/>
         <source>Alt+Shift+C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="174"/>
-        <location filename="../cheatshplugin.cpp" line="185"/>
+        <location filename="../cheatshplugin.cpp" line="160"/>
+        <source>Paste result</source>
+        <translation>Вставить результат</translation>
+    </message>
+    <message>
+        <location filename="../cheatshplugin.cpp" line="163"/>
+        <source>Alt+Shift+V</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../cheatshplugin.cpp" line="195"/>
+        <location filename="../cheatshplugin.cpp" line="206"/>
         <source>CheatSh</source>
         <translation></translation>
     </message>
@@ -89,16 +99,6 @@
 </context>
 <context>
     <name>CheatSh::Internal::UpdateChecker</name>
-    <message>
-        <source>&lt;b&gt;Cheat.sh plugin update avaliable.&lt;/b&gt;
-&lt;br /&gt;New version: %1 from %2
-&lt;br /&gt;Description: %3
-&lt;br /&gt;&lt;a href=&quot;%4&quot;&gt;Download here&lt;/a&gt;</source>
-        <translation type="vanished">&lt;b&gt;Доступно обновление плагина Cheat.sh&lt;/b&gt;
-&lt;br /&gt;Новая версия: %1 от %2
-&lt;br /&gt;Описание: %3
-&lt;br /&gt;&lt;a href=&quot;%4&quot;&gt;Загрузить здесь&lt;/a&gt;</translation>
-    </message>
     <message>
         <location filename="../updatechecker.cpp" line="41"/>
         <source>&lt;b&gt;Cheat.sh plugin update avaliable.&lt;/b&gt;&lt;br /&gt;New version: %1 from %2&lt;br /&gt;Description: &lt;br /&gt;%3&lt;br /&gt;&lt;br /&gt;&lt;b&gt;&lt;a href=&quot;%4&quot;&gt;Download here&lt;/a&gt;&lt;/b&gt;</source>

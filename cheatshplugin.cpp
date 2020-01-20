@@ -93,6 +93,9 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
     cheat_filter_ = std::make_unique<CheatFilter>();
     options_page_ = new OptionsPage(settings_, this);
     connect(cheat_sh_, &Cheat::found, out_plane_, &CheatOutputPlane::displayANSI);
+    connect(cheat_sh_, &Cheat::pasteReady, [this](const QString& paste_val){
+        paste_value_ = paste_val;
+    });
     connect(cheat_filter_.get(), &CheatFilter::query, cheat_sh_, &Cheat::search);
     connect(options_page_, &OptionsPage::settingsChanged, this, &CheatShPlugin::changeSettings);
     createMenus();
@@ -130,6 +133,7 @@ ExtensionSystem::IPlugin::ShutdownFlag CheatShPlugin::aboutToShutdown()
     // Hide UI (if you add UI that is not in the main window directly)
     cheat_filter_->disconnect();
     action_cheat_sh_->disconnect();
+    action_paste_->disconnect();
     options_page_->disconnect();
     cheat_sh_->disconnect();
     update_checker_->disconnect();
@@ -147,13 +151,20 @@ void CheatShPlugin::createMenus()
 {
     // create actions:
     Core::Context textContext( TextEditor::Constants::C_TEXTEDITOR );
+
     action_cheat_sh_ = new QAction( tr( "Search cheat.sh" ), this );
-    Core::Command* cheatShCommand = Core::ActionManager::registerAction(action_cheat_sh_, Constants::ACTION_ID, textContext);
+    Core::Command* cheatShCommand = Core::ActionManager::registerAction(action_cheat_sh_, Constants::SEARCH_ACTION_ID, textContext);
     cheatShCommand->setAttribute(Core::Command::CA_UpdateText);   //Зачем?
     cheatShCommand->setDefaultKeySequence(QKeySequence(tr("Alt+Shift+C")));
 
+    action_paste_ = new QAction( tr("Paste result"), this );
+    Core::Command* pasteCommand = Core::ActionManager::registerAction(action_paste_, Constants::PASTE_ACTION_ID, textContext);
+    pasteCommand->setAttribute(Core::Command::CA_UpdateText);   //Зачем?
+    pasteCommand->setDefaultKeySequence(QKeySequence(tr("Alt+Shift+V")));
+
+
     // connect actions
-    connect(action_cheat_sh_, &QAction::triggered, [this](){
+    connect(action_cheat_sh_, &QAction::triggered, [this](){        // search action
         auto* editorWidget =
                 qobject_cast<TextEditor::TextEditorWidget*> (
                     Core::EditorManager::currentEditor()->widget()
@@ -169,14 +180,24 @@ void CheatShPlugin::createMenus()
         cheat_sh_->search(selected_text);
     });
 
+    connect(action_paste_, &QAction::triggered, [this](){             // paste action
+        if(!paste_value_.isEmpty()) {
+            auto* editorWidget =
+                    qobject_cast<TextEditor::TextEditorWidget*> (
+                        Core::EditorManager::currentEditor()->widget()
+                        );
+            editorWidget->insertPlainText(paste_value_);
+        }
+    });
+
     // add actions to tools menu
     Core::ActionContainer* menu = Core::ActionManager::createMenu( Constants::MENU_ID );
     menu->menu()->setTitle( tr( "CheatSh" ) );
-    menu->addAction( cheatShCommand );
+    menu->addAction(cheatShCommand);
+    menu->addAction(pasteCommand);
     Core::ActionManager::actionContainer( Core::Constants::M_TOOLS )->addMenu( menu );
 
     // add actions to context menu
-
     Core::ActionContainer* editorcontextMenu =
             Core::ActionManager::createMenu( TextEditor::Constants::M_STANDARDCONTEXTMENU );
     Core::ActionContainer* contextMenu =
@@ -184,13 +205,15 @@ void CheatShPlugin::createMenus()
             Core::ActionManager::createMenu( Constants::CONTEXT_MENU_ID );
     contextMenu->menu()->setTitle( tr( "CheatSh" ) );
     contextMenu->addSeparator();
-    contextMenu->addAction( cheatShCommand );
+    contextMenu->addAction(cheatShCommand);
+    contextMenu->addAction(pasteCommand);
     contextMenu->addSeparator();
     //editorcontextMenu->addMenu(contextMenu);  //
     Core::Id group_id(Constants::CONTEXT_MENU_ID);
     editorcontextMenu->appendGroup(group_id);
     editorcontextMenu->addSeparator(group_id);
     editorcontextMenu->addAction(cheatShCommand, group_id);
+    editorcontextMenu->addAction(pasteCommand, group_id);
 }
 
 } // namespace Internal

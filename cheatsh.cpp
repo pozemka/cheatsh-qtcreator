@@ -10,18 +10,25 @@
 namespace CheatSh {
 namespace Internal {
 
-Cheat::Cheat(const Settings* settigns, QObject* parent) : QObject(parent), settings_(settigns)
+Cheat::Cheat(const Settings* settigns, QObject* parent) :
+    QObject(parent),
+    settings_(settigns),
+    network_manager_(std::make_unique<QNetworkAccessManager>(this)),
+    network_manager_stripped_(std::make_unique<QNetworkAccessManager>(this))
 {
-    network_manager_ = std::make_unique<QNetworkAccessManager>(this);
     connect(network_manager_.get(), &QNetworkAccessManager::finished,
             [this](QNetworkReply* rep) {
-//                QFile debug_file("debug.txt");
-//                debug_file.open(QIODevice::WriteOnly);
-//                debug_file.write(rep->readAll());
-                emit found(QString::fromUtf8(rep->readAll()));
-                rep->deleteLater();
-            });
-
+//        QFile debug_file("debug.txt");
+//        debug_file.open(QIODevice::WriteOnly);
+//        debug_file.write(rep->readAll());
+        emit found(QString::fromUtf8(rep->readAll()));
+        rep->deleteLater();
+    });
+    connect(network_manager_stripped_.get(), &QNetworkAccessManager::finished,
+            [this](QNetworkReply* rep) {
+        emit pasteReady(QString::fromUtf8(rep->readAll()));
+        rep->deleteLater();
+    });
 }
 
 Cheat::~Cheat()
@@ -44,17 +51,24 @@ void Cheat::search(QString text)
         context = match.captured(1);
         text.remove(re);
     }
+    text.replace(' ', '+');
     QNetworkRequest request;
-    request.setUrl(QUrl::fromUserInput(
-                       QString("%1/%2/%3%4") // ?T - no coloring
-                       .arg(settings_->url.toString(QUrl::PrettyDecoded|QUrl::StripTrailingSlash),
-                            context,
-                            text.replace(' ', '+'),
-                            options)
-                   ));
-    qDebug("%s", qPrintable(request.url().toString()));
+    auto buildRequest = [this, context, text](const QString& options) -> QUrl
+    {
+        return QUrl::fromUserInput(
+                    QString("%1/%2/%3%4")
+                    .arg(settings_->url.toString(QUrl::PrettyDecoded|QUrl::StripTrailingSlash),
+                         context,
+                         text,
+                         options)
+                    );
+    };
+    request.setUrl(buildRequest(options));
+//    qDebug("%s", qPrintable(request.url().toString()));
     request.setRawHeader("User-Agent", "User-Agent: curl/7.60.0");
     network_manager_->get(request);
+    request.setUrl(buildRequest("?TQ"));    // No formatting, No comments
+    network_manager_stripped_->get(request);
 }
 
 } // namespace Internal
