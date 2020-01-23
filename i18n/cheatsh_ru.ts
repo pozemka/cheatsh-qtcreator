@@ -5,8 +5,8 @@
     <name>CheatSh::Internal::CheatFilter</name>
     <message>
         <location filename="../cheatfilter.cpp" line="12"/>
-        <source>cheat.sh</source>
-        <translation>cheat.sh</translation>
+        <source>Search cheat.sh</source>
+        <translation>Искать на cheat.sh</translation>
     </message>
 </context>
 <context>

@@ -68,7 +68,7 @@ void Cheat::search(QString text)
     request.setRawHeader("User-Agent", "User-Agent: curl/7.60.0");
     network_manager_->get(request);
     request.setUrl(buildRequest("?TQ"));    // No formatting, No comments
-    network_manager_stripped_->get(request);
+    network_manager_stripped_->get(request);    // FIXME: probably postpone second request after results of first one? That way probably reduce server load thanks to cached result. But may lead to no or wrong paste data due to delay.
 }
 
 } // namespace Internal

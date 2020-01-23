@@ -9,7 +9,7 @@ namespace Internal {
 CheatFilter::CheatFilter()
 {
     setId("cheat.sh");
-    setDisplayName(tr("cheat.sh"));
+    setDisplayName(tr("Search cheat.sh"));  // Text in Locator
     setShortcutString("ch");
     setPriority(High);
     setIncludedByDefault(false);

@@ -24,8 +24,9 @@ CheatOutputPlane::~CheatOutputPlane()
 
 void CheatOutputPlane::displayANSI(const QString& result)
 {
+
     std::string html = ansi2html_->simpleParse(result.toStdString());
-    displayHtml(QString::fromUtf8(html.data(), html.size()));
+    displayHtml( QString::fromUtf8( html.data(), static_cast<int>(html.size()) ) );
 }
 
 void CheatOutputPlane::displayHtml(const QString &html)
@@ -36,7 +37,6 @@ void CheatOutputPlane::displayHtml(const QString &html)
 
 QWidget*CheatOutputPlane::outputWidget(QWidget* parent)
 {
-
     browser_ = new QTextBrowser(parent);
     browser_->setOpenExternalLinks(true);
     return browser_;

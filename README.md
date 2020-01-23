@@ -42,6 +42,16 @@ from popup menu. Or hit <kbd>Alt</kbd> + <kbd>⇧ Shift</kbd> + <kbd>c</kbd>
 
 </details>
 
+### Pasting results
+Hit <kbd>Alt</kbd> + <kbd>⇧ Shift</kbd> + <kbd>v</kbd> to paste result in text cursor position. Or right-click in text editor and select `Paste result` from context menu.
+Please note that most of the comments will be stripped and only the code will be pasted (Result of ?TQ request to cheat.sh).
+
+<details><summary>Paste example animation</summary>
+
+![Locator example animation](https://raw.githubusercontent.com/pozemka/resources/master/paste.gif)
+
+</details>
+
 ### Useful settings
 Plugin setting allows you to:
 * change default search context to your favorite language (default value is C++ language)
@@ -63,4 +73,4 @@ Please note:
 See [INSTALL](INSTALL.md) for more info about compilation from sources.
 
 ## TODO:
-* quick paste of results
+* Request next/prev answer
