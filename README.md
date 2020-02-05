@@ -34,7 +34,7 @@ from popup menu. Or hit <kbd>Alt</kbd> + <kbd>⇧ Shift</kbd> + <kbd>c</kbd>
 
 ### From Locator
 1. Hit <kbd>Ctrl</kbd> + <kbd>k</kbd> to focus Locator
-2. Type `cs <search term>` to search in default context or `cs /<context>/<search term>` to override context for this search
+2. Type `ch <search term>` to search in default context or `cs /<context>/<search term>` to override context for this search
 
 <details><summary>Locator menu example animation</summary>
   
