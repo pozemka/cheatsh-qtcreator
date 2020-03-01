@@ -12,7 +12,7 @@ namespace CheatSh {
 namespace Internal {
 
 class OptionsPage;
-class Cheat;
+class QueryManager;
 class CheatFilter;
 class CheatOutputPlane;
 class UpdateChecker;
@@ -43,7 +43,7 @@ private:
     QAction* action_paste_ = nullptr;
     CheatOutputPlane* out_plane_ = nullptr;
     OptionsPage* options_page_ = nullptr;
-    Cheat* cheat_sh_ = nullptr;
+    QueryManager* cheat_sh_ = nullptr;
     QString paste_value_;
 };
 

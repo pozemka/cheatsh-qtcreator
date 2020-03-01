@@ -12,7 +12,12 @@
 <context>
     <name>CheatSh::Internal::CheatOutputPlane</name>
     <message>
-        <location filename="../cheatoutputplane.cpp" line="52"/>
+        <location filename="../cheatoutputplane.cpp" line="19"/>
+        <source>Number of answer</source>
+        <translation>Номер ответа</translation>
+    </message>
+    <message>
+        <location filename="../cheatoutputplane.cpp" line="75"/>
         <source>cheat.sh</source>
         <translation>cheat.sh</translation>
     </message>
@@ -20,33 +25,33 @@
 <context>
     <name>CheatSh::Internal::CheatShPlugin</name>
     <message>
-        <location filename="../cheatshplugin.cpp" line="120"/>
+        <location filename="../cheatshplugin.cpp" line="126"/>
         <source>&lt;b&gt;Cheat.sh plugin can&apos;t use SSL.&lt;/b&gt;&lt;br /&gt;HTTPS connections and update checks will be unavaliable.&lt;br /&gt;Please &lt;a href=&quot;%1&quot;&gt;install OpenSSL&lt;/a&gt;</source>
         <translation>&lt;b&gt;Плагин Cheat.sh не может использовать SSL.&lt;/b&gt;&lt;br /&gt;Соединения по HTTPS и проверка обновлений не будут работать.&lt;br /&gt;Пожалуйста, &lt;a href=&quot;%1&quot;&gt;установите OpenSSL&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="155"/>
+        <location filename="../cheatshplugin.cpp" line="161"/>
         <source>Search cheat.sh</source>
         <translation>Искать на cheat.sh</translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="158"/>
+        <location filename="../cheatshplugin.cpp" line="164"/>
         <source>Alt+Shift+C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="160"/>
+        <location filename="../cheatshplugin.cpp" line="166"/>
         <source>Paste result</source>
         <translation>Вставить результат</translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="163"/>
+        <location filename="../cheatshplugin.cpp" line="169"/>
         <source>Alt+Shift+V</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="195"/>
-        <location filename="../cheatshplugin.cpp" line="206"/>
+        <location filename="../cheatshplugin.cpp" line="201"/>
+        <location filename="../cheatshplugin.cpp" line="212"/>
         <source>CheatSh</source>
         <translation></translation>
     </message>

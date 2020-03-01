@@ -1,0 +1,7 @@
+.moc/
+.obj/
+.qmake.stash
+.rcc/
+.uic/
+cheatsh.pro.user*
+i18n/*.qm

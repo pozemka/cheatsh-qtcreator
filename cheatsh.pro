@@ -9,9 +9,9 @@ SOURCES += \
     cheatoutputplane.cpp \
     cheatfilter.cpp \
     optionspage.cpp \
+    querymanager.cpp \
     settings.cpp \
     optionsdialog.cpp \
-    cheatsh.cpp \
     updatechecker.cpp
 
 HEADERS += \
@@ -21,9 +21,9 @@ HEADERS += \
     cheatoutputplane.h \
     cheatfilter.h \
     optionspage.h \
+    querymanager.h \
     settings.h \
     optionsdialog.h \
-    cheatsh.h \
     updatechecker.h
 
 FORMS += \

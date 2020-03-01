@@ -1,7 +1,7 @@
 #include "cheatshplugin.h"
 #include "cheatshconstants.h"
 #include "cheatfilter.h"
-#include "cheatsh.h"
+#include "querymanager.h"
 #include "cheatoutputplane.h"
 #include "optionspage.h"
 #include "updatechecker.h"
@@ -89,14 +89,20 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
     settings_.load(Core::ICore::settings());
 
     out_plane_ = new CheatOutputPlane(&settings_, this);
-    cheat_sh_ = new Cheat(&settings_, this);
+    cheat_sh_ = new QueryManager(&settings_, this);
     cheat_filter_ = std::make_unique<CheatFilter>();
     options_page_ = new OptionsPage(settings_, this);
-    connect(cheat_sh_, &Cheat::found, out_plane_, &CheatOutputPlane::displayANSI);
-    connect(cheat_sh_, &Cheat::pasteReady, [this](const QString& paste_val){
+    connect(cheat_sh_, &QueryManager::found, out_plane_, &CheatOutputPlane::displayANSI);
+    connect(cheat_sh_, &QueryManager::pasteReady, [this](const QString& paste_val){
         paste_value_ = paste_val;
     });
-    connect(cheat_filter_.get(), &CheatFilter::query, cheat_sh_, &Cheat::search);
+    connect(cheat_sh_, &QueryManager::nextAvaliable, out_plane_, &CheatOutputPlane::setNextAvaliable);
+    connect(cheat_sh_, &QueryManager::prevAvaliable, out_plane_, &CheatOutputPlane::setPrevAvaliable);
+    connect(cheat_sh_, &QueryManager::indexChanged, out_plane_, &CheatOutputPlane::setIndex);
+    connect(out_plane_, &CheatOutputPlane::requestedNext, cheat_sh_, &QueryManager::requestNext);
+    connect(out_plane_, &CheatOutputPlane::requestedPrev, cheat_sh_, &QueryManager::requestPrev);
+
+    connect(cheat_filter_.get(), &CheatFilter::query, cheat_sh_, &QueryManager::search);
     connect(options_page_, &OptionsPage::settingsChanged, this, &CheatShPlugin::changeSettings);
     createMenus();
     update_checker_ = new UpdateChecker(&settings_, this);

@@ -8,6 +8,7 @@
 class ANSI_SGR2HTML;
 
 class QTextBrowser;
+class QLabel;
 
 namespace CheatSh {
 namespace Internal {
@@ -24,6 +25,9 @@ public:
 public slots:
     void displayANSI(const QString& result);
     void displayHtml(const QString& html);
+    void setNextAvaliable(bool avaliable);
+    void setPrevAvaliable(bool avaliable);
+    void setIndex(int index);
 
     // IOutputPane interface
 public:
@@ -42,10 +46,20 @@ public:
     void goToNext() override;
     void goToPrev() override;
 
+signals:
+    void requestedNext();
+    void requestedPrev();
+
 private:
     QTextBrowser* browser_ = nullptr;
+    std::unique_ptr<QLabel> index_label_;
+    QList<QWidget*> toolbar_widgets_;
     const Settings* settings_ = nullptr;
     std::unique_ptr<ANSI_SGR2HTML> ansi2html_;
+
+    bool next_avaliable_ = false;
+    bool prev_avaliable_ = false;
+    int index_ = 0;
 };
 
 }   // namespace Internal
