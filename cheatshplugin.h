@@ -31,7 +31,7 @@ public:
     ShutdownFlag aboutToShutdown() override;
 
 private slots:
-    void changeSettings(const Settings &settings);
+    void changeSettings(const CheatSh::Internal::Settings &settings);
 
 private:
     void createMenus();

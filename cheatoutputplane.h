@@ -59,7 +59,6 @@ private:
 
     bool next_avaliable_ = false;
     bool prev_avaliable_ = false;
-    int index_ = 0;
 };
 
 }   // namespace Internal

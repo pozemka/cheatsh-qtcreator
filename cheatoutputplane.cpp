@@ -17,6 +17,7 @@ CheatOutputPlane::CheatOutputPlane(const Settings* settings, QObject* parent) :
 {
     index_label_ = std::make_unique<QLabel>("");
     index_label_->setToolTip(tr("Number of answer"));
+    index_label_->setIndent(5);
     toolbar_widgets_.append(index_label_.get());
 }
 
@@ -51,10 +52,8 @@ void CheatOutputPlane::setPrevAvaliable(bool avaliable)
 
 void CheatOutputPlane::setIndex(int index)
 {
-    index_ = index;
-    if(index_label_) {
-        index_label_->setNum(index_);
-    }
+    if(index_label_)
+        index_label_->setNum(index);
 }
 
 QWidget* CheatOutputPlane::outputWidget(QWidget* parent)

@@ -25,7 +25,7 @@ public:
     void finish() override;
 
 signals:
-    void settingsChanged(const Settings& settings);
+    void settingsChanged(const CheatSh::Internal::Settings& settings);
 
 private:
     QPointer<OptionsDialog> widget_;

@@ -24,12 +24,8 @@ QueryManager::QueryManager(const Settings* settigns, QObject* parent) :
         QString answer = QString::fromUtf8(rep->readAll());
         answers_cache_.insert(answer_index_, answer);
         emit found(answer);
-        emit nextAvaliable(true);
         emit indexChanged(answer_index_);
-        if(answer_index_ > 0)   //TODO: replace next/prev avaliable check with single function. See requestPrev
-            emit prevAvaliable(true);
-        else
-            emit prevAvaliable(false);
+        updatePrevNext();
         rep->deleteLater();
         reply_in_process_ = false;
     });
@@ -45,9 +41,11 @@ QueryManager::~QueryManager()
 
 }
 
-void QueryManager::search(QString text)
+void QueryManager::search(const QString& question)
 {
-    question_ = text;
+    question_ = question;
+    answer_index_ = 0;
+    answers_cache_.clear(); // Cache is clear for every new question
     query();
 }
 
@@ -58,13 +56,9 @@ void QueryManager::requestNext()
     }
     answer_index_++;
     if(!tryAnswerFromCache(answer_index_)) {
-        // request next
-        query();
+        query(); // request next if answer not cached
     } else {
-        if(answer_index_ > 0)   //TODO: replace next/prev avaliable check with single function
-            emit prevAvaliable(true);
-        else
-            emit prevAvaliable(false);
+        updatePrevNext();
     }
 }
 
@@ -80,11 +74,7 @@ void QueryManager::requestPrev()
 
     answer_index_--;
     tryAnswerFromCache(answer_index_);
-
-    if(answer_index_ > 0)   //TODO: replace next/prev avaliable check with single function
-        emit prevAvaliable(true);
-    else
-        emit prevAvaliable(false);
+    updatePrevNext();
 }
 
 void QueryManager::query()
@@ -134,6 +124,21 @@ bool QueryManager::tryAnswerFromCache(int index)
     emit found(answer);
     emit indexChanged(index);
     return true;
+}
+
+void QueryManager::updatePrevNext()
+{
+    if(question_.isEmpty()) {
+        emit nextAvaliable(false);
+        emit prevAvaliable(false);
+    } else {
+        emit nextAvaliable(true); //It seems next is always avaliable if there is question
+
+        if(answer_index_ > 0)
+            emit prevAvaliable(true);
+        else
+            emit prevAvaliable(false);
+    }
 }
 
 } // namespace Internal
