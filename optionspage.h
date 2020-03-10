@@ -17,7 +17,7 @@ class OptionsPage : public Core::IOptionsPage
     Q_OBJECT
 
 public:
-    OptionsPage(Settings  settings, QObject* parent);
+    OptionsPage(Settings settings, QObject* parent);
 
     void setSettings(const Settings& settings);
     QWidget* widget() override;

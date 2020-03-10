@@ -7,7 +7,7 @@
 namespace CheatSh {
 namespace Internal {
 
-OptionsPage::OptionsPage(Settings  settings, QObject* parent) :
+OptionsPage::OptionsPage(Settings settings, QObject* parent) :
     Core::IOptionsPage(parent),
     widget_(nullptr),
     settings_(std::move(settings))

@@ -52,14 +52,17 @@ private:
      */
     void updatePrevNext();
 
+    bool isRepliesActive() const;
+
     const Settings* settings_ = nullptr;
     QString question_;
     std::unique_ptr<QNetworkAccessManager> network_manager_;
     std::unique_ptr<QNetworkAccessManager> network_manager_stripped_;
     int answer_index_ = 0;
     QVector<QString> answers_cache_;    //!< Vector can be replaced with map/hash for sparse cache. It allow request for example 3rd answer immediately after 1st skipping 2nd. In that case pending network requests should be canceled or have more advanced process.
-    QNetworkReply* reply_ = nullptr;  //!< to track request progress. See #17 Unused for now.
-    bool reply_in_process_ = false; //!< reply_ is deleted on completion so using separate variable to check for finished state
+    QVector<QString> stripped_cache_;
+    QNetworkReply* reply_main_ = nullptr;  //!< to track request progress. See #17.
+    QNetworkReply* reply_stripped_ = nullptr;
 };
 
 } // namespace Internal

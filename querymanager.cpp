@@ -26,13 +26,12 @@ QueryManager::QueryManager(const Settings* settigns, QObject* parent) :
         emit found(answer);
         emit indexChanged(answer_index_);
         updatePrevNext();
-        rep->deleteLater();
-        reply_in_process_ = false;
     });
     connect(network_manager_stripped_.get(), &QNetworkAccessManager::finished,
             [this](QNetworkReply* rep) {
-        emit pasteReady(QString::fromUtf8(rep->readAll()));
-        rep->deleteLater();
+        QString answer = QString::fromUtf8(rep->readAll());
+        stripped_cache_.insert(answer_index_, answer);
+        emit pasteReady(answer);
     });
 }
 
@@ -45,13 +44,14 @@ void QueryManager::search(const QString& question)
 {
     question_ = question;
     answer_index_ = 0;
-    answers_cache_.clear(); // Cache is clear for every new question
+    answers_cache_.clear(); // Caches are clear for every new question
+    stripped_cache_.clear();
     query();
 }
 
 void QueryManager::requestNext()
 {
-    if(reply_in_process_) {
+    if(isRepliesActive()) {
         return; //Do nothing until request finishes
     }
     answer_index_++;
@@ -68,7 +68,7 @@ void QueryManager::requestPrev()
 {
     if(answer_index_ <= 0)
         return;
-    if(reply_in_process_) {
+    if(isRepliesActive()) {
         return; //Do nothing until request finishes
     }
 
@@ -108,11 +108,13 @@ void QueryManager::query()
     request.setUrl(buildRequest(options));
 //    qDebug("%s", qPrintable(request.url().toString()));
     request.setRawHeader("User-Agent", "User-Agent: curl/7.60.0");
-    reply_ = network_manager_->get(request);
-    reply_in_process_ = true;
+    auto reply_old = reply_main_;
+    reply_main_ = network_manager_->get(request);
+    delete reply_old;
     request.setUrl(buildRequest("?TQ"));    // No formatting, No comments
-    network_manager_stripped_->get(request);    // FIXME: probably postpone second request after results of first one? That way probably reduce server load thanks to cached result. But may lead to no or wrong paste data due to delay.
-                                                // FIXME: track this request too?
+    reply_old = reply_stripped_;
+    reply_stripped_ = network_manager_stripped_->get(request);    // FIXME: probably postpone second request after results of first one? That way probably reduce server load thanks to cached result. But may lead to no or wrong paste data due to delay.
+    delete reply_old;
 }
 
 bool QueryManager::tryAnswerFromCache(int index)
@@ -120,8 +122,8 @@ bool QueryManager::tryAnswerFromCache(int index)
     if(index < 0 || answers_cache_.size() <= index)
         return false;
 
-    QString answer = answers_cache_.at(index);
-    emit found(answer);
+    emit found(answers_cache_.at(index));
+    emit pasteReady(stripped_cache_.at(index));
     emit indexChanged(index);
     return true;
 }
@@ -139,6 +141,12 @@ void QueryManager::updatePrevNext()
         else
             emit prevAvaliable(false);
     }
+}
+
+bool QueryManager::isRepliesActive() const
+{
+    return reply_main_ && reply_stripped_
+            && (reply_main_->isRunning() || reply_stripped_->isRunning());
 }
 
 } // namespace Internal
