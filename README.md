@@ -52,6 +52,11 @@ Please note that most of the comments will be stripped and only the code will be
 
 </details>
 
+### Next/Previous answer
+You can switch answers by pressing "Next item" (<kbd>F6</kbd>) and "Previous item" (<kbd>⇧ Shift</kbd> + <kbd>F6</kbd>) buttons on the cheat.sh panel.
+
+![Next/Previous buttons](https://raw.githubusercontent.com/pozemka/resources/master/cheatsh_next-prev.png)
+
 ### Useful settings
 Plugin setting allows you to:
 * change default search context to your favorite language (default value is C++ language)
