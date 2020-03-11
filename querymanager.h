@@ -65,7 +65,7 @@ private:
     int answer_index_ = 0;
     QVector<QString> answers_cache_;    //!< Vector can be replaced with map/hash for sparse cache. It allow request for example 3rd answer immediately after 1st skipping 2nd. In that case pending network requests should be canceled or have more advanced process.
     QVector<QString> stripped_cache_;
-    std::unique_ptr<QNetworkReply> reply_main_;  //!< to track request progress. See #17.
+    std::unique_ptr<QNetworkReply> reply_main_;  //!< to track request progress. See #17, #20
     std::unique_ptr<QNetworkReply> reply_stripped_; //NOTE: QNetworkReply has it's QNetworkAccessManager set as parent so it can be double memory management if QNetworkAccessManager first deletes its child objects and then unique_ptr does the same. So it MUST BE ensured that QNetworkReplys are declared AFTER QNetworkAccessManagers to be destroyed BEFORE them.
 };
 

@@ -17,7 +17,7 @@
         <translation>Номер ответа</translation>
     </message>
     <message>
-        <location filename="../cheatoutputplane.cpp" line="75"/>
+        <location filename="../cheatoutputplane.cpp" line="74"/>
         <source>cheat.sh</source>
         <translation>cheat.sh</translation>
     </message>
@@ -108,6 +108,14 @@
         <location filename="../updatechecker.cpp" line="41"/>
         <source>&lt;b&gt;Cheat.sh plugin update avaliable.&lt;/b&gt;&lt;br /&gt;New version: %1 from %2&lt;br /&gt;Description: &lt;br /&gt;%3&lt;br /&gt;&lt;br /&gt;&lt;b&gt;&lt;a href=&quot;%4&quot;&gt;Download here&lt;/a&gt;&lt;/b&gt;</source>
         <translation>&lt;b&gt;Доступно обновление плагина Cheat.sh&lt;/b&gt;&lt;br /&gt;Новая версия: %1 от %2&lt;br /&gt;Описание:&lt;br /&gt; %3&lt;br /&gt;&lt;br /&gt;&lt;b&gt;&lt;a href=&quot;%4&quot;&gt;Загрузить здесь&lt;/b&gt;&lt;/a&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../querymanager.cpp" line="27"/>
+        <source>Cheat.sh: Requesting cheat sheet</source>
+        <translation>Cheat.sh: Запрос шпаргалки</translation>
     </message>
 </context>
 </TS>
