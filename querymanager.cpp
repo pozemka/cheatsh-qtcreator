@@ -1,5 +1,6 @@
 #include "querymanager.h"
 
+#include "cheatshconstants.h"
 #include "settings.h"
 
 #include <QFile>
@@ -10,11 +11,46 @@
 namespace CheatSh {
 namespace Internal {
 
+/**
+ * @brief The ProgressReport class is a basic progress report wrapper
+ * For now only request loading is reported so it is fine to place it right here.
+ */
+class ProgressReport
+{
+public:
+    void startNew()
+    {
+        progress_.reset();
+        progress_ = std::make_unique<QFutureInterface<void>>();
+        progress_->setProgressRange(0, 2);
+        Core::ProgressManager::addTask( progress_->future(),
+                                        QObject::tr( "Cheat.sh: Requesting cheat sheet" ),
+                                        CheatSh::Constants::TASK_ID_REQUEST );
+        progress_->reportStarted();
+    }
+    void increment()
+    {
+        if(progress_) {
+            progress_->setProgressValue(progress_->progressValue()+1);
+            if(progress_->progressValue() == progress_->progressMaximum())
+                progress_->reportFinished();
+        }
+    }
+    void cancel()
+    {
+        if(progress_)
+            progress_->reportCanceled();
+    }
+private:
+    std::unique_ptr<QFutureInterface<void>> progress_;
+};
+
 QueryManager::QueryManager(const Settings* settigns, QObject* parent) :
     QObject(parent),
     settings_(settigns),
     network_manager_(std::make_unique<QNetworkAccessManager>(this)),
-    network_manager_stripped_(std::make_unique<QNetworkAccessManager>(this))
+    network_manager_stripped_(std::make_unique<QNetworkAccessManager>(this)),
+    progress_report_(std::make_unique<ProgressReport>())
 {
     connect(network_manager_.get(), &QNetworkAccessManager::finished,
             [this](QNetworkReply* rep) {
@@ -23,6 +59,7 @@ QueryManager::QueryManager(const Settings* settigns, QObject* parent) :
 //        debug_file.write(rep->readAll());
         QString answer = QString::fromUtf8(rep->readAll());
         answers_cache_.insert(answer_index_, answer);
+        progress_report_->increment();
         emit found(answer);
         emit indexChanged(answer_index_);
         updatePrevNext();
@@ -31,6 +68,7 @@ QueryManager::QueryManager(const Settings* settigns, QObject* parent) :
             [this](QNetworkReply* rep) {
         QString answer = QString::fromUtf8(rep->readAll());
         stripped_cache_.insert(answer_index_, answer);
+        progress_report_->increment();
         emit pasteReady(answer);
     });
 }
@@ -61,8 +99,6 @@ void QueryManager::requestNext()
         updatePrevNext();
     }
 }
-
-//Может вектор зменить на хэш и тогда прекращать активные запросы чтобы можно было быстро прокликать к какоуму-то ответу. И тогда можно просто проверять, есть ли такой индекс в хэше и если есть возвращать а если нет делать запрос. Кажется будет проще.
 
 void QueryManager::requestPrev()
 {
@@ -108,13 +144,15 @@ void QueryManager::query()
     request.setUrl(buildRequest(options));
 //    qDebug("%s", qPrintable(request.url().toString()));
     request.setRawHeader("User-Agent", "User-Agent: curl/7.60.0");
-    auto reply_old = reply_main_;
-    reply_main_ = network_manager_->get(request);
-    delete reply_old;
+    progress_report_->startNew();
+    reply_main_.reset(network_manager_->get(request));
+
+//    connect(reply_main_, &QNetworkReply::downloadProgress, [](qint64 received, qint64 total){
+//        qDebug("%lld/%lld", received, total);
+//        //download progress not used for now
+//    });
     request.setUrl(buildRequest("?TQ"));    // No formatting, No comments
-    reply_old = reply_stripped_;
-    reply_stripped_ = network_manager_stripped_->get(request);    // FIXME: probably postpone second request after results of first one? That way probably reduce server load thanks to cached result. But may lead to no or wrong paste data due to delay.
-    delete reply_old;
+    reply_stripped_.reset(network_manager_stripped_->get(request));    // FIXME: probably postpone second request after results of first one? That way probably reduce server load thanks to cached result. But may lead to no or wrong paste data due to delay.
 }
 
 bool QueryManager::tryAnswerFromCache(int index)

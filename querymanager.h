@@ -1,6 +1,8 @@
 #ifndef CHEATSH_H
 #define CHEATSH_H
 
+#include <coreplugin/progressmanager/progressmanager.h>
+
 #include <QHash>
 #include <QObject>
 #include <QVector>
@@ -14,6 +16,7 @@ namespace CheatSh {
 namespace Internal {
 
 class Settings;
+class ProgressReport;
 
 /**
  * @brief The CheatSh class is used to interact with cheat.sh server
@@ -58,11 +61,12 @@ private:
     QString question_;
     std::unique_ptr<QNetworkAccessManager> network_manager_;
     std::unique_ptr<QNetworkAccessManager> network_manager_stripped_;
+    std::unique_ptr<ProgressReport> progress_report_;
     int answer_index_ = 0;
     QVector<QString> answers_cache_;    //!< Vector can be replaced with map/hash for sparse cache. It allow request for example 3rd answer immediately after 1st skipping 2nd. In that case pending network requests should be canceled or have more advanced process.
     QVector<QString> stripped_cache_;
-    QNetworkReply* reply_main_ = nullptr;  //!< to track request progress. See #17.
-    QNetworkReply* reply_stripped_ = nullptr;
+    std::unique_ptr<QNetworkReply> reply_main_;  //!< to track request progress. See #17.
+    std::unique_ptr<QNetworkReply> reply_stripped_; //NOTE: QNetworkReply has it's QNetworkAccessManager set as parent so it can be double memory management if QNetworkAccessManager first deletes its child objects and then unique_ptr does the same. So it MUST BE ensured that QNetworkReplys are declared AFTER QNetworkAccessManagers to be destroyed BEFORE them.
 };
 
 } // namespace Internal

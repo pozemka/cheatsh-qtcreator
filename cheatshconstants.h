@@ -19,9 +19,11 @@ const char CHT_LAST_CHECK_DATE[] = "lastCheckDate";
 
 const char CHT_DEFAULT_CONTEXT[] = "cpp";
 const char CHT_DEFAULT_URL[] = "https://cht.sh";
-const char UPDATES_URL[]   = "https://api.github.com/repos/pozemka/cheatsh-qtcreator/releases/latest";
 
+const char UPDATES_URL[]   = "https://api.github.com/repos/pozemka/cheatsh-qtcreator/releases/latest";
 const unsigned int UPDATE_INTERVAL = 7;
+
+const char TASK_ID_REQUEST[] = "CheatSh.Task.Request";
 
 } // namespace Constants
 } // namespace CheatSh
