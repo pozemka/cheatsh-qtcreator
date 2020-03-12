@@ -1,0 +1,54 @@
+//shell("cmd.exe", "/C")
+creators = "4.8.0 4.9.0 4.10.0 4.11.0"
+archt = "x64"
+if family() == "windows":
+    creator_basedir="d:/projects/3rdparties/"
+    make = "jom"
+    make_args = "release"
+    qmake = "qmake"
+else:
+    creator_basedir="/opt/slow/build/"
+    threads = `nproc --all`
+    make = "make -j ${threads}"
+    qmake = "qmake-qt5"
+end
+
+_default:
+    println("Wonderful possibilities are")
+    @haku --list
+ 
+update:
+//     cd cheatsh-qtcreator
+    git pull --recurse-submodules
+//     cd -
+    version = `git --git-dir cheatsh-qtcreator/.git --work-tree cheatsh-qtcreator describe --always --tags --abbrev=0`
+    println("Updated to version ${version}")
+ 
+build: update
+    println("Building")
+    //for creator in "${creators}":
+    for creator in ${creators}:
+        setenv("IDE_SOURCE_TREE", "${creator_basedir}qt-creator-opensource-src-${creator}")
+        println($IDE_SOURCE_TREE)
+        setenv("IDE_BUILD_TREE",  "${creator_basedir}qt-creator-${creator}-${archt}-build")
+        println($IDE_BUILD_TREE)
+        //cd cheatsh-qtcreator
+        ${qmake} CONFIG+=release IDE_SOURCE_TREE=${IDE_SOURCE_TREE} IDE_BUILD_TREE=${IDE_BUILD_TREE} cheatsh.pro
+        ${make} ${make_args}
+        ${make} clean
+        //cd -
+        if family() == "windows":
+            zip7='"c:/Program Files/7-Zip/7z.exe"'
+            //Или
+            //     newpath = "${PATH};c:/program files/winrar"
+            //     set-env("PATH", $newpath)
+            //     rar -v
+            &${zip7} a -tzip -mx9 -r0 releases/cheatsh-${version}-qt-creator-${creator}-win-${archt}.zip ${LOCALAPPDATA}/QtProject/qtcreator/plugins/${creator} "-xr!*.lib"
+        else:
+            cd /home/uni/.local/share/data/QtProject/qtcreator/plugins/
+            tar -czf "${creator_basedir}/releases/cheatsh-${version}-qt-creator-${creator}-linux-${archt}.tar.gz" "${creator}/libCheatSh.so"
+            cd -
+        end
+    end
+    println("Finished!")
+ 
