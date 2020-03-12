@@ -5,6 +5,7 @@
 
 #include <QHash>
 #include <QObject>
+#include <QNetworkReply>
 #include <QVector>
 
 #include <memory>

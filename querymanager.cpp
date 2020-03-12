@@ -18,6 +18,8 @@ namespace Internal {
 class ProgressReport
 {
 public:
+
+    //TODO:     QObject::connect(progress, &Core::FutureProgress::canceled, this, [this]{stop({});});
     void startNew()
     {
         progress_.reset();
@@ -38,8 +40,11 @@ public:
     }
     void cancel()
     {
-        if(progress_)
-            progress_->reportCanceled();
+        if(progress_) {
+            progress_->reportCanceled(); // It seems cancel() and reportCanceled do same thing
+            progress_->reportFinished(); // reportFinished should follow reportCanceled
+            //FIXME: Minor: shadow of report popup stays over Cheat.sh panel. Looks like update() should clear it. Prbably will be solved when error displayed in panel.
+        }
     }
 private:
     std::unique_ptr<QFutureInterface<void>> progress_;
@@ -151,6 +156,11 @@ void QueryManager::query()
 //        qDebug("%lld/%lld", received, total);
 //        //download progress not used for now
 //    });
+    connect(reply_main_.get(), static_cast<void(QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), [&](QNetworkReply::NetworkError code){
+        //TODO: display error message in Cheat.sh panel
+        qDebug("Error in processing reply: %d %s", code, qPrintable(reply_main_->errorString()));
+        progress_report_->cancel();
+    });
     request.setUrl(buildRequest("?TQ"));    // No formatting, No comments
     reply_stripped_.reset(network_manager_stripped_->get(request));    // FIXME: probably postpone second request after results of first one? That way probably reduce server load thanks to cached result. But may lead to no or wrong paste data due to delay.
 }
