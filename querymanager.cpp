@@ -65,8 +65,11 @@ QueryManager::QueryManager(const Settings* settigns, QObject* parent) :
         QString answer = QString::fromUtf8(rep->readAll());
         answers_cache_.insert(answer_index_, answer);
         progress_report_->increment();
-        emit found(answer);
-        emit indexChanged(answer_index_);
+        if(!rep->error()) {
+            // Only emit found on successfull requests
+            emit found(answer);
+        }
+        emit indexChanged(answer_index_);   //Index updates even when request failed. Is it ok?
         updatePrevNext();
     });
     connect(network_manager_stripped_.get(), &QNetworkAccessManager::finished,
@@ -74,7 +77,10 @@ QueryManager::QueryManager(const Settings* settigns, QObject* parent) :
         QString answer = QString::fromUtf8(rep->readAll());
         stripped_cache_.insert(answer_index_, answer);
         progress_report_->increment();
-        emit pasteReady(answer);
+        if(!rep->error()) {
+            // Only emit pasteReady on successfull requests
+            emit pasteReady(answer);
+        }
     });
 }
 
@@ -98,7 +104,7 @@ void QueryManager::requestNext()
         return; //Do nothing until request finishes
     }
     answer_index_++;
-    if(!tryAnswerFromCache(answer_index_)) {
+    if(!tryAnswerFromCache(answer_index_)) { // TODO: merge this if-else to tryAnswerFromCache ?
         query(); // request next if answer not cached
     } else {
         updatePrevNext();
@@ -114,8 +120,11 @@ void QueryManager::requestPrev()
     }
 
     answer_index_--;
-    tryAnswerFromCache(answer_index_);
-    updatePrevNext();
+    if(!tryAnswerFromCache(answer_index_)) { // TODO: merge this if-else to tryAnswerFromCache ?
+        query(); // request prev if answer not cached
+    } else {
+        updatePrevNext();
+    }
 }
 
 void QueryManager::query()
@@ -158,7 +167,7 @@ void QueryManager::query()
 //    });
     connect(reply_main_.get(), static_cast<void(QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), [&](QNetworkReply::NetworkError code){
         //TODO: display error message in Cheat.sh panel
-        qDebug("Error in processing reply: %d %s", code, qPrintable(reply_main_->errorString()));
+        reportRequestError(reply_main_->errorString());
         progress_report_->cancel();
     });
     request.setUrl(buildRequest("?TQ"));    // No formatting, No comments
@@ -167,8 +176,13 @@ void QueryManager::query()
 
 bool QueryManager::tryAnswerFromCache(int index)
 {
-    if(index < 0 || answers_cache_.size() <= index)
+    if(index < 0
+            || answers_cache_.size() <= index
+            || stripped_cache_.size() <= index
+            || answers_cache_.at(index).isEmpty()   // To retry previously failed requests
+            || stripped_cache_.at(index).isEmpty()) {
         return false;
+    }
 
     emit found(answers_cache_.at(index));
     emit pasteReady(stripped_cache_.at(index));
@@ -195,6 +209,13 @@ bool QueryManager::isRepliesActive() const
 {
     return reply_main_ && reply_stripped_
             && (reply_main_->isRunning() || reply_stripped_->isRunning());
+}
+
+void QueryManager::reportRequestError(const QString& error_text)
+{
+    QString err = tr("An error occurred during the request:\n%1").arg(error_text);
+//    qWarning("%s", qPrintable(err));
+    emit found(err);    //TODO: use different signal to report errors
 }
 
 } // namespace Internal

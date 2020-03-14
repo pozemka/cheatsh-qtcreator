@@ -57,6 +57,7 @@ private:
     void updatePrevNext();
 
     bool isRepliesActive() const;
+    void reportRequestError(const QString& error_text);
 
     const Settings* settings_ = nullptr;
     QString question_;
