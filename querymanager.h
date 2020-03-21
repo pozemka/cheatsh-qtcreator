@@ -32,6 +32,7 @@ public:
 signals:
     void found(const QString& result);
     void pasteReady(const QString& result);
+    void errorOccurred(const QString& error_text);
     void nextAvaliable(bool avaliable);
     void prevAvaliable(bool avaliable);
     void indexChanged(int index);
@@ -50,14 +51,14 @@ private:
      * @param index Answer index.
      * @return true if Answer with index is in cache
      */
-    bool tryAnswerFromCache(int index);
+    void requestAnswerFromCacheOrQuery(int index);
     /**
      * @brief Checks if prev/next answers can be requested and emits corresponding signals
      */
     void updatePrevNext();
 
     bool isRepliesActive() const;
-    void reportRequestError(const QString& error_text);
+    void reportRequestError(int error_code, const QString& error_text);
 
     const Settings* settings_ = nullptr;
     QString question_;

@@ -25,33 +25,33 @@
 <context>
     <name>CheatSh::Internal::CheatShPlugin</name>
     <message>
-        <location filename="../cheatshplugin.cpp" line="126"/>
+        <location filename="../cheatshplugin.cpp" line="127"/>
         <source>&lt;b&gt;Cheat.sh plugin can&apos;t use SSL.&lt;/b&gt;&lt;br /&gt;HTTPS connections and update checks will be unavaliable.&lt;br /&gt;Please &lt;a href=&quot;%1&quot;&gt;install OpenSSL&lt;/a&gt;</source>
         <translation>&lt;b&gt;Плагин Cheat.sh не может использовать SSL.&lt;/b&gt;&lt;br /&gt;Соединения по HTTPS и проверка обновлений не будут работать.&lt;br /&gt;Пожалуйста, &lt;a href=&quot;%1&quot;&gt;установите OpenSSL&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="161"/>
+        <location filename="../cheatshplugin.cpp" line="162"/>
         <source>Search cheat.sh</source>
         <translation>Искать на cheat.sh</translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="164"/>
+        <location filename="../cheatshplugin.cpp" line="165"/>
         <source>Alt+Shift+C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="166"/>
+        <location filename="../cheatshplugin.cpp" line="167"/>
         <source>Paste result</source>
         <translation>Вставить результат</translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="169"/>
+        <location filename="../cheatshplugin.cpp" line="170"/>
         <source>Alt+Shift+V</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../cheatshplugin.cpp" line="201"/>
-        <location filename="../cheatshplugin.cpp" line="212"/>
+        <location filename="../cheatshplugin.cpp" line="202"/>
+        <location filename="../cheatshplugin.cpp" line="213"/>
         <source>CheatSh</source>
         <translation></translation>
     </message>
@@ -103,6 +103,18 @@
     </message>
 </context>
 <context>
+    <name>CheatSh::Internal::QueryManager</name>
+    <message>
+        <source>&lt;b&gt;An error occurred during cheat sheet request:&lt;/b&gt;&lt;br /&gt; %2. (error code %1)</source>
+        <translation type="vanished">&lt;b&gt;Во время запроса шпаргалки произошла ошибка:&lt;/b&gt;&lt;br /&gt;%2. (код ошибки %1)</translation>
+    </message>
+    <message>
+        <location filename="../querymanager.cpp" line="215"/>
+        <source>&lt;b&gt;An error occurred during cheat sheet request (code %1):&lt;/b&gt;&lt;br /&gt; %2.</source>
+        <translation>&lt;b&gt;Во время запроса шпаргалки произошла ошибка (код %1):&lt;/b&gt;&lt;br /&gt;%2.</translation>
+    </message>
+</context>
+<context>
     <name>CheatSh::Internal::UpdateChecker</name>
     <message>
         <location filename="../updatechecker.cpp" line="41"/>
@@ -113,7 +125,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../querymanager.cpp" line="27"/>
+        <location filename="../querymanager.cpp" line="29"/>
         <source>Cheat.sh: Requesting cheat sheet</source>
         <translation>Cheat.sh: Запрос шпаргалки</translation>
     </message>

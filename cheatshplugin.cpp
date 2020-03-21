@@ -93,6 +93,7 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
     cheat_filter_ = std::make_unique<CheatFilter>();
     options_page_ = new OptionsPage(settings_, this);
     connect(cheat_sh_, &QueryManager::found, out_plane_, &CheatOutputPlane::displayANSI);
+    connect(cheat_sh_, &QueryManager::errorOccurred, out_plane_, &CheatOutputPlane::displayHtml);
     connect(cheat_sh_, &QueryManager::pasteReady, [this](const QString& paste_val){
         paste_value_ = paste_val;
     });

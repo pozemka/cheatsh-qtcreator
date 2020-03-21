@@ -3,6 +3,8 @@
 #include "cheatshconstants.h"
 #include "settings.h"
 
+#include <coreplugin/progressmanager/futureprogress.h>
+
 #include <QFile>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -14,20 +16,23 @@ namespace Internal {
 /**
  * @brief The ProgressReport class is a basic progress report wrapper
  * For now only request loading is reported so it is fine to place it right here.
+ * Probably move it to separate header to have signals. Or just put these functions to QueryManager
  */
 class ProgressReport
 {
 public:
-
-    //TODO:     QObject::connect(progress, &Core::FutureProgress::canceled, this, [this]{stop({});});
     void startNew()
     {
         progress_.reset();
         progress_ = std::make_unique<QFutureInterface<void>>();
         progress_->setProgressRange(0, 2);
-        Core::ProgressManager::addTask( progress_->future(),
+        Core::FutureProgress* future_progress = Core::ProgressManager::addTask( progress_->future(),
                                         QObject::tr( "Cheat.sh: Requesting cheat sheet" ),
                                         CheatSh::Constants::TASK_ID_REQUEST );
+        QObject::connect(future_progress, &Core::FutureProgress::canceled, [](){
+            //TODO: cancel request
+//            qDebug("Cancel requested");
+        });
         progress_->reportStarted();
     }
     void increment()
@@ -43,7 +48,6 @@ public:
         if(progress_) {
             progress_->reportCanceled(); // It seems cancel() and reportCanceled do same thing
             progress_->reportFinished(); // reportFinished should follow reportCanceled
-            //FIXME: Minor: shadow of report popup stays over Cheat.sh panel. Looks like update() should clear it. Prbably will be solved when error displayed in panel.
         }
     }
 private:
@@ -103,12 +107,9 @@ void QueryManager::requestNext()
     if(isRepliesActive()) {
         return; //Do nothing until request finishes
     }
+
     answer_index_++;
-    if(!tryAnswerFromCache(answer_index_)) { // TODO: merge this if-else to tryAnswerFromCache ?
-        query(); // request next if answer not cached
-    } else {
-        updatePrevNext();
-    }
+    requestAnswerFromCacheOrQuery(answer_index_);
 }
 
 void QueryManager::requestPrev()
@@ -120,11 +121,7 @@ void QueryManager::requestPrev()
     }
 
     answer_index_--;
-    if(!tryAnswerFromCache(answer_index_)) { // TODO: merge this if-else to tryAnswerFromCache ?
-        query(); // request prev if answer not cached
-    } else {
-        updatePrevNext();
-    }
+    requestAnswerFromCacheOrQuery(answer_index_);
 }
 
 void QueryManager::query()
@@ -166,28 +163,28 @@ void QueryManager::query()
 //        //download progress not used for now
 //    });
     connect(reply_main_.get(), static_cast<void(QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), [&](QNetworkReply::NetworkError code){
-        //TODO: display error message in Cheat.sh panel
-        reportRequestError(reply_main_->errorString());
+        reportRequestError(code, reply_main_->errorString());
         progress_report_->cancel();
     });
     request.setUrl(buildRequest("?TQ"));    // No formatting, No comments
-    reply_stripped_.reset(network_manager_stripped_->get(request));    // FIXME: probably postpone second request after results of first one? That way probably reduce server load thanks to cached result. But may lead to no or wrong paste data due to delay.
+    reply_stripped_.reset(network_manager_stripped_->get(request));    // FIXME: probably postpone second request after results of first one? That way probably reduce server load thanks to cached result. But may lead to no or wrong paste data due to delay. NOTE: it seems this "second" request finishes before "first"
 }
 
-bool QueryManager::tryAnswerFromCache(int index)
+void QueryManager::requestAnswerFromCacheOrQuery(int index)
 {
     if(index < 0
             || answers_cache_.size() <= index
             || stripped_cache_.size() <= index
             || answers_cache_.at(index).isEmpty()   // To retry previously failed requests
             || stripped_cache_.at(index).isEmpty()) {
-        return false;
+        query();
+        return;
     }
 
     emit found(answers_cache_.at(index));
     emit pasteReady(stripped_cache_.at(index));
     emit indexChanged(index);
-    return true;
+    updatePrevNext();
 }
 
 void QueryManager::updatePrevNext()
@@ -211,11 +208,11 @@ bool QueryManager::isRepliesActive() const
             && (reply_main_->isRunning() || reply_stripped_->isRunning());
 }
 
-void QueryManager::reportRequestError(const QString& error_text)
+void QueryManager::reportRequestError(int error_code, const QString& error_text)
 {
-    QString err = tr("An error occurred during the request:\n%1").arg(error_text);
-//    qWarning("%s", qPrintable(err));
-    emit found(err);    //TODO: use different signal to report errors
+    QString err = tr("<b>An error occurred during cheat sheet request (code %1):</b><br /> %2.").arg(error_code).arg(error_text);
+//    qWarning("Error during request: %d - %s", error_code, qPrintable(error_text));
+    emit errorOccurred(err);
 }
 
 } // namespace Internal

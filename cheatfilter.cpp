@@ -23,7 +23,7 @@ QList<LocatorFilterEntry> CheatFilter::matchesFor(QFutureInterface<LocatorFilter
             value.append(LocatorFilterEntry(this, entry, QVariant()));
 //    QList<LocatorFilterEntry> others;
 
-    //TODO: тоже можно поиск по истории. Или по каким-то локальным подсказкам, как в баше автодополнение у cheat.sh реализовано.
+    //TODO: search history or autocompletion similar to bash implementation of cheat.sh
 //        const Qt::CaseSensitivity entryCaseSensitivity = caseSensitivity(entry);
 //        for (const QString &cmd : qAsConst(m_commandHistory)) {
 //            if (future.isCanceled())
