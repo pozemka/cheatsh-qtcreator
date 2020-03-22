@@ -23,11 +23,13 @@ _default:
  
 update:
     git pull --recurse-submodules
-    version = `git --git-dir cheatsh-qtcreator/.git --work-tree cheatsh-qtcreator describe --always --tags --abbrev=0`
+    version = `git --git-dir .git --work-tree cheatsh-qtcreator describe --always --tags --abbrev=0`
     println("Updated to version ${version}")
  
-build: update
+build archt: update
     println("Building")
+    
+    println($archt)
     for creator in ${creators}:
         setenv("IDE_SOURCE_TREE", "${creator_basedir}qt-creator-opensource-src-${creator}")
         println($IDE_SOURCE_TREE)
