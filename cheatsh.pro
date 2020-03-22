@@ -9,6 +9,7 @@ SOURCES += \
     cheatoutputplane.cpp \
     cheatfilter.cpp \
     optionspage.cpp \
+    progressreport.cpp \
     querymanager.cpp \
     settings.cpp \
     optionsdialog.cpp \
@@ -21,6 +22,7 @@ HEADERS += \
     cheatoutputplane.h \
     cheatfilter.h \
     optionspage.h \
+    progressreport.h \
     querymanager.h \
     settings.h \
     optionsdialog.h \

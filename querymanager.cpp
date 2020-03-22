@@ -1,9 +1,8 @@
 #include "querymanager.h"
 
 #include "cheatshconstants.h"
+#include "progressreport.h"
 #include "settings.h"
-
-#include <coreplugin/progressmanager/futureprogress.h>
 
 #include <QFile>
 #include <QNetworkAccessManager>
@@ -13,46 +12,6 @@
 namespace CheatSh {
 namespace Internal {
 
-/**
- * @brief The ProgressReport class is a basic progress report wrapper
- * For now only request loading is reported so it is fine to place it right here.
- * Probably move it to separate header to have signals. Or just put these functions to QueryManager
- */
-class ProgressReport
-{
-public:
-    void startNew()
-    {
-        progress_.reset();
-        progress_ = std::make_unique<QFutureInterface<void>>();
-        progress_->setProgressRange(0, 2);
-        Core::FutureProgress* future_progress = Core::ProgressManager::addTask( progress_->future(),
-                                        QObject::tr( "Cheat.sh: Requesting cheat sheet" ),
-                                        CheatSh::Constants::TASK_ID_REQUEST );
-        QObject::connect(future_progress, &Core::FutureProgress::canceled, [](){
-            //TODO: cancel request
-//            qDebug("Cancel requested");
-        });
-        progress_->reportStarted();
-    }
-    void increment()
-    {
-        if(progress_) {
-            progress_->setProgressValue(progress_->progressValue()+1);
-            if(progress_->progressValue() == progress_->progressMaximum())
-                progress_->reportFinished();
-        }
-    }
-    void cancel()
-    {
-        if(progress_) {
-            progress_->reportCanceled(); // It seems cancel() and reportCanceled do same thing
-            progress_->reportFinished(); // reportFinished should follow reportCanceled
-        }
-    }
-private:
-    std::unique_ptr<QFutureInterface<void>> progress_;
-};
 
 QueryManager::QueryManager(const Settings* settigns, QObject* parent) :
     QObject(parent),
@@ -86,6 +45,7 @@ QueryManager::QueryManager(const Settings* settigns, QObject* parent) :
             emit pasteReady(answer);
         }
     });
+    connect(progress_report_.get(), &ProgressReport::cancelRequested, this, &QueryManager::cancelRequests);
 }
 
 QueryManager::~QueryManager()
@@ -122,6 +82,14 @@ void QueryManager::requestPrev()
 
     answer_index_--;
     requestAnswerFromCacheOrQuery(answer_index_);
+}
+
+void QueryManager::cancelRequests()
+{
+    if(reply_main_)
+        reply_main_->abort();
+    if(reply_stripped_)
+        reply_stripped_->abort();
 }
 
 void QueryManager::query()

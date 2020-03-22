@@ -1,8 +1,6 @@
 #ifndef CHEATSH_H
 #define CHEATSH_H
 
-#include <coreplugin/progressmanager/progressmanager.h>
-
 #include <QHash>
 #include <QObject>
 #include <QNetworkReply>
@@ -41,6 +39,7 @@ public slots:
     void search(const QString& question); //!< search for new Question
     void requestNext();
     void requestPrev();
+    void cancelRequests();
 
 private:
     void query(); //!< do network request based on current question, index and options.
