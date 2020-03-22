@@ -15,7 +15,7 @@ void ProgressReport::startNew()
     progress_->setProgressRange(0, 2);
     Core::FutureProgress* future_progress =
             Core::ProgressManager::addTask( progress_->future(),
-                                            QObject::tr( "Cheat.sh: Requesting cheat sheet" ),
+                                            tr("Cheat.sh: Requesting cheat sheet"),
                                             CheatSh::Constants::TASK_ID_REQUEST );
     QObject::connect(future_progress, &Core::FutureProgress::canceled, this, &ProgressReport::cancelRequested);
     progress_->reportStarted();
