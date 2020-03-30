@@ -2,7 +2,8 @@
 
 1. [openSUSE](#openSUSE)
 2. [Ubuntu (Kubuntu)](#ubuntu-kubuntu)
-3. [Windows](#Windows)
+3. [Arch (Manjaro)](#arch-manjaro)
+4. [Windows](#Windows)
 
 ## openSUSE
 Tested on openSUSE 15.1
@@ -42,6 +43,36 @@ Tested on Kubuntu 19.10
     
 4. `make` — this installs to user plugin directory
 5. `sudo make install` — if you want to install system-wide
+
+
+## Arch (Manjaro)
+Tested on Manjaro 19.0.2
+### Requirements
+1. Qt Creator sources
+
+### Build process
+1. Build Qt Creator from sources. For example source are in the `/home/user/projects/3rdparties/qt-creator-opensource-src-4.11.0`, build is in the `/home/user/projects/3rdparties/qt-creator-opensource-4.11.0-x64-build`
+2. `git clone --recursive https://github.com/pozemka/cheatsh-qtcreator.git`
+3. `cd cheatsh-qtcreator`
+4.
+```
+qmake CONFIG+=release \
+    KSYNTAXHIGHLIGHTING_LIB_DIR=/usr/lib \
+    KSYNTAXHIGHLIGHTING_INCLUDE_DIR=/usr/include/KF5/KSyntaxHighlighting \
+    IDE_SOURCE_TREE=<Path to Qt Creator sources> \
+    IDE_BUILD_TREE=<Path to Qt Creator build> \
+    cheatsh.pro
+```
+    For example:
+```
+qmake CONFIG+=release \
+    KSYNTAXHIGHLIGHTING_LIB_DIR=/usr/lib \
+    KSYNTAXHIGHLIGHTING_INCLUDE_DIR=/usr/include/KF5/KSyntaxHighlighting \
+    IDE_SOURCE_TREE=/home/user/projects/3rdparties/qt-creator-opensource-src-4.11.0 \
+    IDE_BUILD_TREE=/home/user/projects/3rdparties/qt-creator-opensource-4.11.0-x64-build \
+    cheatsh.pro
+```
+5. `make` — this installs to user plugin directory
 
 ## Windows
 ### Requirements
