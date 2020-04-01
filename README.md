@@ -76,6 +76,3 @@ Please note:
 
 ## Compilation
 See [INSTALL](INSTALL.md) for more info about compilation from sources.
-
-## TODO:
-* Request next/prev answer
