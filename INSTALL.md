@@ -78,16 +78,21 @@ qmake CONFIG+=release \
 ### Requirements
 0. Don't forget to use same architecture everywhere. See your Qt Creator's about dialog if in doubt.
 1. [Download and install OpenSSL for Windows](https://slproweb.com/products/Win32OpenSSL.html) (light installer is sufficient). You can choose to copy OpenSSl DLLs to the Windows system directory or to add them to the PATH environment variable manually. Read [this page](https://github.com/pozemka/cheatsh-qtcreator/wiki/OpenSSL) on wiki for more information.
-2. Qt Creator sources
+2. Install Qt Creator with "Qt Creator 4.x.x Plugin Development" component selected.
+    * **Or** [Build Qt Creator from sources](https://wiki.qt.io/Building_Qt_Creator_from_Git)
 
 ### Build process
-1. [Build Qt Creator from sources](https://wiki.qt.io/Building_Qt_Creator_from_Git)
-2. `git clone --recursive https://github.com/pozemka/cheatsh-qtcreator.git`
-3. `cd cheatsh-qtcreator`
-4. `qmake "IDE_SOURCE_TREE=<Path to Qt Creator sources>" "IDE_BUILD_TREE=<Path to Qt Creator build>" cheatsh.pro`
+1. `git clone --recursive https://github.com/pozemka/cheatsh-qtcreator.git`
+2. `cd cheatsh-qtcreator`
+3. `qmake "IDE_SOURCE_TREE=<Path to Qt Creator>\dev" "IDE_BUILD_TREE=<Path to Qt Creator>\dev"`
 
     For example:
     
-    `d:\projects\cheatsh-qtcreator>qmake "IDE_SOURCE_TREE=d:\projects\3rdparties\qt-creator-opensource-src-4.11.0" "IDE_BUILD
-_TREE=d:\projects\3rdparties\qt-creator-4.11.0-x64-build" cheatsh.pro`
-5. `nmake release` — this installs to user plugin directory
+    `qmake "IDE_SOURCE_TREE=c:\Qt\qtcreator-4.12.0\dev" "IDE_BUILD_TREE=c:\Qt\qtcreator-4.12.0\dev"`
+    * **Or** in case you built Qt Creator:
+      `qmake "IDE_SOURCE_TREE=<Path to Qt Creator sources>" "IDE_BUILD_TREE=<Path to Qt Creator build>" cheatsh.pro`
+
+      For example:
+    
+      `qmake "IDE_SOURCE_TREE=d:\projects\3rdparties\qt-creator-opensource-src-4.11.0" "IDE_BUILD_TREE=d:\projects\3rdparties\qt-creator-4.11.0-x64-build" cheatsh.pro`
+4. `nmake release` — this installs to user plugin directory
