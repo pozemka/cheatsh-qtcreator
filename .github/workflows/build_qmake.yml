@@ -212,14 +212,11 @@ jobs:
         
     - name: Get the version
       id: get_version
-      shell: cmake -P {0}
+      shell: bash
       run: |
-        execute_process(
-          COMMAND git describe --tags `git rev-list --tags --max-count=1`
-          OUTPUT_VARIABLE tag_version
-        )
-        message(STATUS "tag_version ${tag_version}")
-        message("::set-output name=tag_version::${tag_version}")
+        VERSION=`git --git-dir .git --work-tree . describe --always --tags --abbrev=0`
+        echo "VERSION: ${VERSION}"
+        echo "::set-output name=tag_version::${VERSION}"
         
     - name: Build
       id: build
