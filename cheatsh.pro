@@ -114,6 +114,11 @@ isEmpty(IDE_SOURCE_TREE): IDE_SOURCE_TREE = $$(QTC_SOURCE)
 ## or set the QTC_BUILD environment variable, to override the default setting
 isEmpty(IDE_BUILD_TREE): IDE_BUILD_TREE = $$(QTC_BUILD)
 
+message("QTC_SOURCE")
+message($$QTC_SOURCE)
+message("QTC_BUILD")
+message($$QTC_BUILD)
+
 ## uncomment to build plugin into user config directory
 ## <localappdata>/plugins/<ideversion>
 ##    where <localappdata> is e.g.
@@ -140,5 +145,5 @@ QTC_PLUGIN_RECOMMENDS += \
 
 ###### End _dependencies.pri contents ######
 message($$IDE_SOURCE_TREE)
-message($$IDE_SOURCE_TREE/src/qtcreatorplugin.pri)
+message("$$IDE_SOURCE_TREE/src/qtcreatorplugin.pri")
 include($$IDE_SOURCE_TREE/src/qtcreatorplugin.pri)
