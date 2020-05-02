@@ -60,10 +60,10 @@ jobs:
       id: get_version
       shell: cmake -P {0}
       execute_process(
-          COMMAND `git --git-dir .git --work-tree . describe --tags --abbrev=0`
-          OUTPUT_VARIABLE tag_version
-          RESULT_VARIABLE result
-        )
+        COMMAND `git --git-dir .git --work-tree . describe --tags --abbrev=0`
+        OUTPUT_VARIABLE tag_version
+        RESULT_VARIABLE result
+      )
       if (NOT result EQUAL 0)
         message(WARNING "Bad tag name. Will use 'latest'.")
         set(tag_version "latest")
