@@ -212,8 +212,9 @@ jobs:
         
     - name: Get the version
       id: get_version
+      shell: bash
       run: |
-        echo ::set-env name=VERSION::$(git describe --tags `git rev-list --tags --max-count=1`)
+        echo ::set-env name=VERSION::$(git --git-dir .git --work-tree cheatsh-qtcreator describe --always --tags --abbrev=0)
         
     - name: Build
       id: build
@@ -243,6 +244,7 @@ jobs:
         endif()
 
         file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/$ENV{PLUGIN_NAME}-${{ steps.get_version.VERSION }}-QtCreator-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact-suffix }}" artifact)
+        message("::set-output name=artifact::${artifact}")
         message(STATUS "artifact: ${artifact}")
         message(STATUS "pluginpath: ${{ steps.qt_creator.outputs.qtc_output_directory }}")
         message(STATUS "version: ${VERSION}")
