@@ -59,7 +59,7 @@ jobs:
     - name: Get the version
       id: get_version
       shell: cmake -P {0}
-      run:
+      run: |
         execute_process(
           COMMAND `git --git-dir .git --work-tree . describe --tags --abbrev=0`
           OUTPUT_VARIABLE tag_version
