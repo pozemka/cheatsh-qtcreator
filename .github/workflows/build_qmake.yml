@@ -37,8 +37,9 @@ jobs:
 #            }
           - {
               name: "Linux Latest x64", 
-              artifact: "cheatsh-X-qt-creator-$ENV{QT_CREATOR_VERSION}-linux-x64.tar.gz",
-              os: ubuntu-latest
+              artifact-suffix: "-linux-x64.tar.gz",
+              os: ubuntu-latest,
+              pluginpath: "~/.local/share/data/QtProject/qtcreator/plugins"
             }
 #          - {
 #              name: "macOS Latest x64",
@@ -52,6 +53,7 @@ jobs:
     - uses: actions/checkout@v2
       with: 
         submodules: true
+    
     - name: Installing system libs
       shell: cmake -P {0}
       run: |
@@ -132,21 +134,22 @@ jobs:
         set(qtc_base_url "https://download.qt.io/official_releases/qtcreator/${CMAKE_MATCH_1}/$ENV{QT_CREATOR_VERSION}")
 
         if ("${{ runner.os }}" STREQUAL "Windows")
-          set(qtc_output_directory "qtcreator/lib/qtcreator/plugins")
-          set(qtc_binary_name "$ENV{PLUGIN_NAME}4.dll")
+#          set(qtc_output_directory "qtcreator/lib/qtcreator/plugins")
+          set(qtc_output_directory "$HOME/QtProject/qtcreator/plugins")
+          set(qtc_binary_name "$ENV{PLUGIN_NAME}.dll")
           if ("${{ matrix.config.environment_script }}" MATCHES "vcvars64.bat")
             set(qtc_platform "windows_msvc2017_x64")
           elseif ("${{ matrix.config.environment_script }}" MATCHES "vcvars32.bat")
             set(qtc_platform "windows_msvc2017_x86")
           endif()
         elseif ("${{ runner.os }}" STREQUAL "Linux")
-          set(qtc_output_directory "qtcreator/lib/qtcreator/plugins")
+          set(qtc_output_directory "$HOME/.local/share/data/QtProject/qtcreator/plugins")
           set(qtc_binary_name "lib$ENV{PLUGIN_NAME}.so")
           set(qtc_platform "linux_gcc_64_rhel72")
-        elseif ("${{ runner.os }}" STREQUAL "macOS")
-          set(qtc_output_directory "qtcreator/bin/Qt Creator.app/Contents/PlugIns")
-          set(qtc_binary_name "lib$ENV{PLUGIN_NAME}.dylib")
-          set(qtc_platform "mac_x64")
+#        elseif ("${{ runner.os }}" STREQUAL "macOS")
+#          set(qtc_output_directory "qtcreator/bin/Qt Creator.app/Contents/PlugIns")
+#          set(qtc_binary_name "lib$ENV{PLUGIN_NAME}.dylib")
+#          set(qtc_platform "mac_x64")
         endif()
 
         # Save the path for other steps
@@ -199,11 +202,17 @@ jobs:
             CONFIG+=release
             IDE_SOURCE_TREE="${qtcreator_dir}"
             IDE_BUILD_TREE="${qtcreator_dir}"
+#            USE_USER_DESTDIR=no
           RESULT_VARIABLE result
         )
         if (NOT result EQUAL 0)
           message(FATAL_ERROR "Bad exit status")
         endif()
+        
+    - name: Get the version
+      id: get_version
+      shell: bash
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
         
     - name: Build
       shell: cmake -P {0}
@@ -231,9 +240,10 @@ jobs:
           message(FATAL_ERROR "Bad exit status")
         endif()
 
-        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/$ENV{PLUGIN_NAME}-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact }}" artifact)
+        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/$ENV{PLUGIN_NAME}-${{ steps.get_version.VERSION }}-QtCreator-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact-suffix }}" artifact)
 
         execute_process(COMMAND
-          ${CMAKE_COMMAND} -E tar cvzf ${artifact} "${{ steps.qt_creator.outputs.qtc_binary_name }}"
+#          ${CMAKE_COMMAND} -E tar cvzf ${artifact} "${{ matrix.config.pluginpath }}/$ENV{QT_CREATOR_VERSION}/${{ steps.qt_creator.outputs.qtc_binary_name }}"
+          ${CMAKE_COMMAND} -E tar cvf $ENV{QT_CREATOR_VERSION}/${artifact} --format=zip "${{ steps.qt_creator.outputs.qtc_binary_name }}"
           WORKING_DIRECTORY "${{ steps.qt_creator.outputs.qtc_output_directory }}"
         )
