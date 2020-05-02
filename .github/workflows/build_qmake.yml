@@ -154,6 +154,7 @@ jobs:
 
         if ("${{ runner.os }}" STREQUAL "Windows")
           set(qtc_output_directory "$ENV{LOCALAPPDATA}/QtProject/qtcreator/plugins")
+          STRING(REGEX REPLACE "\\\\" "/" qtc_output_directory ${qtc_output_directory}) 
           set(qtc_binary_name "$ENV{PLUGIN_NAME}.dll")
           if ("${{ matrix.config.environment_script }}" MATCHES "vcvars64.bat")
             set(qtc_platform "windows_msvc2017_x64")
