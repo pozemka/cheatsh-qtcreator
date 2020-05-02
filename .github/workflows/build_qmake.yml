@@ -201,7 +201,7 @@ jobs:
             CONFIG+=release
             IDE_SOURCE_TREE="${qtcreator_dir}"
             IDE_BUILD_TREE="${qtcreator_dir}"
-#            USE_USER_DESTDIR=no
+            USE_USER_DESTDIR=yes
           RESULT_VARIABLE result
         )
         if (NOT result EQUAL 0)
