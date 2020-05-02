@@ -118,6 +118,10 @@ message("QTC_SOURCE")
 message($$QTC_SOURCE)
 message("QTC_BUILD")
 message($$QTC_BUILD)
+message("IDE_SOURCE_TREE")
+message($$IDE_SOURCE_TREE)
+message("IDE_BUILD_TREE")
+message($$IDE_BUILD_TREE)
 
 ## uncomment to build plugin into user config directory
 ## <localappdata>/plugins/<ideversion>
@@ -144,6 +148,6 @@ QTC_PLUGIN_RECOMMENDS += \
     # optional plugin dependencies. nothing here at this time
 
 ###### End _dependencies.pri contents ######
-message($$IDE_SOURCE_TREE)
+message("$$IDE_SOURCE_TREE")
 message("$$IDE_SOURCE_TREE/src/qtcreatorplugin.pri")
 include($$IDE_SOURCE_TREE/src/qtcreatorplugin.pri)
