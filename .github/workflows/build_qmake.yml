@@ -243,8 +243,10 @@ jobs:
           message(FATAL_ERROR "Bad exit status")
         endif()
 
-        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/$ENV{PLUGIN_NAME}-${{ steps.get_version.VERSION }}-QtCreator-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact-suffix }}" artifact)
+        set(artifact_file "$ENV{PLUGIN_NAME}-${{ steps.get_version.VERSION }}-QtCreator-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact-suffix }}")
+        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/${artifact_file}" artifact)
         message("::set-output name=artifact::${artifact}")
+        message("::set-output name=artifact_file::${artifact_file}")
         message(STATUS "artifact: ${artifact}")
         message(STATUS "pluginpath: ${{ steps.qt_creator.outputs.qtc_output_directory }}")
         message(STATUS "version: ${VERSION}")
@@ -257,5 +259,5 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
-        path: ${{ steps.qt_creator.outputs.qtc_output_directory }}/${{ steps.build.outputs.artifact }}
-        name: ${{ steps.build.outputs.artifact }}
+        path: ${{ steps.build.outputs.artifact }}
+        name: ${{ steps.build.outputs.artifact_file }}
