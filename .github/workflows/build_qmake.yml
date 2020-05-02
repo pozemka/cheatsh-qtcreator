@@ -214,6 +214,7 @@ jobs:
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
         
     - name: Build
+      id: build
       shell: cmake -P {0}
       run: |
         if ("${{ runner.os }}" STREQUAL "Windows")
@@ -242,6 +243,13 @@ jobs:
         file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/$ENV{PLUGIN_NAME}-${{ steps.get_version.VERSION }}-QtCreator-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact-suffix }}" artifact)
         
         execute_process(COMMAND
-          ${CMAKE_COMMAND} -E tar cvf $ENV{QT_CREATOR_VERSION}/${artifact} --format=zip "${{ steps.qt_creator.outputs.qtc_binary_name }}"
+          # ${CMAKE_COMMAND} -E tar cvf $ENV{QT_CREATOR_VERSION}/${artifact} --format=zip "${{ steps.qt_creator.outputs.qtc_binary_name }}"
+          ${CMAKE_COMMAND} -E tar cvzf ${artifact} "$ENV{QT_CREATOR_VERSION}/${{ steps.qt_creator.outputs.qtc_binary_name }}"
           WORKING_DIRECTORY "${{ steps.qt_creator.outputs.qtc_output_directory }}"
         )
+        
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ steps.qt_creator.outputs.qtc_output_directory }}/${{ steps.build.outputs.artifact }}
+          name: ${{ steps.build.outputs.artifact }}
