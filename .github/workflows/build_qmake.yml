@@ -23,23 +23,28 @@ jobs:
     strategy:
       matrix:
         config:
-#          - {
-#              name: "Windows Latest x64",
-#              artifact: "Windows-x64.zip",
-#              os: windows-latest,
-#              environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
-#            }
-#          - {
-#              name: "Windows Latest x86", 
-#              artifact: "Windows-x86.zip",
-#              os: windows-latest,
-#              environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars32.bat"
-#            }
+          - {
+              name: "Windows Latest x64",
+              artifact-suffix: "-win-x64.zip",
+              pluginpath: "$ENV{HOME}/QtProject/qtcreator/plugins"
+              os: windows-latest,
+              environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+              archive_command: "7z.exe  a -tzip -mx9 -r0"
+            }
+          - {
+              name: "Windows Latest x86", 
+              artifact-suffix: "-win-x86.zip",
+              pluginpath: "$ENV{HOME}/QtProject/qtcreator/plugins"
+              os: windows-latest,
+              environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars32.bat"
+              archive_command: "7z.exe  a -tzip -mx9 -r0"
+            }
           - {
               name: "Linux Latest x64", 
               os: ubuntu-latest,
               artifact-suffix: "-linux-x64.tar.gz",
               pluginpath: "~/.local/share/data/QtProject/qtcreator/plugins"
+              archive_command: "tar -czf"
             }
 #          - {
 #              name: "macOS Latest x64",
@@ -241,10 +246,10 @@ jobs:
         endif()
 
         file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/$ENV{PLUGIN_NAME}-${{ steps.get_version.VERSION }}-QtCreator-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact-suffix }}" artifact)
+        message(STATUS "artifact: ${artifact}")
         
         execute_process(COMMAND
-          # ${CMAKE_COMMAND} -E tar cvf $ENV{QT_CREATOR_VERSION}/${artifact} --format=zip "${{ steps.qt_creator.outputs.qtc_binary_name }}"
-          ${CMAKE_COMMAND} -E tar cvzf ${artifact} "$ENV{QT_CREATOR_VERSION}/${{ steps.qt_creator.outputs.qtc_binary_name }}"
+          ${CMAKE_COMMAND} -E ${{ matrix.config.archive_command }} ${artifact} "$ENV{QT_CREATOR_VERSION}/${{ steps.qt_creator.outputs.qtc_binary_name }}"
           WORKING_DIRECTORY "${{ steps.qt_creator.outputs.qtc_output_directory }}"
         )
         
