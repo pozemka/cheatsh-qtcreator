@@ -134,7 +134,6 @@ jobs:
         set(qtc_base_url "https://download.qt.io/official_releases/qtcreator/${CMAKE_MATCH_1}/$ENV{QT_CREATOR_VERSION}")
 
         if ("${{ runner.os }}" STREQUAL "Windows")
-#          set(qtc_output_directory "qtcreator/lib/qtcreator/plugins")
           set(qtc_output_directory "$HOME/QtProject/qtcreator/plugins")
           set(qtc_binary_name "$ENV{PLUGIN_NAME}.dll")
           if ("${{ matrix.config.environment_script }}" MATCHES "vcvars64.bat")
@@ -146,10 +145,10 @@ jobs:
           set(qtc_output_directory "$HOME/.local/share/data/QtProject/qtcreator/plugins")
           set(qtc_binary_name "lib$ENV{PLUGIN_NAME}.so")
           set(qtc_platform "linux_gcc_64_rhel72")
-#        elseif ("${{ runner.os }}" STREQUAL "macOS")
-#          set(qtc_output_directory "qtcreator/bin/Qt Creator.app/Contents/PlugIns")
-#          set(qtc_binary_name "lib$ENV{PLUGIN_NAME}.dylib")
-#          set(qtc_platform "mac_x64")
+        elseif ("${{ runner.os }}" STREQUAL "macOS")
+          set(qtc_output_directory "qtcreator/bin/Qt Creator.app/Contents/PlugIns")
+          set(qtc_binary_name "lib$ENV{PLUGIN_NAME}.dylib")
+          set(qtc_platform "mac_x64")
         endif()
 
         # Save the path for other steps
