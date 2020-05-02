@@ -268,7 +268,7 @@ jobs:
         message(STATUS "qtc_binary_name: ${{ steps.qt_creator.outputs.qtc_binary_name }}")
         
         execute_process(COMMAND
-          ${{ matrix.config.archive_command }} ${artifact} "$ENV{QT_CREATOR_VERSION}/${{ steps.qt_creator.outputs.qtc_binary_name }}"
+          ${{ matrix.config.archive_command }} ${artifact} "$ENV{QT_CREATOR_VERSION}"
           WORKING_DIRECTORY "${{ steps.qt_creator.outputs.qtc_output_directory }}"
         )
         
