@@ -24,21 +24,25 @@ jobs:
       matrix:
         config:
 #          - {
-#              name: "Windows Latest x64", artifact: "Windows-x64.zip",
+#              name: "Windows Latest x64",
+#              artifact: "Windows-x64.zip",
 #              os: windows-latest,
 #              environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
 #            }
 #          - {
-#             name: "Windows Latest x86", artifact: "Windows-x86.zip",
+#              name: "Windows Latest x86", 
+#              artifact: "Windows-x86.zip",
 #              os: windows-latest,
 #              environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars32.bat"
 #            }
           - {
-              name: "Linux Latest x64", artifact: "cheatsh-X-qt-creator-$ENV{QT_CREATOR_VERSION}-linux-x64.tar.gz",
+              name: "Linux Latest x64", 
+              artifact: "cheatsh-X-qt-creator-$ENV{QT_CREATOR_VERSION}-linux-x64.tar.gz",
               os: ubuntu-latest
             }
 #          - {
-#              name: "macOS Latest x64", artifact: "macOS-x64.zip",
+#              name: "macOS Latest x64",
+#              artifact: "macOS-x64.zip",
 #              os: macos-latest
 #            }
 
@@ -186,6 +190,7 @@ jobs:
         endif()
 
         file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qtcreator" qtcreator_dir)
+        message(STATUS "${qtcreator_dir}")
 
         execute_process(
           COMMAND ${{ steps.qt.outputs.qt_dir }}/bin/qmake
