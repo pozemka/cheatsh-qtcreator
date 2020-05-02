@@ -214,7 +214,7 @@ jobs:
       id: get_version
       shell: bash
       run: |
-        VERSION=`git --git-dir .git --work-tree . describe --abbrev=0 --tags`
+        VERSION=`git describe --tags $(git rev-list --tags --max-count=1)`
         echo "VERSION: ${VERSION}"
         echo "::set-output name=tag_version::${VERSION}"
         
