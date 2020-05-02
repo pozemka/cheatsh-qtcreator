@@ -213,7 +213,7 @@ jobs:
     - name: Get the version
       id: get_version
       run: |
-        echo ::set-env name=VERSION::$(git --git-dir .git --work-tree cheatsh-qtcreator describe --always --tags --abbrev=0)
+        echo ::set-env name=VERSION::$(git describe --tags `git rev-list --tags --max-count=1`)
         
     - name: Build
       id: build
