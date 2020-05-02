@@ -247,7 +247,8 @@ jobs:
 
         file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/$ENV{PLUGIN_NAME}-${{ steps.get_version.VERSION }}-QtCreator-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact-suffix }}" artifact)
         message(STATUS "artifact: ${artifact}")
-        message(STATUS "version: ${{ steps.get_version.VERSION }}")
+        message(STATUS "pluginpath: ${pluginpath}")
+        message(STATUS "version: ${VERSION}")
         
         execute_process(COMMAND
           ${CMAKE_COMMAND} -E ${{ matrix.config.archive_command }} ${artifact} "$ENV{QT_CREATOR_VERSION}/${{ steps.qt_creator.outputs.qtc_binary_name }}"
