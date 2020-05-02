@@ -139,5 +139,6 @@ QTC_PLUGIN_RECOMMENDS += \
     # optional plugin dependencies. nothing here at this time
 
 ###### End _dependencies.pri contents ######
-
+message($$IDE_SOURCE_TREE)
+message($$IDE_SOURCE_TREE/src/qtcreatorplugin.pri)
 include($$IDE_SOURCE_TREE/src/qtcreatorplugin.pri)
