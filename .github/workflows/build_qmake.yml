@@ -215,7 +215,7 @@ jobs:
       shell: cmake -P {0}
       run: |
         execute_process(
-          COMMAND git --git-dir .git --work-tree cheatsh-qtcreator describe --always --tags --abbrev=0
+          COMMAND git describe --tags `git rev-list --tags --max-count=1`
           OUTPUT_VARIABLE tag_version
         )
         message(STATUS "tag_version ${tag_version}")
