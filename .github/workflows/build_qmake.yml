@@ -170,6 +170,7 @@ jobs:
               "$ENV{GITHUB_WORKSPACE}/qtcreator/bin/Qt Creator.app"
           )
         endif()
+        
     - name: Configure
       shell: cmake -P {0}
       run: |
