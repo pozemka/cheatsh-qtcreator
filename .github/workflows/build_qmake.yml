@@ -218,7 +218,7 @@ jobs:
           COMMAND git --git-dir .git --work-tree cheatsh-qtcreator describe --always --tags --abbrev=0
           RESULT_VARIABLE tag_version
         )
-        message(STATUS "tag_version ${tag_version}"
+        message(STATUS "tag_version ${tag_version}")
         message("::set-output name=tag_version::${tag_version}")
         
     - name: Build
