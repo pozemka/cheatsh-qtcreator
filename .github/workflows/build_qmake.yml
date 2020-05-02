@@ -29,7 +29,7 @@ jobs:
               artifact-suffix: "win-x64.zip",
               pluginpath: "$ENV{LOCALAPPDATA}/QtProject/qtcreator/plugins",
               environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
-              archive_command: "7z.exe  a -tzip -mx9 -r0"
+              archive_command: "7z a -tzip -mx9 -r0"
             }
           - {
               name: "Windows Latest x86", 
@@ -37,7 +37,7 @@ jobs:
               artifact-suffix: "win-x86.zip",
               pluginpath: "$ENV{LOCALAPPDATA}/QtProject/qtcreator/plugins",
               environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars32.bat",
-              archive_command: "7z.exe  a -tzip -mx9 -r0"
+              archive_command: "7z a -tzip -mx9 -r0"
             }
           - {
               name: "Linux Latest x64", 
