@@ -210,9 +210,9 @@ jobs:
           message(FATAL_ERROR "Bad exit status")
         endif()
         
-    - name: 'Get Previous tag'
-        id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@master"
+    - name: Get Previous tag
+      id: previoustag
+      uses: "WyriHaximus/github-action-get-previous-tag@master"
         
     - name: Get the version
       id: get_version
