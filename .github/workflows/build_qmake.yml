@@ -190,7 +190,7 @@ jobs:
         endif()
 
         file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qtcreator" qtcreator_dir)
-        message(STATUS "${qtcreator_dir}")
+        message(STATUS "qtcreator_dir: ${qtcreator_dir}")
 
         execute_process(
           COMMAND ${{ steps.qt.outputs.qt_dir }}/bin/qmake
