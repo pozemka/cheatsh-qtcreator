@@ -260,8 +260,12 @@ jobs:
         message("::set-output name=artifact::${artifact}")
         message("::set-output name=artifact_file::${artifact_file}")
         message(STATUS "artifact: ${artifact}")
+        message(STATUS "artifact_file: ${artifact_file}")
         message(STATUS "pluginpath: ${{ steps.qt_creator.outputs.qtc_output_directory }}")
         message(STATUS "version: ${{ steps.get_version.outputs.tag_version }}")
+        message(STATUS "qtc_output_directory: ${{ steps.qt_creator.outputs.qtc_output_directory }}"
+        message(STATUS "QT_CREATOR_VERSION: $ENV{QT_CREATOR_VERSION}"
+        message(STATUS "qtc_binary_name: ${{ steps.qt_creator.outputs.qtc_binary_name }}"
         
         execute_process(COMMAND
           ${{ matrix.config.archive_command }} ${artifact} "$ENV{QT_CREATOR_VERSION}/${{ steps.qt_creator.outputs.qtc_binary_name }}"
