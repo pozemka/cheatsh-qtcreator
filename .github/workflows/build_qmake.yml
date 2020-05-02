@@ -210,6 +210,10 @@ jobs:
           message(FATAL_ERROR "Bad exit status")
         endif()
         
+    - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@master"
+        
     - name: Get the version
       id: get_version
       shell: bash
@@ -245,13 +249,13 @@ jobs:
           message(FATAL_ERROR "Bad exit status")
         endif()
 
-        set(artifact_file "$ENV{PLUGIN_NAME}-${{ steps.get_version.outputs.tag_version }}-QtCreator-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact-suffix }}")
+        set(artifact_file "$ENV{PLUGIN_NAME}-${{ steps.previoustag.outputs.tag }}-QtCreator-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact-suffix }}")
         file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/${artifact_file}" artifact)
         message("::set-output name=artifact::${artifact}")
         message("::set-output name=artifact_file::${artifact_file}")
         message(STATUS "artifact: ${artifact}")
         message(STATUS "pluginpath: ${{ steps.qt_creator.outputs.qtc_output_directory }}")
-        message(STATUS "version: ${{ steps.get_version.outputs.tag_version }}")
+        message(STATUS "version: ${{ steps.previoustag.outputs.tag }}")
         
         execute_process(COMMAND
           ${CMAKE_COMMAND} -E ${{ matrix.config.archive_command }} ${artifact} "$ENV{QT_CREATOR_VERSION}/${{ steps.qt_creator.outputs.qtc_binary_name }}"
