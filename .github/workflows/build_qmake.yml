@@ -214,7 +214,7 @@ jobs:
       id: get_version
       shell: bash
       run: |
-        echo ::set-env name=VERSION::$(git --git-dir .git --work-tree cheatsh-qtcreator describe --always --tags --abbrev=0)
+        echo ::set-env name=TAG_VERSION::$(git --git-dir .git --work-tree cheatsh-qtcreator describe --always --tags --abbrev=0)
         
     - name: Build
       id: build
@@ -243,13 +243,13 @@ jobs:
           message(FATAL_ERROR "Bad exit status")
         endif()
 
-        set(artifact_file "$ENV{PLUGIN_NAME}-${{ steps.get_version.VERSION }}-QtCreator-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact-suffix }}")
+        set(artifact_file "$ENV{PLUGIN_NAME}-$ENV{TAG_VERSION}-QtCreator-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact-suffix }}")
         file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/${artifact_file}" artifact)
         message("::set-output name=artifact::${artifact}")
         message("::set-output name=artifact_file::${artifact_file}")
         message(STATUS "artifact: ${artifact}")
         message(STATUS "pluginpath: ${{ steps.qt_creator.outputs.qtc_output_directory }}")
-        message(STATUS "version: ${VERSION}")
+        message(STATUS "version: ${TAG_VERSION}")
         
         execute_process(COMMAND
           ${CMAKE_COMMAND} -E ${{ matrix.config.archive_command }} ${artifact} "$ENV{QT_CREATOR_VERSION}/${{ steps.qt_creator.outputs.qtc_binary_name }}"
