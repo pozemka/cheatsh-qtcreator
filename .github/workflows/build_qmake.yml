@@ -27,7 +27,6 @@ jobs:
               name: "Windows Latest x64",
               os: windows-latest,
               artifact-suffix: "win-x64.zip",
-              pluginpath: "$ENV{LOCALAPPDATA}/QtProject/qtcreator/plugins",
               environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
               archive_command: "7z a -tzip -mx9 -r0"
             }
@@ -35,7 +34,6 @@ jobs:
               name: "Windows Latest x86", 
               os: windows-latest,
               artifact-suffix: "win-x86.zip",
-              pluginpath: "$ENV{LOCALAPPDATA}/QtProject/qtcreator/plugins",
               environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars32.bat",
               archive_command: "7z a -tzip -mx9 -r0"
             }
@@ -43,7 +41,6 @@ jobs:
               name: "Linux Latest x64", 
               os: ubuntu-latest,
               artifact-suffix: "linux-x64.tar.gz",
-              pluginpath: "~/.local/share/data/QtProject/qtcreator/plugins",
               archive_command: "tar -czf"
             }
 #          - {
@@ -139,7 +136,7 @@ jobs:
         set(qtc_base_url "https://download.qt.io/official_releases/qtcreator/${CMAKE_MATCH_1}/$ENV{QT_CREATOR_VERSION}")
 
         if ("${{ runner.os }}" STREQUAL "Windows")
-          set(qtc_output_directory "$ENV{HOME}/QtProject/qtcreator/plugins")
+          set(qtc_output_directory "$ENV{LOCALAPPDATA}/QtProject/qtcreator/plugins")
           set(qtc_binary_name "$ENV{PLUGIN_NAME}.dll")
           if ("${{ matrix.config.environment_script }}" MATCHES "vcvars64.bat")
             set(qtc_platform "windows_msvc2017_x64")
@@ -247,7 +244,7 @@ jobs:
 
         file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/$ENV{PLUGIN_NAME}-${{ steps.get_version.VERSION }}-QtCreator-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact-suffix }}" artifact)
         message(STATUS "artifact: ${artifact}")
-        message(STATUS "pluginpath: ${pluginpath}")
+        message(STATUS "pluginpath: ${{ steps.qt_creator.outputs.qtc_output_directory }}")
         message(STATUS "version: ${VERSION}")
         
         execute_process(COMMAND
