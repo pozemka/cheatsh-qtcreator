@@ -248,8 +248,8 @@ jobs:
           WORKING_DIRECTORY "${{ steps.qt_creator.outputs.qtc_output_directory }}"
         )
         
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          path: ${{ steps.qt_creator.outputs.qtc_output_directory }}/${{ steps.build.outputs.artifact }}
-          name: ${{ steps.build.outputs.artifact }}
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: ${{ steps.qt_creator.outputs.qtc_output_directory }}/${{ steps.build.outputs.artifact }}
+        name: ${{ steps.build.outputs.artifact }}
