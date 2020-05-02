@@ -215,7 +215,6 @@ jobs:
         
     - name: Get the version
       id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
       run: |
         echo ::set-env name=VERSION::$(git --git-dir .git --work-tree cheatsh-qtcreator describe --always --tags --abbrev=0)
         
