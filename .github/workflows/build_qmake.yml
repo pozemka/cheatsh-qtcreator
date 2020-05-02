@@ -37,8 +37,8 @@ jobs:
 #            }
           - {
               name: "Linux Latest x64", 
-              artifact-suffix: "-linux-x64.tar.gz",
               os: ubuntu-latest,
+              artifact-suffix: "-linux-x64.tar.gz",
               pluginpath: "~/.local/share/data/QtProject/qtcreator/plugins"
             }
 #          - {
