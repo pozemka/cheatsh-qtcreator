@@ -76,3 +76,5 @@ Please note:
 
 ## Compilation
 See [INSTALL](INSTALL.md) for more info about compilation from sources.
+
+[![QMake Build Matrix](https://github.com/pozemka/cheatsh-qtcreator/workflows/QMake%20Build%20Matrix/badge.svg)](https://github.com/pozemka/cheatsh-qtcreator/actions?query=workflow%3A%22QMake+Build+Matrix%22)
