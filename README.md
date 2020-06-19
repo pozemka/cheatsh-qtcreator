@@ -67,8 +67,8 @@ Plugin setting allows you to:
 ## Installation
 To install plugin, please download suitable version from [releases page](https://github.com/pozemka/cheatsh-qtcreator/releases). 
 Then extract archive to user plugin directory:
-* Windows Vista and newer: `"%LOCALAPPDATA%\QtProject\qtcreator\plugins\x.y.z"`. For example: `c:\Users\Username\AppData\Local\QtProject\QtCreator\plugins\4.10.0`
-* Linux: `"~/.local/share/data/QtProject/qtcreator/plugins/x.y.z"` or `"$XDG_DATA_HOME/data/QtProject/qtcreator/plugins/x.y.z"` . For example `"/home/user/.local/share/data/QtProject/qtcreator/plugins/4.10.0"`
+* Windows Vista and newer: `"%LOCALAPPDATA%\QtProject\qtcreator\plugins\x.y.z"`. For example: `c:\Users\Username\AppData\Local\QtProject\QtCreator\plugins\4.10.0\cheatsh.dll`
+* Linux: `"~/.local/share/data/QtProject/qtcreator/plugins/x.y.z"` or `"$XDG_DATA_HOME/data/QtProject/qtcreator/plugins/x.y.z"` . For example `"/home/user/.local/share/data/QtProject/qtcreator/plugins/4.10.0/cheatsh.so"`
 
 **Please note:**
 * for Qt Creator **prior 4.9.0** plugin must be put into subdirectory with exact match to Qt Creator version (For example `…/QtProject/qtcreator/plugins/4.8.2`). Starting **from 4.9.0** you can put plugin into subdirectory with lowest patch version (e.g. 4.9.0 instead of 4.9.2).
