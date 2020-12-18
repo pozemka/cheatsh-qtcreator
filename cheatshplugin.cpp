@@ -216,7 +216,7 @@ void CheatShPlugin::createMenus()
     contextMenu->addAction(pasteCommand);
     contextMenu->addSeparator();
     //editorcontextMenu->addMenu(contextMenu);  //
-    Core::Id group_id(Constants::CONTEXT_MENU_ID);
+    Utils::Id group_id(Constants::CONTEXT_MENU_ID);
     editorcontextMenu->appendGroup(group_id);
     editorcontextMenu->addSeparator(group_id);
     editorcontextMenu->addAction(cheatShCommand, group_id);

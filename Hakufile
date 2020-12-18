@@ -3,7 +3,7 @@
 //
 
 //shell("cmd.exe", "/C")
-creators = "4.8.0 4.9.0 4.10.0 4.11.0"
+creators = "4.13.0 4.14.0"
 archt = "x64"
 if family() == "windows":
     creator_basedir="d:/projects/3rdparties/"
