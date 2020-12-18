@@ -10,7 +10,7 @@ name: QMake Build Matrix
 on: [push, pull_request]
 
 env:
-  QT_VERSION: 5.15.2
+  QT_VERSION: 5.14.0
   QT_CREATOR_VERSION: 4.14.0
   PLUGIN_PRO: cheatsh.pro
   PLUGIN_NAME: CheatSh
