@@ -78,7 +78,7 @@ qmake CONFIG+=release \
 ### Requirements
 0. Don't forget to use same architecture everywhere. See your Qt Creator's about dialog if in doubt.
 1. [Download and install OpenSSL for Windows](https://slproweb.com/products/Win32OpenSSL.html) (light installer is sufficient). You can choose to copy OpenSSl DLLs to the Windows system directory or to add them to the PATH environment variable manually. Read [this page](https://github.com/pozemka/cheatsh-qtcreator/wiki/OpenSSL) on wiki for more information.
-2. Install Qt Creator with "Qt Creator 4.x.x Plugin Development" component selected.
+2. Install Qt Creator with "Qt Creator 4.x.x Plugin Development" component selected. **NOTE:** It seems that newer versions of Qt Creator installs are missing some files needed to build plugins. In that case only way I found was to build from sources.
     * **Or** [Build Qt Creator from sources](https://wiki.qt.io/Building_Qt_Creator_from_Git)
 
 ### Build process
