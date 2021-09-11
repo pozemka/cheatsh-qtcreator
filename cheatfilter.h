@@ -48,7 +48,8 @@ private:
     const Settings* settings_ = nullptr;
     bool exiting_ = false;
     QTimer search_rate_limiter_;
-    QString search_request_;
+    QString search_request_new_;
+    QString search_request_pending_;
 };
 
 }}

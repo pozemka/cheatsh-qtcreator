@@ -26,7 +26,7 @@ const unsigned int UPDATE_INTERVAL = 7;
 const char TASK_ID_REQUEST[] = "CheatSh.Task.Request";
 
 // Misc
-const int SEARCH_RATE_LIMIT = 200;  //!< msecs
+const int SEARCH_RATE_LIMIT = 10000;  //!< msecs
 
 } // namespace Constants
 } // namespace CheatSh

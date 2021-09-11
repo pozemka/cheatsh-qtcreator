@@ -28,8 +28,15 @@ CheatFilter::CheatFilter(const Settings* settigns) :
     request_finished_ = std::make_unique<QWaitCondition>();
     search_rate_limiter_.setInterval(Constants::SEARCH_RATE_LIMIT);
     search_rate_limiter_.setSingleShot(true);
-    connect(&search_rate_limiter_, &QTimer::timeout, this, [](){
+    connect(&search_rate_limiter_, &QTimer::timeout, this, [this](){
+        qDebug() << "limiter finished";
 
+//        if (search_request_pending_ != search_request_new_) {
+//            qDebug() << "makign new request afer limiter";
+//            prepareSearch(search_request_new_);
+//        }
+
+//        request_finished_->wakeAll();
     });
 }
 
@@ -45,6 +52,17 @@ CheatFilter::~CheatFilter()
 
 void CheatFilter::prepareSearch(const QString &entry)
 {
+    qDebug() << "prepareSearch" << entry;
+    search_request_new_ = entry;
+//    if (search_rate_limiter_.isActive() && reply_main_->isRunning()) { // Если ограничивать, то обязательно надо проверять что запрос запущен. Иначе matchesFor никогда не дождётся. Похоже с лимитером пролетаю, короче. Или надо как-то в matchesFor перезапускать ожидание с новыми значениями. Подумать ещё.
+
+//        // Хотя бОльшая проблема про то что waitFor отсановился на одном запросе, а prepareSearch потом сделал другой запрос и ответ пришёл на него. или не проблема?
+//        qDebug("Limited");
+//        return;
+//    }
+    qDebug("not limited");
+    search_rate_limiter_.start();
+    search_request_pending_ = entry;
     QNetworkRequest request;
     QString question(entry);
     static const QRegularExpression re(R"(^\/(\w+)\/)");
@@ -66,12 +84,13 @@ void CheatFilter::prepareSearch(const QString &entry)
     };
     request.setUrl(buildRequest());
     request.setRawHeader("User-Agent", "User-Agent: curl/7.60.0");
+    request.setRawHeader("X-Cheatsh-Key", "867dc3ba-e70e-44f6-99b7-3c8b2824ade3");
 
     reply_main_.reset(network_manager_->get(request));
 
     connect(reply_main_.get(), &QNetworkReply::finished, [this](){
-//        qDebug() << "finished:";
-       request_finished_->wakeAll();
+        qDebug() << "reply finished";
+        request_finished_->wakeAll();
     });
     connect(reply_main_.get(), QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
           [=](QNetworkReply::NetworkError code){
@@ -89,7 +108,9 @@ QList<LocatorFilterEntry> CheatFilter::matchesFor(QFutureInterface<LocatorFilter
             value.append(LocatorFilterEntry(this, entry, QVariant()));
 
     net_mutex_->lock();
+    qDebug() << "matchesFor will wait";
     request_finished_->wait(net_mutex_.get());
+    qDebug() << "matchesFor wait finished";
     if (exiting_) {
         net_mutex_->unlock();
         return value;
