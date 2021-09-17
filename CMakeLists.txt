@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.14)
 
 # Remove when sharing with others.
 list(APPEND CMAKE_PREFIX_PATH "/opt/slow/build/Qt/Tools/QtCreator")
@@ -15,20 +15,27 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Git)
 set(QtX Qt${QT_VERSION_MAJOR})
 
+# 3rdparites
 include_directories(ANSIEsc2HTML/src)
 add_subdirectory(ANSIEsc2HTML)
 
-# Qt5LinguistTools
+# Translations
 find_package(Qt5LinguistTools)
 set(TS_FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/i18n/cheatsh_ru.ts
+    i18n/cheatsh_ru.ts
 )
-set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION
-${CMAKE_CURRENT_BINARY_DIR}/i18n)
-#file(GLOB_RECURSE TS_SOURCES "*.cpp" "*.h" "*.ui")
-#qt_create_translation(QM_FILES ${TS_FILES} ${TS_SOURCES})
-qt_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR}/i18n ${TS_FILES})
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/i18n)
+configure_file(i18n/i18n.qrc ${CMAKE_CURRENT_BINARY_DIR}/i18n COPYONLY)
 
+set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "i18n")
+
+if(COMMAND qt_create_translation)
+    qt_add_translation(QM_FILES ${TS_FILES})
+else()
+    qt5_add_translation(QM_FILES ${TS_FILES})
+endif()
+
+# Versioning
 exec_program(
   "git"
   ${CMAKE_CURRENT_SOURCE_DIR}/.git
@@ -37,6 +44,7 @@ exec_program(
 
 add_definitions( -DGIT_VERSION="${GIT_VERSION}")
 
+# SOURCES
 add_qtc_plugin(CheatSh
   PLUGIN_DEPENDS
     QtCreator::Core
@@ -49,9 +57,12 @@ add_qtc_plugin(CheatSh
   SOURCES
     .github/workflows/build_cmake.yml
     .github/workflows/README.md
-    ${QM_FILES}
     resources.qrc
-    i18n/i18n.qrc
+
+    ${TS_FILES}
+    ${QM_FILES}
+    ${CMAKE_CURRENT_BINARY_DIR}/i18n/i18n.qrc
+
     README.md
     cheatshplugin.cpp
     cheatshplugin.h

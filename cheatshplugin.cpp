@@ -52,19 +52,19 @@ namespace Internal {
 
 CheatShPlugin::CheatShPlugin()
 {
-    QDirIterator it(":", QDirIterator::Subdirectories);
-    while (it.hasNext()) {
-        qDebug() << it.next();
-    }
+//    QDirIterator it(":", QDirIterator::Subdirectories);
+//    while (it.hasNext()) {
+//        qDebug() << it.next();
+//    }
     // Create your members
     const QLocale locale(ICore::userInterfaceLanguage());
     auto *translator = new QTranslator(this);
     if (translator->load(locale, QLatin1String("cheatsh"), QLatin1String("_"), QLatin1String(":/i18n"))) {
 //    if (translator->load(locale, QLatin1String("cheatsh"), QLatin1String("_"))) {
         QCoreApplication::installTranslator(translator);
-        qDebug() << "translation loaded" << locale;
+//        qDebug() << "translation loaded" << locale;
     } else {
-        qDebug() << " translation failed" << locale;
+//        qDebug() << "CheatShPlugin translation failed" << locale;
         delete translator;
     }
 }

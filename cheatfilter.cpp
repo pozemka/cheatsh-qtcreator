@@ -16,7 +16,6 @@ namespace CheatSh {
 namespace Internal {
 
 CheatFilter::CheatFilter(const Settings* settigns) :
-    network_manager_(std::make_unique<QNetworkAccessManager>(this)),
     settings_(settigns)
 {
     setId("cheat.sh");
@@ -24,79 +23,10 @@ CheatFilter::CheatFilter(const Settings* settigns) :
     setShortcutString("ch");
     setPriority(High);
     setIncludedByDefault(false);
-    net_mutex_ = std::make_unique<QMutex>();
-    request_finished_ = std::make_unique<QWaitCondition>();
-    search_rate_limiter_.setInterval(Constants::SEARCH_RATE_LIMIT);
-    search_rate_limiter_.setSingleShot(true);
-    connect(&search_rate_limiter_, &QTimer::timeout, this, [this](){
-        qDebug() << "limiter finished";
-
-//        if (search_request_pending_ != search_request_new_) {
-//            qDebug() << "makign new request afer limiter";
-//            prepareSearch(search_request_new_);
-//        }
-
-//        request_finished_->wakeAll();
-    });
 }
 
 CheatFilter::~CheatFilter()
 {
-    exiting_ = true;
-    if (reply_main_)
-        reply_main_->abort();
-    request_finished_->wakeAll();
-    net_mutex_->lock();
-    net_mutex_->unlock();
-}
-
-void CheatFilter::prepareSearch(const QString &entry)
-{
-    qDebug() << "prepareSearch" << entry;
-    search_request_new_ = entry;
-//    if (search_rate_limiter_.isActive() && reply_main_->isRunning()) { // Если ограничивать, то обязательно надо проверять что запрос запущен. Иначе matchesFor никогда не дождётся. Похоже с лимитером пролетаю, короче. Или надо как-то в matchesFor перезапускать ожидание с новыми значениями. Подумать ещё.
-
-//        // Хотя бОльшая проблема про то что waitFor отсановился на одном запросе, а prepareSearch потом сделал другой запрос и ответ пришёл на него. или не проблема?
-//        qDebug("Limited");
-//        return;
-//    }
-    qDebug("not limited");
-    search_rate_limiter_.start();
-    search_request_pending_ = entry;
-    QNetworkRequest request;
-    QString question(entry);
-    static const QRegularExpression re(R"(^\/(\w+)\/)");
-    QString context = settings_->context;
-    QRegularExpressionMatch match = re.match(question);
-    if(match.hasMatch()) {
-        context = match.captured(1);
-        question.remove(re);
-    }
-    question.replace(' ', '+');
-    auto buildRequest = [&]() -> QUrl
-    {
-        return QUrl::fromUserInput(
-                    QString("%1/%2/%3?action=suggest")
-                    .arg(settings_->url.toString(QUrl::PrettyDecoded|QUrl::StripTrailingSlash),
-                         context,
-                         question)
-                    );
-    };
-    request.setUrl(buildRequest());
-    request.setRawHeader("User-Agent", "User-Agent: curl/7.60.0");
-    request.setRawHeader("X-Cheatsh-Key", "867dc3ba-e70e-44f6-99b7-3c8b2824ade3");
-
-    reply_main_.reset(network_manager_->get(request));
-
-    connect(reply_main_.get(), &QNetworkReply::finished, [this](){
-        qDebug() << "reply finished";
-        request_finished_->wakeAll();
-    });
-    connect(reply_main_.get(), QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
-          [=](QNetworkReply::NetworkError code){
-        qWarning("CheatFilter::prepareSearch(). Error occured '%d': %s", code, qPrintable(reply_main_->errorString()));
-        request_finished_->wakeAll();
-    });
 }
 
 QList<LocatorFilterEntry> CheatFilter::matchesFor(QFutureInterface<LocatorFilterEntry>& future,
@@ -107,52 +37,6 @@ QList<LocatorFilterEntry> CheatFilter::matchesFor(QFutureInterface<LocatorFilter
         if (!entry.isEmpty()) // avoid empty entry
             value.append(LocatorFilterEntry(this, entry, QVariant()));
 
-    net_mutex_->lock();
-    qDebug() << "matchesFor will wait";
-    request_finished_->wait(net_mutex_.get());
-    qDebug() << "matchesFor wait finished";
-    if (exiting_) {
-        net_mutex_->unlock();
-        return value;
-    }
-    if (QNetworkReply::NoError == reply_main_->error()) {
-        QString reply = QString::fromUtf8(reply_main_->readAll());
-        auto results = reply.split('\n');
-        // FIXME: probably ask for better server responce codes instead of rely on parsing
-        if (!results.isEmpty() && results.first() != QLatin1String("404 NOT FOUND")) {
-            for (const auto& result : results){
-                if (future.isCanceled())
-                    break;
-                value.append(LocatorFilterEntry(this, result, QVariant()));
-            }
-        }
-    }
-    net_mutex_->unlock();
-
-//    QNetworkRequest request;
-//    request.setUrl(QUrl::fromUserInput("cheat.sh/cpp/string+append?action=suggest"));
-//    request.setRawHeader("X-Cheatsh-Key", "867dc3ba-e70e-44f6-99b7-3c8b2824ade3");
-//    auto reply = network_manager_->get(request);
-
-
-
-    //TODO: search history or autocompletion similar to bash implementation of cheat.sh
-//        const Qt::CaseSensitivity entryCaseSensitivity = caseSensitivity(entry);
-//        for (const QString &cmd : qAsConst(m_commandHistory)) {
-//            if (future.isCanceled())
-//                break;
-//            if (cmd == entry) // avoid repeated entry
-//                continue;
-//            LocatorFilterEntry filterEntry(this, cmd, QVariant());
-//            const int index = cmd.indexOf(entry, 0, entryCaseSensitivity);
-//            if (index >= 0) {
-//                filterEntry.highlightInfo = {index, entry.length()};
-//                value.append(filterEntry);
-//            } else {
-//                others.append(filterEntry);
-//            }
-//        }
-//    value.append(others);
     return value;
 }
 
@@ -165,11 +49,6 @@ void CheatFilter::accept(Core::LocatorFilterEntry selection, QString* newText, i
 //    qDebug() << "accept" << selection.displayName << *newText << *selectionStart << *selectionLength;   //accept "aaa" "" -1 0
     if(!selection.displayName.isEmpty())
         emit query(selection.displayName);
-}
-
-void CheatFilter::sendSearchRequest()
-{
-
 }
 
 }}

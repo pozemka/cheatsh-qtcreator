@@ -27,29 +27,17 @@ class CheatFilter : public Core::ILocatorFilter
 public:
     CheatFilter(const Settings* settigns);
     ~CheatFilter();
-    void prepareSearch(const QString &entry) override;
     QList<Core::LocatorFilterEntry> matchesFor(QFutureInterface<Core::LocatorFilterEntry> &future,
-                                         const QString &entry) override;
-    void accept(Core::LocatorFilterEntry selection,
-                QString *newText, int *selectionStart, int *selectionLength) const override;
+                                             const QString &entry) override;
+        void accept(Core::LocatorFilterEntry selection,
+                    QString *newText, int *selectionStart, int *selectionLength) const override;
 
-    void refresh(QFutureInterface<void> &) override {}
-
+        void refresh(QFutureInterface<void> &) override {}
 signals:
     void query(const QString& text) const;
 
 private:
-    void sendSearchRequest();
-    //
-    std::unique_ptr<QNetworkAccessManager> network_manager_;
-    std::unique_ptr<QNetworkReply> reply_main_;
-    std::unique_ptr<QMutex> net_mutex_;
-    std::unique_ptr<QWaitCondition> request_finished_;
     const Settings* settings_ = nullptr;
-    bool exiting_ = false;
-    QTimer search_rate_limiter_;
-    QString search_request_new_;
-    QString search_request_pending_;
 };
 
 }}
