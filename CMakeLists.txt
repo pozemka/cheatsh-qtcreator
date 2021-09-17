@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
 
-# Remove when sharing with others.
-list(APPEND CMAKE_PREFIX_PATH "/opt/slow/build/Qt/Tools/QtCreator")
-
 project(CheatSh)
 
 set(CMAKE_AUTOMOC ON)
