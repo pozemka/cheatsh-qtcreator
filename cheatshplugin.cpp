@@ -59,10 +59,14 @@ CheatShPlugin::CheatShPlugin()
     // Create your members
     const QLocale locale(ICore::userInterfaceLanguage());
     auto *translator = new QTranslator(this);
-    if (translator->load(locale, QLatin1String("cheatsh"), QLatin1String("_"), QLatin1String(":/i18n")))
+    if (translator->load(locale, QLatin1String("cheatsh"), QLatin1String("_"), QLatin1String(":/i18n"))) {
+//    if (translator->load(locale, QLatin1String("cheatsh"), QLatin1String("_"))) {
         QCoreApplication::installTranslator(translator);
-    else
+//        qDebug() << "translation loaded" << locale;
+    } else {
+//        qDebug() << "CheatShPlugin translation failed" << locale;
         delete translator;
+    }
 }
 
 CheatShPlugin::~CheatShPlugin()
@@ -90,7 +94,7 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
 
     out_plane_ = new CheatOutputPlane(&settings_, this);
     cheat_sh_ = new QueryManager(&settings_, this);
-    cheat_filter_ = std::make_unique<CheatFilter>();
+    cheat_filter_ = std::make_unique<CheatFilter>(&settings_);
     options_page_ = new OptionsPage(settings_, this);
     connect(cheat_sh_, &QueryManager::found, out_plane_, &CheatOutputPlane::displayANSI);
     connect(cheat_sh_, &QueryManager::errorOccurred, out_plane_, &CheatOutputPlane::displayHtml);

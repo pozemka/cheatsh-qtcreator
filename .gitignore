@@ -5,3 +5,4 @@
 .uic/
 cheatsh.pro.user*
 i18n/*.qm
+CMakeLists.txt.user

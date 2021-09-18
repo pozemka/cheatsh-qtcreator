@@ -1,12 +1,22 @@
 #include "cheatfilter.h"
+
+#include "settings.h"
+#include "cheatshconstants.h"
+
 #include <QDebug>
+#include <QMutex>
+#include <QNetworkReply>
+#include <QRegularExpression>
+#include <QThread>
+#include <QWaitCondition>
 
 using Core::LocatorFilterEntry;
 
 namespace CheatSh {
 namespace Internal {
 
-CheatFilter::CheatFilter()
+CheatFilter::CheatFilter(const Settings* settigns) :
+    settings_(settigns)
 {
     setId("cheat.sh");
     setDisplayName(tr("Search cheat.sh"));  // Text in Locator
@@ -15,31 +25,18 @@ CheatFilter::CheatFilter()
     setIncludedByDefault(false);
 }
 
-QList<LocatorFilterEntry> CheatFilter::matchesFor(QFutureInterface<LocatorFilterEntry>& future, const QString& entry)
+CheatFilter::~CheatFilter()
+{
+}
+
+QList<LocatorFilterEntry> CheatFilter::matchesFor(QFutureInterface<LocatorFilterEntry>& future,
+                                                  const QString& entry)
 {
     QList<LocatorFilterEntry> value;
     if (!future.isCanceled())
         if (!entry.isEmpty()) // avoid empty entry
             value.append(LocatorFilterEntry(this, entry, QVariant()));
-//    QList<LocatorFilterEntry> others;
 
-    //TODO: search history or autocompletion similar to bash implementation of cheat.sh
-//        const Qt::CaseSensitivity entryCaseSensitivity = caseSensitivity(entry);
-//        for (const QString &cmd : qAsConst(m_commandHistory)) {
-//            if (future.isCanceled())
-//                break;
-//            if (cmd == entry) // avoid repeated entry
-//                continue;
-//            LocatorFilterEntry filterEntry(this, cmd, QVariant());
-//            const int index = cmd.indexOf(entry, 0, entryCaseSensitivity);
-//            if (index >= 0) {
-//                filterEntry.highlightInfo = {index, entry.length()};
-//                value.append(filterEntry);
-//            } else {
-//                others.append(filterEntry);
-//            }
-//        }
-//    value.append(others);
     return value;
 }
 

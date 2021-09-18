@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/cheatshplugin">
-        <file alias="settings_category.png">images/settingscategory_cheatsh.png</file>
-    </qresource>
-</RCC>
