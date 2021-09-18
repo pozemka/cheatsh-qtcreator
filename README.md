@@ -77,4 +77,4 @@ Then extract archive to user plugin directory:
 ## Compilation
 See [INSTALL](INSTALL.md) for more info about compilation from sources.
 
-[![QMake Build Matrix](https://github.com/pozemka/cheatsh-qtcreator/workflows/QMake%20Build%20Matrix/badge.svg)](https://github.com/pozemka/cheatsh-qtcreator/actions?query=workflow%3A%22QMake+Build+Matrix%22)
+[![Build plugin](https://github.com/pozemka/cheatsh-qtcreator/actions/workflows/build_cmake.yml/badge.svg)](https://github.com/pozemka/cheatsh-qtcreator/actions/workflows/build_cmake.yml)
