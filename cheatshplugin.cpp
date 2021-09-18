@@ -94,7 +94,7 @@ bool CheatShPlugin::initialize(const QStringList &arguments, QString *errorStrin
 
     out_plane_ = new CheatOutputPlane(&settings_, this);
     cheat_sh_ = new QueryManager(&settings_, this);
-    cheat_filter_ = std::make_unique<CheatFilter>();
+    cheat_filter_ = std::make_unique<CheatFilter>(&settings_);
     options_page_ = new OptionsPage(settings_, this);
     connect(cheat_sh_, &QueryManager::found, out_plane_, &CheatOutputPlane::displayANSI);
     connect(cheat_sh_, &QueryManager::errorOccurred, out_plane_, &CheatOutputPlane::displayHtml);
