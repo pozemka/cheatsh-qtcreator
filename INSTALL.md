@@ -59,8 +59,11 @@ If you are able to build plugin for Arch or Manjaro please provide the instructi
 
 ### Build process
 1. Open Qt command prompt
-1.1. Open Visual studio command prompt (see for "x64 Native Tools Command Prompt for VS 2019" in start menu)
-1.2. Launch `qtenv2.bat` (usually at c:\Qt\5.15.2\msvc2019_64\bin)
+
+    1.1. Open Visual studio command prompt (see for "x64 Native Tools Command Prompt for VS 2019" in start menu)
+    
+    1.2. Launch `qtenv2.bat` (usually at c:\Qt\5.15.2\msvc2019_64\bin)
+    
 2. cd to your build enviroment
 3. `git clone --recursive https://github.com/pozemka/cheatsh-qtcreator.git`
 4. `cd cheatsh-qtcreator`
