@@ -71,7 +71,7 @@ If you are able to build plugin for Arch or Manjaro please provide the instructi
 6. `cd build`
 7. `cmake -DCMAKE_PREFIX_PATH=<path_to_qtcreator> ..`
     For example:
-    `cmake -DCMAKE_PREFIX_PATH=c:\Qt\qtcreator-5.0.1 ..`
+    `cmake -DCMAKE_PREFIX_PATH=c:\Qt\qtcreator-5.0.0 ..`
 8. `cmake --build . --config Release`
 
 ### Installation
