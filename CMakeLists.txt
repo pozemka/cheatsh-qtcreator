@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(QtCreator COMPONENTS Core REQUIRED)
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt6 COMPONENTS Widgets REQUIRED)
 find_package(Git)
 set(QtX Qt${QT_VERSION_MAJOR})
 
@@ -17,7 +17,7 @@ include_directories(ANSIEsc2HTML/src)
 add_subdirectory(ANSIEsc2HTML)
 
 # Translations
-find_package(Qt5LinguistTools)
+find_package(Qt6LinguistTools)
 set(TS_FILES
     i18n/cheatsh_ru.ts
 )
