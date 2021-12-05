@@ -130,9 +130,10 @@ void QueryManager::query()
 //        qDebug("%lld/%lld", received, total);
 //        //download progress not used for now
 //    });
-    connect(reply_main_.get(), static_cast<void(QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), [&](QNetworkReply::NetworkError code){
+    connect(reply_main_.get(), &QNetworkReply::errorOccurred, this, [&](QNetworkReply::NetworkError code){
         reportRequestError(code, reply_main_->errorString());
         progress_report_->cancel();
+        reply_main_->deleteLater();
     });
     request.setUrl(buildRequest("?TQ"));    // No formatting, No comments
     reply_stripped_.reset(network_manager_stripped_->get(request));    // FIXME: probably postpone second request after results of first one? That way probably reduce server load thanks to cached result. But may lead to no or wrong paste data due to delay. NOTE: it seems this "second" request finishes before "first"
